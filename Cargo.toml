@@ -338,12 +338,9 @@ internal_benches = []
 slow_tests = []
 std = ["alloc"]
 test_logging = []
-<<<<<<< HEAD
 wasm32_c = []
-=======
-wasm32_unknown_unknown_js = ["web-sys"]
+# wasm32_unknown_unknown_js = ["web-sys"]
 size_optimized = []
->>>>>>> ac8065f1e... Support Xtensa, RISC-V and ESP-IDF
 
 # XXX: debug = false because of https://github.com/rust-lang/rust/issues/34122
 

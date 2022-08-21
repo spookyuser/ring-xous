@@ -133,3 +133,24 @@ mod sealed {
     // ```
     pub trait Sealed {}
 }
+
+#[cfg(target_os="xous")]
+mod xous_rand;
+#[cfg(target_os="xous")]
+pub mod xous_test;
+
+#[cfg(target_os="xous")]
+type c_char = i8;
+#[cfg(target_os="xous")]
+type c_uint = u32;
+#[cfg(target_os="xous")]
+#[export_name = "__assert_fail"]
+pub unsafe extern "C" fn __assert_fail(
+    __assertion: *const c_char,
+    __file: *const c_char,
+    __line: c_uint,
+    __function: *const c_char,
+) -> ! {
+    panic!("assert fail");
+}
+

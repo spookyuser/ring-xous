@@ -261,7 +261,10 @@ fn ring_build_rs_main() {
         ("o", "-o")
     };
 
-    let is_git = std::fs::metadata(".git").is_ok();
+    let is_git = false;
+    // don't build assembly routines from source -- these are fixed and pre-built for this config
+    // in order to avoid having to install perl and nasm on Windows clients.
+    // std::fs::metadata(".git").is_ok();
 
     // Published builds are always release builds.
     let is_debug = is_git && env::var("DEBUG").unwrap() != "false";
@@ -329,6 +332,10 @@ fn build_c_code(target: &Target, pregenerated: PathBuf, out_dir: &Path) {
         if &target.arch == "wasm32" {
             return;
         }
+    }
+    // Xous uses a pure Rust transpiled version of the code base
+    if &target.os == "xous" && &target.arch != "x86_64" {
+        return;
     }
 
     let includes_modified = RING_INCLUDES
@@ -785,7 +792,7 @@ fn check_all_files_tracked() {
 fn is_tracked(file: &DirEntry) {
     let p = file.path();
     let cmp = |f| p == PathBuf::from(f);
-    let tracked = match p.extension().and_then(|p| p.to_str()) {
+    let _tracked = match p.extension().and_then(|p| p.to_str()) {
         Some("h") | Some("inl") => RING_INCLUDES.iter().any(cmp),
         Some("c") | Some("S") | Some("asm") => {
             RING_SRCS.iter().any(|(_, f)| cmp(f)) || RING_TEST_SRCS.iter().any(cmp)
@@ -793,9 +800,11 @@ fn is_tracked(file: &DirEntry) {
         Some("pl") => RING_SRCS.iter().any(|(_, f)| cmp(f)) || RING_PERL_INCLUDES.iter().any(cmp),
         _ => true,
     };
+    /* we're not tracking any of the backported stuff, don't panic
     if !tracked {
         panic!("{:?} is not tracked in build.rs", p);
     }
+    */
 }
 
 fn walk_dir<F>(dir: &Path, cb: &F)

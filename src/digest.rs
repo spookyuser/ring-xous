@@ -46,7 +46,7 @@ pub(crate) struct BlockContext {
     /// The context's algorithm.
     pub algorithm: &'static Algorithm,
 
-    cpu_features: cpu::Features,
+    _cpu_features: cpu::Features,
 }
 
 impl BlockContext {
@@ -55,7 +55,7 @@ impl BlockContext {
             state: algorithm.initial_state,
             completed_data_blocks: 0,
             algorithm,
-            cpu_features: cpu::features(),
+            _cpu_features: cpu::features(),
         }
     }
 
@@ -579,7 +579,7 @@ mod tests {
                     state: alg.initial_state,
                     completed_data_blocks: max_blocks - 1,
                     algorithm: alg,
-                    cpu_features: crate::cpu::features(),
+                    _cpu_features: crate::cpu::features(),
                 },
                 pending: [0u8; digest::MAX_BLOCK_LEN],
                 num_pending: 0,

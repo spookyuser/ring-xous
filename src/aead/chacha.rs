@@ -107,8 +107,8 @@ impl Key {
             }
         };
 
-        /// XXX: Although this takes an `Iv`, this actually uses it like a
-        /// `Counter`.
+        // XXX: Although this takes an `Iv`, this actually uses it like a
+        // `Counter`.
         extern "C" {
             fn GFp_ChaCha20_ctr32(
                 out: *mut u8,
