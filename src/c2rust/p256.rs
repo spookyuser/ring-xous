@@ -4,7 +4,6 @@
 #![allow(unused_mut)]
 extern crate std;
 
-use std::arch::asm;
 extern "C" {
     fn __assert_fail(
         __assertion: *const std::os::raw::c_char,

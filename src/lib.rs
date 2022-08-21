@@ -69,8 +69,10 @@
 )]
 // `#[derive(...)]` uses `trivial_numeric_casts` and `unused_qualifications`
 // internally.
-#![deny(missing_docs, unused_qualifications, variant_size_differences)]
-#![forbid(unused_results)]
+// rkyv(xous) is not compatible with unused_qualifications
+// #![deny(missing_docs, unused_qualifications, variant_size_differences)]
+// turning this off because c2rust has a lot of unused results
+// #![forbid(unused_results)]
 #![no_std]
 
 #[cfg(feature = "alloc")]
@@ -78,6 +80,10 @@ extern crate alloc;
 
 #[macro_use]
 mod debug;
+
+#[cfg(target_os="xous")]
+#[macro_use]
+mod prefixed;
 
 #[macro_use]
 pub mod test;
@@ -103,6 +109,11 @@ pub mod io;
 
 mod cpu;
 pub mod digest;
+#[cfg(all(target_os="xous",not(target_arch="x86_64")))]
+pub mod ec_17;
+#[cfg(all(target_os="xous",not(target_arch="x86_64")))]
+pub use ec_17 as ec;
+#[cfg(not(all(target_os="xous",not(target_arch="x86_64"))))]
 mod ec;
 mod endian;
 pub mod error;
@@ -132,6 +143,23 @@ mod sealed {
     // impl sealed::Sealed for MyType {}
     // ```
     pub trait Sealed {}
+}
+
+#[cfg(target_os="xous")]
+mod c2rust {
+    mod aes_nohw;
+    pub mod montgomery;
+    mod montgomery_inv;
+    pub mod limbs;
+    mod mem;
+    mod poly1305;
+    mod crypto;
+    mod curve25519;
+    mod ecp_nistz;
+    // mod ecp_nistz256;
+    mod gfp_p256;
+    mod gfp_p384;
+    mod p256;
 }
 
 #[cfg(target_os="xous")]

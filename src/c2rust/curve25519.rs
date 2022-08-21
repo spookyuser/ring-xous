@@ -4,7 +4,6 @@
 #![allow(unused_mut)]
 extern crate std;
 
-use std::arch::asm;
 extern "C" {
     fn GFp_memcmp(a: *const uint8_t, b: *const uint8_t, len: size_t) -> std::os::raw::c_int;
     fn memcpy(
