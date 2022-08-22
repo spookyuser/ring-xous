@@ -2,7 +2,6 @@ use alloc::{format, string::String, vec::Vec, vec};
 
 use crate::{bits, digest, error};
 
-use core::char::MAX;
 use core::marker::PhantomData;
 
 /// A test case. A test case consists of a set of named attributes. Every

@@ -18,7 +18,7 @@ use super::{counter, iv::Iv, quic::Sample, BLOCK_LEN};
 use crate::polyfill::ChunksFixedMut;
 #[cfg(all(not(target_arch = "x86_64"), target_os = "xous"))]
 use core::ops::RangeFrom;
-use crate::{c, endian::*};
+use crate::endian::*;
 
 #[cfg(all(not(target_arch = "x86_64"), target_os = "xous"))]
 pub(super) fn ChaCha20_ctr32(
@@ -231,9 +231,8 @@ impl Key {
                 Counter::from_bytes_less_safe(iv.into_bytes_less_safe())
             }
         };
-        let in_out = unsafe {
-            core::slice::from_raw_parts_mut(output, in_out_len)
-        };
+        let in_out =
+            core::slice::from_raw_parts_mut(output, in_out_len);
         ChaCha20_ctr32(self, ctr, in_out, 0..);
     }
 

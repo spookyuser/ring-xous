@@ -103,6 +103,72 @@ def massage_line(line):
 
     return line
 
+def lint():
+    # lint the c2rust using cargo and a cleanup pass
+    build = subprocess.run(
+        ["cargo", "build", "--target=riscv32imac-unknown-xous-elf"],
+        stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    state = "SEARCHING"
+    subs = {}
+    warntype = ""
+    token = ""
+    p_token = re.compile(r'(.*)`(.*)`(.*)')
+    p_line = re.compile(r'(.*)--> (.*):([0-9]*):([0-9]*)')
+    for line in build.stdout.decode('utf8').split('\n'):
+        if line.startswith("warning:"):
+            if "unused variable" in line:
+                warntype = "unused variable"
+                token = p_token.search(line).group(2)
+                state = "FOUND"
+            elif "variable does not need to be mutable" in line:
+                warntype = "remove mut"
+                token = 'mut'
+                state = "FOUND"
+            elif "is never read" in line:
+                warntype = "never read"
+                token = p_token.search(line).group(2)
+                state = "FOUND"
+            elif "function" in line and "is never used in line":
+                warntype = "unused func"
+                token = p_token.search(line).group(2)
+                state = "FOUND"
+            else:
+                state = "SEARCHING"
+                pass
+        if state == "FOUND":
+            p = p_line.search(line)
+            if p:
+                fname = p.group(2)
+                fline = int(p.group(3))
+                fcol = int(p.group(4))
+                if fname in subs:
+                    subs[fname][fline] = [warntype, token, fcol]
+                else:
+                    subs[fname] = {fline: [warntype, token, fcol]}
+                state == "SEARCHING"
+                warntype = ""
+
+    for fname in subs.keys():
+        if 'src/c2rust' in fname:
+            # print(fname)
+            # print(subs[fname])
+            with open(fname, "r") as src_file:
+                sfile = src_file.readlines()
+            with open(fname, "w") as dst_file:
+                line_no = 1
+                for line in sfile:
+                    if line_no in subs[fname]:
+                        warn = subs[fname][line_no]
+                        if "unused variable" in warn[0]:
+                            line = line[:warn[2]-1] + '_' + line[warn[2]-1:]
+                        elif "remove mut":
+                            line = line[:warn[2]-1] + line[warn[2]+3:]
+                        elif "unused func":
+                            line = line[:warn[2]-1] + '_' + line[warn[2]-1:]
+                        else:
+                            print("TODO: {}".format(subs[fname][line_no]))
+                    line_no += 1
+                    print(line, file=dst_file)
 
 def run():
 
@@ -161,7 +227,9 @@ def run():
                 print("#![allow(non_camel_case_types)]", file=dest_file)
                 print("#![allow(non_snake_case)]", file=dest_file)
                 print("#![allow(non_upper_case_globals)]", file=dest_file)
-                print("#![allow(unused_mut)]", file=dest_file) # this is dubious, let's fix these with another pass later on.
+                print("#![allow(unused_imports)]", file=dest_file)
+                # this is necessary because c2rust always initializes variables before using them, producing hundreds of errors that are subtle and heard to tease out
+                print("#![allow(unused_assignments)]", file=dest_file)
                 print("extern crate std;", file=dest_file)
                 #print("use core::ffi::*;", file=dest_file)
                 for line in src_file:
@@ -170,6 +238,16 @@ def run():
             subprocess.run(["rustfmt", "src/c2rust/{}.rs".format(mod_name)])
     print("}")
 
+    # multiple passes of linting are needed to tease out all the unused mut warnings
+    # each pass removes some muts from the warning tree that propagates backwards...
+    # we don't loop this but make it individual calls because the depth of this sort of depends
+    # upon the code itself.
+    print("linting...")
+    lint()
+    print("pass2")
+    lint()
+    print("pass3")
+    lint()
 
 if __name__ == "__main__":
     run()
