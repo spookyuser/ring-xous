@@ -204,7 +204,7 @@ impl Key {
             fn GFp_ChaCha20_ctr32(
                 out: *mut u8,
                 in_: *const u8,
-                in_len: c::size_t,
+                in_len: crate::c::size_t,
                 key: &Key,
                 first_iv: &Iv,
             );
