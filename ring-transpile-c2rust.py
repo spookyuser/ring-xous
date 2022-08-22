@@ -161,6 +161,7 @@ def lint():
                         warn = subs[fname][line_no]
                         if "unused variable" in warn[0]:
                             line = line[:warn[2]-1] + '_' + line[warn[2]-1:]
+                            # print("DEBUG: {}".format(subs[fname][line_no]))
                         elif "remove mut":
                             line = line[:warn[2]-1] + line[warn[2]+3:]
                         elif "unused func":
@@ -168,7 +169,7 @@ def lint():
                         else:
                             print("TODO: {}".format(subs[fname][line_no]))
                     line_no += 1
-                    print(line, file=dst_file)
+                    print(line, file=dst_file, end="")
 
 def run():
 
@@ -227,7 +228,6 @@ def run():
                 print("#![allow(non_camel_case_types)]", file=dest_file)
                 print("#![allow(non_snake_case)]", file=dest_file)
                 print("#![allow(non_upper_case_globals)]", file=dest_file)
-                print("#![allow(unused_imports)]", file=dest_file)
                 # this is necessary because c2rust always initializes variables before using them, producing hundreds of errors that are subtle and heard to tease out
                 print("#![allow(unused_assignments)]", file=dest_file)
                 print("extern crate std;", file=dest_file)
