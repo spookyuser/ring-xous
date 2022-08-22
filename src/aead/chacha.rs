@@ -220,7 +220,7 @@ impl Key {
     unsafe fn encrypt(
         &self,
         counter: CounterOrIv,
-        input: *const u8,
+        _input: *const u8,
         in_out_len: usize,
         output: *mut u8,
     ) {
