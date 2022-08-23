@@ -1,7 +1,6 @@
 #![allow(non_camel_case_types)]
 #![allow(non_snake_case)]
 #![allow(non_upper_case_globals)]
-#![allow(unused_assignments)]
 extern crate std;
 
 extern "C" {
@@ -44,7 +43,7 @@ unsafe extern "C" fn limb_sbb(
     b: Limb,
     borrow_in: Carry,
 ) -> Carry {
-    let mut ret: Carry = 0;
+    let ret: Carry;
     let x: DoubleLimb = (a as DoubleLimb)
         .wrapping_sub(b as u64)
         .wrapping_sub(borrow_in as u64);
@@ -54,7 +53,7 @@ unsafe extern "C" fn limb_sbb(
 }
 #[inline]
 unsafe extern "C" fn limb_sub(r: *mut Limb, a: Limb, b: Limb) -> Carry {
-    let mut ret: Carry = 0;
+    let ret: Carry;
     let x: DoubleLimb = (a as DoubleLimb).wrapping_sub(b as u64);
     *r = x as Limb;
     ret = (x >> 32 as std::os::raw::c_uint & 1 as std::os::raw::c_int as u64) as Carry;

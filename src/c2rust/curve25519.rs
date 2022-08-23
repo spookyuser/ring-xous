@@ -1,7 +1,6 @@
 #![allow(non_camel_case_types)]
 #![allow(non_snake_case)]
 #![allow(non_upper_case_globals)]
-#![allow(unused_assignments)]
 extern crate std;
 
 extern "C" {
@@ -16563,7 +16562,7 @@ unsafe extern "C" fn fiat_25519_carry_scmul_121666(
     *out1.offset(9 as std::os::raw::c_int as isize) = x39;
 }
 unsafe extern "C" fn load_3(in_0: *const uint8_t) -> uint64_t {
-    let mut result: uint64_t = 0;
+    let mut result: uint64_t;
     result = *in_0.offset(0 as std::os::raw::c_int as isize) as uint64_t;
     result |=
         (*in_0.offset(1 as std::os::raw::c_int as isize) as uint64_t) << 8 as std::os::raw::c_int;
@@ -16572,7 +16571,7 @@ unsafe extern "C" fn load_3(in_0: *const uint8_t) -> uint64_t {
     return result;
 }
 unsafe extern "C" fn load_4(in_0: *const uint8_t) -> uint64_t {
-    let mut result: uint64_t = 0;
+    let mut result: uint64_t;
     result = *in_0.offset(0 as std::os::raw::c_int as isize) as uint64_t;
     result |=
         (*in_0.offset(1 as std::os::raw::c_int as isize) as uint64_t) << 8 as std::os::raw::c_int;
@@ -16795,7 +16794,7 @@ unsafe extern "C" fn fe_loose_invert(out: *mut fe, z: *const fe_loose) {
     let mut t1: fe = fe { v: [0; 10] };
     let mut t2: fe = fe { v: [0; 10] };
     let mut t3: fe = fe { v: [0; 10] };
-    let mut i: std::os::raw::c_int = 0;
+    let mut i: std::os::raw::c_int;
     fe_sq_tl(&mut t0, z);
     fe_sq_tt(&mut t1, &mut t0);
     i = 1 as std::os::raw::c_int;
@@ -16929,7 +16928,7 @@ unsafe extern "C" fn fe_pow22523(out: *mut fe, z: *const fe) {
     let mut t0: fe = fe { v: [0; 10] };
     let mut t1: fe = fe { v: [0; 10] };
     let mut t2: fe = fe { v: [0; 10] };
-    let mut i: std::os::raw::c_int = 0;
+    let mut i: std::os::raw::c_int;
     fe_sq_tt(&mut t0, z);
     fe_sq_tt(&mut t1, &mut t0);
     i = 1 as std::os::raw::c_int;
@@ -17310,7 +17309,7 @@ unsafe extern "C" fn table_select(
 #[no_mangle]
 pub unsafe extern "C" fn GFp_x25519_ge_scalarmult_base(h: *mut ge_p3, a: *const uint8_t) {
     let mut e: [std::os::raw::c_schar; 64] = [0; 64];
-    let mut carry: std::os::raw::c_schar = 0;
+    let mut carry: std::os::raw::c_schar;
     let mut r: ge_p1p1 = ge_p1p1 {
         X: fe_loose { v: [0; 10] },
         Y: fe_loose { v: [0; 10] },
@@ -17327,7 +17326,7 @@ pub unsafe extern "C" fn GFp_x25519_ge_scalarmult_base(h: *mut ge_p3, a: *const 
         yminusx: fe_loose { v: [0; 10] },
         xy2d: fe_loose { v: [0; 10] },
     };
-    let mut i: std::os::raw::c_int = 0;
+    let mut i: std::os::raw::c_int;
     i = 0 as std::os::raw::c_int;
     while i < 32 as std::os::raw::c_int {
         e[(2 as std::os::raw::c_int * i + 0 as std::os::raw::c_int) as usize] =
@@ -17379,9 +17378,9 @@ pub unsafe extern "C" fn GFp_x25519_ge_scalarmult_base(h: *mut ge_p3, a: *const 
     }
 }
 unsafe extern "C" fn slide(r: *mut std::os::raw::c_schar, a: *const uint8_t) {
-    let mut i: std::os::raw::c_int = 0;
-    let mut b: std::os::raw::c_int = 0;
-    let mut k: std::os::raw::c_int = 0;
+    let mut i: std::os::raw::c_int;
+    let mut b: std::os::raw::c_int;
+    let mut k: std::os::raw::c_int;
     i = 0 as std::os::raw::c_int;
     while i < 256 as std::os::raw::c_int {
         *r.offset(i as isize) = (1 as std::os::raw::c_int
@@ -17469,7 +17468,7 @@ unsafe extern "C" fn ge_double_scalarmult_vartime(
         Z: fe { v: [0; 10] },
         T: fe { v: [0; 10] },
     };
-    let mut i: std::os::raw::c_int = 0;
+    let mut i: std::os::raw::c_int;
     slide(aslide.as_mut_ptr(), a);
     slide(bslide.as_mut_ptr(), b);
     x25519_ge_p3_to_cached(
@@ -17665,82 +17664,82 @@ pub unsafe extern "C" fn GFp_x25519_sc_reduce(s: *mut uint8_t) {
     let mut s17: int64_t = (2097151 as std::os::raw::c_int as u64
         & load_4(s.offset(44 as std::os::raw::c_int as isize) as *const uint8_t)
             >> 5 as std::os::raw::c_int) as int64_t;
-    let mut s18: int64_t = (2097151 as std::os::raw::c_int as u64
+    let s18: int64_t = (2097151 as std::os::raw::c_int as u64
         & load_3(s.offset(47 as std::os::raw::c_int as isize) as *const uint8_t)
             >> 2 as std::os::raw::c_int) as int64_t;
-    let mut s19: int64_t = (2097151 as std::os::raw::c_int as u64
+    let s19: int64_t = (2097151 as std::os::raw::c_int as u64
         & load_4(s.offset(49 as std::os::raw::c_int as isize) as *const uint8_t)
             >> 7 as std::os::raw::c_int) as int64_t;
-    let mut s20: int64_t = (2097151 as std::os::raw::c_int as u64
+    let s20: int64_t = (2097151 as std::os::raw::c_int as u64
         & load_4(s.offset(52 as std::os::raw::c_int as isize) as *const uint8_t)
             >> 4 as std::os::raw::c_int) as int64_t;
-    let mut s21: int64_t = (2097151 as std::os::raw::c_int as u64
+    let s21: int64_t = (2097151 as std::os::raw::c_int as u64
         & load_3(s.offset(55 as std::os::raw::c_int as isize) as *const uint8_t)
             >> 1 as std::os::raw::c_int) as int64_t;
-    let mut s22: int64_t = (2097151 as std::os::raw::c_int as u64
+    let s22: int64_t = (2097151 as std::os::raw::c_int as u64
         & load_4(s.offset(57 as std::os::raw::c_int as isize) as *const uint8_t)
             >> 6 as std::os::raw::c_int) as int64_t;
-    let mut s23: int64_t = (load_4(s.offset(60 as std::os::raw::c_int as isize) as *const uint8_t)
+    let s23: int64_t = (load_4(s.offset(60 as std::os::raw::c_int as isize) as *const uint8_t)
         >> 3 as std::os::raw::c_int) as int64_t;
-    let mut carry0: int64_t = 0;
-    let mut carry1: int64_t = 0;
-    let mut carry2: int64_t = 0;
-    let mut carry3: int64_t = 0;
-    let mut carry4: int64_t = 0;
-    let mut carry5: int64_t = 0;
-    let mut carry6: int64_t = 0;
-    let mut carry7: int64_t = 0;
-    let mut carry8: int64_t = 0;
-    let mut carry9: int64_t = 0;
-    let mut carry10: int64_t = 0;
-    let mut carry11: int64_t = 0;
-    let mut carry12: int64_t = 0;
-    let mut carry13: int64_t = 0;
-    let mut carry14: int64_t = 0;
-    let mut carry15: int64_t = 0;
-    let mut carry16: int64_t = 0;
+    let mut carry0: int64_t;
+    let mut carry1: int64_t;
+    let mut carry2: int64_t;
+    let mut carry3: int64_t;
+    let mut carry4: int64_t;
+    let mut carry5: int64_t;
+    let mut carry6: int64_t;
+    let mut carry7: int64_t;
+    let mut carry8: int64_t;
+    let mut carry9: int64_t;
+    let mut carry10: int64_t;
+    let mut carry11: int64_t;
+    let carry12: int64_t;
+    let carry13: int64_t;
+    let carry14: int64_t;
+    let carry15: int64_t;
+    let carry16: int64_t;
     s11 += s23 * 666643 as std::os::raw::c_int as i64;
     s12 += s23 * 470296 as std::os::raw::c_int as i64;
     s13 += s23 * 654183 as std::os::raw::c_int as i64;
     s14 -= s23 * 997805 as std::os::raw::c_int as i64;
     s15 += s23 * 136657 as std::os::raw::c_int as i64;
     s16 -= s23 * 683901 as std::os::raw::c_int as i64;
-    s23 = 0 as std::os::raw::c_int as int64_t;
+    s23 as std::os::raw::c_int as int64_t;
     s10 += s22 * 666643 as std::os::raw::c_int as i64;
     s11 += s22 * 470296 as std::os::raw::c_int as i64;
     s12 += s22 * 654183 as std::os::raw::c_int as i64;
     s13 -= s22 * 997805 as std::os::raw::c_int as i64;
     s14 += s22 * 136657 as std::os::raw::c_int as i64;
     s15 -= s22 * 683901 as std::os::raw::c_int as i64;
-    s22 = 0 as std::os::raw::c_int as int64_t;
+    s22 as std::os::raw::c_int as int64_t;
     s9 += s21 * 666643 as std::os::raw::c_int as i64;
     s10 += s21 * 470296 as std::os::raw::c_int as i64;
     s11 += s21 * 654183 as std::os::raw::c_int as i64;
     s12 -= s21 * 997805 as std::os::raw::c_int as i64;
     s13 += s21 * 136657 as std::os::raw::c_int as i64;
     s14 -= s21 * 683901 as std::os::raw::c_int as i64;
-    s21 = 0 as std::os::raw::c_int as int64_t;
+    s21 as std::os::raw::c_int as int64_t;
     s8 += s20 * 666643 as std::os::raw::c_int as i64;
     s9 += s20 * 470296 as std::os::raw::c_int as i64;
     s10 += s20 * 654183 as std::os::raw::c_int as i64;
     s11 -= s20 * 997805 as std::os::raw::c_int as i64;
     s12 += s20 * 136657 as std::os::raw::c_int as i64;
     s13 -= s20 * 683901 as std::os::raw::c_int as i64;
-    s20 = 0 as std::os::raw::c_int as int64_t;
+    s20 as std::os::raw::c_int as int64_t;
     s7 += s19 * 666643 as std::os::raw::c_int as i64;
     s8 += s19 * 470296 as std::os::raw::c_int as i64;
     s9 += s19 * 654183 as std::os::raw::c_int as i64;
     s10 -= s19 * 997805 as std::os::raw::c_int as i64;
     s11 += s19 * 136657 as std::os::raw::c_int as i64;
     s12 -= s19 * 683901 as std::os::raw::c_int as i64;
-    s19 = 0 as std::os::raw::c_int as int64_t;
+    s19 as std::os::raw::c_int as int64_t;
     s6 += s18 * 666643 as std::os::raw::c_int as i64;
     s7 += s18 * 470296 as std::os::raw::c_int as i64;
     s8 += s18 * 654183 as std::os::raw::c_int as i64;
     s9 -= s18 * 997805 as std::os::raw::c_int as i64;
     s10 += s18 * 136657 as std::os::raw::c_int as i64;
     s11 -= s18 * 683901 as std::os::raw::c_int as i64;
-    s18 = 0 as std::os::raw::c_int as int64_t;
+    s18 as std::os::raw::c_int as int64_t;
     carry6 = s6 + ((1 as std::os::raw::c_int) << 20 as std::os::raw::c_int) as i64
         >> 21 as std::os::raw::c_int;
     s7 += carry6;
@@ -17791,35 +17790,35 @@ pub unsafe extern "C" fn GFp_x25519_sc_reduce(s: *mut uint8_t) {
     s8 -= s17 * 997805 as std::os::raw::c_int as i64;
     s9 += s17 * 136657 as std::os::raw::c_int as i64;
     s10 -= s17 * 683901 as std::os::raw::c_int as i64;
-    s17 = 0 as std::os::raw::c_int as int64_t;
+    s17 as std::os::raw::c_int as int64_t;
     s4 += s16 * 666643 as std::os::raw::c_int as i64;
     s5 += s16 * 470296 as std::os::raw::c_int as i64;
     s6 += s16 * 654183 as std::os::raw::c_int as i64;
     s7 -= s16 * 997805 as std::os::raw::c_int as i64;
     s8 += s16 * 136657 as std::os::raw::c_int as i64;
     s9 -= s16 * 683901 as std::os::raw::c_int as i64;
-    s16 = 0 as std::os::raw::c_int as int64_t;
+    s16 as std::os::raw::c_int as int64_t;
     s3 += s15 * 666643 as std::os::raw::c_int as i64;
     s4 += s15 * 470296 as std::os::raw::c_int as i64;
     s5 += s15 * 654183 as std::os::raw::c_int as i64;
     s6 -= s15 * 997805 as std::os::raw::c_int as i64;
     s7 += s15 * 136657 as std::os::raw::c_int as i64;
     s8 -= s15 * 683901 as std::os::raw::c_int as i64;
-    s15 = 0 as std::os::raw::c_int as int64_t;
+    s15 as std::os::raw::c_int as int64_t;
     s2 += s14 * 666643 as std::os::raw::c_int as i64;
     s3 += s14 * 470296 as std::os::raw::c_int as i64;
     s4 += s14 * 654183 as std::os::raw::c_int as i64;
     s5 -= s14 * 997805 as std::os::raw::c_int as i64;
     s6 += s14 * 136657 as std::os::raw::c_int as i64;
     s7 -= s14 * 683901 as std::os::raw::c_int as i64;
-    s14 = 0 as std::os::raw::c_int as int64_t;
+    s14 as std::os::raw::c_int as int64_t;
     s1 += s13 * 666643 as std::os::raw::c_int as i64;
     s2 += s13 * 470296 as std::os::raw::c_int as i64;
     s3 += s13 * 654183 as std::os::raw::c_int as i64;
     s4 -= s13 * 997805 as std::os::raw::c_int as i64;
     s5 += s13 * 136657 as std::os::raw::c_int as i64;
     s6 -= s13 * 683901 as std::os::raw::c_int as i64;
-    s13 = 0 as std::os::raw::c_int as int64_t;
+    s13 as std::os::raw::c_int as int64_t;
     s0 += s12 * 666643 as std::os::raw::c_int as i64;
     s1 += s12 * 470296 as std::os::raw::c_int as i64;
     s2 += s12 * 654183 as std::os::raw::c_int as i64;
@@ -17924,7 +17923,7 @@ pub unsafe extern "C" fn GFp_x25519_sc_reduce(s: *mut uint8_t) {
     s3 -= s12 * 997805 as std::os::raw::c_int as i64;
     s4 += s12 * 136657 as std::os::raw::c_int as i64;
     s5 -= s12 * 683901 as std::os::raw::c_int as i64;
-    s12 = 0 as std::os::raw::c_int as int64_t;
+    s12 as std::os::raw::c_int as int64_t;
     carry0 = s0 >> 21 as std::os::raw::c_int;
     s1 += carry0;
     s0 -= int64_lshift21(carry0);
@@ -18106,53 +18105,53 @@ unsafe extern "C" fn sc_muladd(
         as int64_t;
     let c11: int64_t = (load_4(c.offset(28 as std::os::raw::c_int as isize))
         >> 7 as std::os::raw::c_int) as int64_t;
-    let mut s0: int64_t = 0;
-    let mut s1: int64_t = 0;
-    let mut s2: int64_t = 0;
-    let mut s3: int64_t = 0;
-    let mut s4: int64_t = 0;
-    let mut s5: int64_t = 0;
-    let mut s6: int64_t = 0;
-    let mut s7: int64_t = 0;
-    let mut s8: int64_t = 0;
-    let mut s9: int64_t = 0;
-    let mut s10: int64_t = 0;
-    let mut s11: int64_t = 0;
-    let mut s12: int64_t = 0;
-    let mut s13: int64_t = 0;
-    let mut s14: int64_t = 0;
-    let mut s15: int64_t = 0;
-    let mut s16: int64_t = 0;
-    let mut s17: int64_t = 0;
-    let mut s18: int64_t = 0;
-    let mut s19: int64_t = 0;
-    let mut s20: int64_t = 0;
-    let mut s21: int64_t = 0;
-    let mut s22: int64_t = 0;
-    let mut s23: int64_t = 0;
-    let mut carry0: int64_t = 0;
-    let mut carry1: int64_t = 0;
-    let mut carry2: int64_t = 0;
-    let mut carry3: int64_t = 0;
-    let mut carry4: int64_t = 0;
-    let mut carry5: int64_t = 0;
-    let mut carry6: int64_t = 0;
-    let mut carry7: int64_t = 0;
-    let mut carry8: int64_t = 0;
-    let mut carry9: int64_t = 0;
-    let mut carry10: int64_t = 0;
-    let mut carry11: int64_t = 0;
-    let mut carry12: int64_t = 0;
-    let mut carry13: int64_t = 0;
-    let mut carry14: int64_t = 0;
-    let mut carry15: int64_t = 0;
-    let mut carry16: int64_t = 0;
-    let mut carry17: int64_t = 0;
-    let mut carry18: int64_t = 0;
-    let mut carry19: int64_t = 0;
-    let mut carry20: int64_t = 0;
-    let mut carry21: int64_t = 0;
-    let mut carry22: int64_t = 0;
+    let mut s0: int64_t;
+    let mut s1: int64_t;
+    let mut s2: int64_t;
+    let mut s3: int64_t;
+    let mut s4: int64_t;
+    let mut s5: int64_t;
+    let mut s6: int64_t;
+    let mut s7: int64_t;
+    let mut s8: int64_t;
+    let mut s9: int64_t;
+    let mut s10: int64_t;
+    let mut s11: int64_t;
+    let mut s12: int64_t;
+    let mut s13: int64_t;
+    let mut s14: int64_t;
+    let mut s15: int64_t;
+    let mut s16: int64_t;
+    let mut s17: int64_t;
+    let mut s18: int64_t;
+    let mut s19: int64_t;
+    let mut s20: int64_t;
+    let mut s21: int64_t;
+    let mut s22: int64_t;
+    let mut s23: int64_t;
+    let mut carry0: int64_t;
+    let mut carry1: int64_t;
+    let mut carry2: int64_t;
+    let mut carry3: int64_t;
+    let mut carry4: int64_t;
+    let mut carry5: int64_t;
+    let mut carry6: int64_t;
+    let mut carry7: int64_t;
+    let mut carry8: int64_t;
+    let mut carry9: int64_t;
+    let mut carry10: int64_t;
+    let mut carry11: int64_t;
+    let mut carry12: int64_t;
+    let mut carry13: int64_t;
+    let mut carry14: int64_t;
+    let mut carry15: int64_t;
+    let mut carry16: int64_t;
+    let carry17: int64_t;
+    let carry18: int64_t;
+    let carry19: int64_t;
+    let carry20: int64_t;
+    let carry21: int64_t;
+    let carry22: int64_t;
     s0 = c0 + a0 * b0;
     s1 = c1 + a0 * b1 + a1 * b0;
     s2 = c2 + a0 * b2 + a1 * b1 + a2 * b0;
@@ -18337,42 +18336,42 @@ unsafe extern "C" fn sc_muladd(
     s14 -= s23 * 997805 as std::os::raw::c_int as i64;
     s15 += s23 * 136657 as std::os::raw::c_int as i64;
     s16 -= s23 * 683901 as std::os::raw::c_int as i64;
-    s23 = 0 as std::os::raw::c_int as int64_t;
+    s23 as std::os::raw::c_int as int64_t;
     s10 += s22 * 666643 as std::os::raw::c_int as i64;
     s11 += s22 * 470296 as std::os::raw::c_int as i64;
     s12 += s22 * 654183 as std::os::raw::c_int as i64;
     s13 -= s22 * 997805 as std::os::raw::c_int as i64;
     s14 += s22 * 136657 as std::os::raw::c_int as i64;
     s15 -= s22 * 683901 as std::os::raw::c_int as i64;
-    s22 = 0 as std::os::raw::c_int as int64_t;
+    s22 as std::os::raw::c_int as int64_t;
     s9 += s21 * 666643 as std::os::raw::c_int as i64;
     s10 += s21 * 470296 as std::os::raw::c_int as i64;
     s11 += s21 * 654183 as std::os::raw::c_int as i64;
     s12 -= s21 * 997805 as std::os::raw::c_int as i64;
     s13 += s21 * 136657 as std::os::raw::c_int as i64;
     s14 -= s21 * 683901 as std::os::raw::c_int as i64;
-    s21 = 0 as std::os::raw::c_int as int64_t;
+    s21 as std::os::raw::c_int as int64_t;
     s8 += s20 * 666643 as std::os::raw::c_int as i64;
     s9 += s20 * 470296 as std::os::raw::c_int as i64;
     s10 += s20 * 654183 as std::os::raw::c_int as i64;
     s11 -= s20 * 997805 as std::os::raw::c_int as i64;
     s12 += s20 * 136657 as std::os::raw::c_int as i64;
     s13 -= s20 * 683901 as std::os::raw::c_int as i64;
-    s20 = 0 as std::os::raw::c_int as int64_t;
+    s20 as std::os::raw::c_int as int64_t;
     s7 += s19 * 666643 as std::os::raw::c_int as i64;
     s8 += s19 * 470296 as std::os::raw::c_int as i64;
     s9 += s19 * 654183 as std::os::raw::c_int as i64;
     s10 -= s19 * 997805 as std::os::raw::c_int as i64;
     s11 += s19 * 136657 as std::os::raw::c_int as i64;
     s12 -= s19 * 683901 as std::os::raw::c_int as i64;
-    s19 = 0 as std::os::raw::c_int as int64_t;
+    s19 as std::os::raw::c_int as int64_t;
     s6 += s18 * 666643 as std::os::raw::c_int as i64;
     s7 += s18 * 470296 as std::os::raw::c_int as i64;
     s8 += s18 * 654183 as std::os::raw::c_int as i64;
     s9 -= s18 * 997805 as std::os::raw::c_int as i64;
     s10 += s18 * 136657 as std::os::raw::c_int as i64;
     s11 -= s18 * 683901 as std::os::raw::c_int as i64;
-    s18 = 0 as std::os::raw::c_int as int64_t;
+    s18 as std::os::raw::c_int as int64_t;
     carry6 = s6 + ((1 as std::os::raw::c_int) << 20 as std::os::raw::c_int) as i64
         >> 21 as std::os::raw::c_int;
     s7 += carry6;
@@ -18423,35 +18422,35 @@ unsafe extern "C" fn sc_muladd(
     s8 -= s17 * 997805 as std::os::raw::c_int as i64;
     s9 += s17 * 136657 as std::os::raw::c_int as i64;
     s10 -= s17 * 683901 as std::os::raw::c_int as i64;
-    s17 = 0 as std::os::raw::c_int as int64_t;
+    s17 as std::os::raw::c_int as int64_t;
     s4 += s16 * 666643 as std::os::raw::c_int as i64;
     s5 += s16 * 470296 as std::os::raw::c_int as i64;
     s6 += s16 * 654183 as std::os::raw::c_int as i64;
     s7 -= s16 * 997805 as std::os::raw::c_int as i64;
     s8 += s16 * 136657 as std::os::raw::c_int as i64;
     s9 -= s16 * 683901 as std::os::raw::c_int as i64;
-    s16 = 0 as std::os::raw::c_int as int64_t;
+    s16 as std::os::raw::c_int as int64_t;
     s3 += s15 * 666643 as std::os::raw::c_int as i64;
     s4 += s15 * 470296 as std::os::raw::c_int as i64;
     s5 += s15 * 654183 as std::os::raw::c_int as i64;
     s6 -= s15 * 997805 as std::os::raw::c_int as i64;
     s7 += s15 * 136657 as std::os::raw::c_int as i64;
     s8 -= s15 * 683901 as std::os::raw::c_int as i64;
-    s15 = 0 as std::os::raw::c_int as int64_t;
+    s15 as std::os::raw::c_int as int64_t;
     s2 += s14 * 666643 as std::os::raw::c_int as i64;
     s3 += s14 * 470296 as std::os::raw::c_int as i64;
     s4 += s14 * 654183 as std::os::raw::c_int as i64;
     s5 -= s14 * 997805 as std::os::raw::c_int as i64;
     s6 += s14 * 136657 as std::os::raw::c_int as i64;
     s7 -= s14 * 683901 as std::os::raw::c_int as i64;
-    s14 = 0 as std::os::raw::c_int as int64_t;
+    s14 as std::os::raw::c_int as int64_t;
     s1 += s13 * 666643 as std::os::raw::c_int as i64;
     s2 += s13 * 470296 as std::os::raw::c_int as i64;
     s3 += s13 * 654183 as std::os::raw::c_int as i64;
     s4 -= s13 * 997805 as std::os::raw::c_int as i64;
     s5 += s13 * 136657 as std::os::raw::c_int as i64;
     s6 -= s13 * 683901 as std::os::raw::c_int as i64;
-    s13 = 0 as std::os::raw::c_int as int64_t;
+    s13 as std::os::raw::c_int as int64_t;
     s0 += s12 * 666643 as std::os::raw::c_int as i64;
     s1 += s12 * 470296 as std::os::raw::c_int as i64;
     s2 += s12 * 654183 as std::os::raw::c_int as i64;
@@ -18556,7 +18555,7 @@ unsafe extern "C" fn sc_muladd(
     s3 -= s12 * 997805 as std::os::raw::c_int as i64;
     s4 += s12 * 136657 as std::os::raw::c_int as i64;
     s5 -= s12 * 683901 as std::os::raw::c_int as i64;
-    s12 = 0 as std::os::raw::c_int as int64_t;
+    s12 as std::os::raw::c_int as int64_t;
     carry0 = s0 >> 21 as std::os::raw::c_int;
     s1 += carry0;
     s0 -= int64_lshift21(carry0);
@@ -18663,7 +18662,7 @@ pub unsafe extern "C" fn GFp_x25519_scalar_mult_generic_masked(
     fe_copy(&mut x3, &mut x1);
     fe_1(&mut z3);
     let mut swap: std::os::raw::c_uint = 0 as std::os::raw::c_int as std::os::raw::c_uint;
-    let mut pos: std::os::raw::c_int = 0;
+    let mut pos: std::os::raw::c_int;
     pos = 254 as std::os::raw::c_int;
     while pos >= 0 as std::os::raw::c_int {
         let b: std::os::raw::c_uint = (1 as std::os::raw::c_int

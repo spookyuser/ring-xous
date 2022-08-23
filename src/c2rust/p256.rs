@@ -1,7 +1,6 @@
 #![allow(non_camel_case_types)]
 #![allow(non_snake_case)]
 #![allow(non_upper_case_globals)]
-#![allow(unused_assignments)]
 extern crate std;
 
 extern "C" {
@@ -96,8 +95,8 @@ unsafe extern "C" fn recode_scalar_bits(
     digit: *mut crypto_word,
     in_0: crypto_word,
 ) {
-    let mut s: crypto_word = 0;
-    let mut d: crypto_word = 0;
+    let s: crypto_word;
+    let mut d: crypto_word;
     s = !(in_0 >> 5 as std::os::raw::c_int)
         .wrapping_sub(1 as std::os::raw::c_int as std::os::raw::c_uint);
     d = (((1 as std::os::raw::c_int) << 6 as std::os::raw::c_int) as std::os::raw::c_uint)

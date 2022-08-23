@@ -1,7 +1,6 @@
 #![allow(non_camel_case_types)]
 #![allow(non_snake_case)]
 #![allow(non_upper_case_globals)]
-#![allow(unused_assignments)]
 extern crate std;
 
 extern "C" {
@@ -75,7 +74,7 @@ unsafe extern "C" fn limb_adc(
     b: Limb,
     carry_in: Carry,
 ) -> Carry {
-    let mut ret: Carry = 0;
+    let ret: Carry;
     let x: DoubleLimb = (a as DoubleLimb)
         .wrapping_add(b as u64)
         .wrapping_add(carry_in as u64);
@@ -85,7 +84,7 @@ unsafe extern "C" fn limb_adc(
 }
 #[inline]
 unsafe extern "C" fn limb_add(r: *mut Limb, a: Limb, b: Limb) -> Carry {
-    let mut ret: Carry = 0;
+    let ret: Carry;
     let x: DoubleLimb = (a as DoubleLimb).wrapping_add(b as u64);
     *r = x as Limb;
     ret = (x >> 32 as std::os::raw::c_uint) as Carry;
@@ -98,7 +97,7 @@ unsafe extern "C" fn limb_sbb(
     b: Limb,
     borrow_in: Carry,
 ) -> Carry {
-    let mut ret: Carry = 0;
+    let ret: Carry;
     let x: DoubleLimb = (a as DoubleLimb)
         .wrapping_sub(b as u64)
         .wrapping_sub(borrow_in as u64);
@@ -108,7 +107,7 @@ unsafe extern "C" fn limb_sbb(
 }
 #[inline]
 unsafe extern "C" fn limb_sub(r: *mut Limb, a: Limb, b: Limb) -> Carry {
-    let mut ret: Carry = 0;
+    let ret: Carry;
     let x: DoubleLimb = (a as DoubleLimb).wrapping_sub(b as u64);
     *r = x as Limb;
     ret = (x >> 32 as std::os::raw::c_uint & 1 as std::os::raw::c_int as u64) as Carry;
@@ -276,7 +275,7 @@ pub unsafe extern "C" fn LIMBS_equal_limb(
 }
 #[no_mangle]
 pub unsafe extern "C" fn LIMBS_are_even(a: *const Limb, num_limbs: size_t) -> Limb {
-    let mut lo: Limb = 0;
+    let lo: Limb;
     if num_limbs == 0 as std::os::raw::c_int as std::os::raw::c_uint {
         lo = 0 as std::os::raw::c_int as Limb;
     } else {
@@ -550,9 +549,9 @@ pub unsafe extern "C" fn GFp_limbs_mul_add_limb(
         bn_umult_lohi(&mut lo, &mut hi, *a.offset(i as isize), b);
         let mut tmp: Limb = 0;
         let mut c: Carry = limb_add(&mut tmp, lo, carried);
-        c = limb_adc(&mut carried, hi, 0 as std::os::raw::c_int as Limb, c);
+        let _c = limb_adc(&mut carried, hi, 0 as std::os::raw::c_int as Limb, c);
         c = limb_add(&mut *r.offset(i as isize), *r.offset(i as isize), tmp);
-        c = limb_adc(&mut carried, carried, 0 as std::os::raw::c_int as Limb, c);
+        let _c = limb_adc(&mut carried, carried, 0 as std::os::raw::c_int as Limb, c);
         i = i.wrapping_add(1);
     }
     return carried;
@@ -572,9 +571,9 @@ pub unsafe extern "C" fn limbs_mul_add_limb(
         bn_umult_lohi(&mut lo, &mut hi, *a.offset(i as isize), b);
         let mut tmp: Limb = 0;
         let mut c: Carry = limb_add(&mut tmp, lo, carried);
-        c = limb_adc(&mut carried, hi, 0 as std::os::raw::c_int as Limb, c);
+        let _c = limb_adc(&mut carried, hi, 0 as std::os::raw::c_int as Limb, c);
         c = limb_add(&mut *r.offset(i as isize), *r.offset(i as isize), tmp);
-        c = limb_adc(&mut carried, carried, 0 as std::os::raw::c_int as Limb, c);
+        let _c = limb_adc(&mut carried, carried, 0 as std::os::raw::c_int as Limb, c);
         i = i.wrapping_add(1);
     }
     return carried;

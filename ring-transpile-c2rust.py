@@ -116,17 +116,17 @@ def lint():
     p_line = re.compile(r'(.*)--> (.*):([0-9]*):([0-9]*)')
     for line in build.stdout.decode('utf8').split('\n'):
         if line.startswith("warning:"):
-            if "unused variable" in line:
+            if "value assigned to" in line and "is never read":
+                warntype = "unused init"
+                token = p_token.search(line).group(2)
+                state = "FOUND"
+            elif "unused variable" in line:
                 warntype = "unused variable"
                 token = p_token.search(line).group(2)
                 state = "FOUND"
             elif "variable does not need to be mutable" in line:
                 warntype = "remove mut"
                 token = 'mut'
-                state = "FOUND"
-            elif "is never read" in line:
-                warntype = "never read"
-                token = p_token.search(line).group(2)
                 state = "FOUND"
             elif "function" in line and "is never used in line":
                 warntype = "unused func"
@@ -159,7 +159,14 @@ def lint():
                 for line in sfile:
                     if line_no in subs[fname]:
                         warn = subs[fname][line_no]
-                        if "unused variable" in warn[0]:
+                        if "unused init" in warn[0]:
+                            if " = 0" in line:
+                                # this is an unused 0-init
+                                line = line.replace(" = 0", "")
+                            else:
+                                # this is an unused assignment
+                                line = line[:warn[2] - 1] + 'let _' + line[warn[2] - 1:]
+                        elif "unused variable" in warn[0]:
                             line = line[:warn[2]-1] + '_' + line[warn[2]-1:]
                             # print("DEBUG: {}".format(subs[fname][line_no]))
                         elif "remove mut":
@@ -228,8 +235,6 @@ def run():
                 print("#![allow(non_camel_case_types)]", file=dest_file)
                 print("#![allow(non_snake_case)]", file=dest_file)
                 print("#![allow(non_upper_case_globals)]", file=dest_file)
-                # this is necessary because c2rust always initializes variables before using them, producing hundreds of errors that are subtle and heard to tease out
-                print("#![allow(unused_assignments)]", file=dest_file)
                 print("extern crate std;", file=dest_file)
                 #print("use core::ffi::*;", file=dest_file)
                 for line in src_file:
@@ -237,7 +242,6 @@ def run():
             subprocess.run(["rm", rs_file])
             subprocess.run(["rustfmt", "src/c2rust/{}.rs".format(mod_name)])
     print("}")
-
     # multiple passes of linting are needed to tease out all the unused mut warnings
     # each pass removes some muts from the warning tree that propagates backwards...
     # we don't loop this but make it individual calls because the depth of this sort of depends

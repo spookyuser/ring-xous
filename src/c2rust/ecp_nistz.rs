@@ -1,7 +1,6 @@
 #![allow(non_camel_case_types)]
 #![allow(non_snake_case)]
 #![allow(non_upper_case_globals)]
-#![allow(unused_assignments)]
 extern crate std;
 
 extern "C" {
@@ -43,7 +42,7 @@ pub unsafe extern "C" fn little_endian_bytes_from_scalar(
             .as_ptr(),
         );
     }
-    let mut i: size_t = 0;
+    let mut i: size_t;
     i = 0 as std::os::raw::c_int as size_t;
     while i < num_limbs.wrapping_mul(std::mem::size_of::<Limb>() as u32) {
         let mut d: Limb =

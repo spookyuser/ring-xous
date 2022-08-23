@@ -1,7 +1,6 @@
 #![allow(non_camel_case_types)]
 #![allow(non_snake_case)]
 #![allow(non_upper_case_globals)]
-#![allow(unused_assignments)]
 extern crate std;
 
 extern "C" {
@@ -85,14 +84,14 @@ unsafe extern "C" fn poly1305_update(
     mut len: size_t,
 ) {
     let mut current_block: u64;
-    let mut t0: uint32_t = 0;
-    let mut t1: uint32_t = 0;
-    let mut t2: uint32_t = 0;
-    let mut t3: uint32_t = 0;
+    let mut t0: uint32_t;
+    let mut t1: uint32_t;
+    let mut t2: uint32_t;
+    let mut t3: uint32_t;
     let mut t: [uint64_t; 5] = [0; 5];
-    let mut b: uint32_t = 0;
-    let mut c: uint64_t = 0;
-    let mut j: size_t = 0;
+    let mut b: uint32_t;
+    let mut c: uint64_t;
+    let mut j: size_t;
     let mut mp: [uint8_t; 16] = [0; 16];
     if len < 16 as std::os::raw::c_int as std::os::raw::c_uint {
         current_block = 11683264760972913487;
@@ -256,10 +255,10 @@ pub unsafe extern "C" fn GFp_poly1305_init(
     key: *const uint8_t,
 ) {
     let mut state: *mut poly1305_state_st = poly1305_aligned_state(statep);
-    let mut t0: uint32_t = 0;
-    let mut t1: uint32_t = 0;
-    let mut t2: uint32_t = 0;
-    let mut t3: uint32_t = 0;
+    let mut t0: uint32_t;
+    let mut t1: uint32_t;
+    let mut t2: uint32_t;
+    let mut t3: uint32_t;
     t0 = U8TO32_LE(key.offset(0 as std::os::raw::c_int as isize));
     t1 = U8TO32_LE(key.offset(4 as std::os::raw::c_int as isize));
     t2 = U8TO32_LE(key.offset(8 as std::os::raw::c_int as isize));
@@ -344,17 +343,17 @@ pub unsafe extern "C" fn GFp_poly1305_finish(
     mac: *mut uint8_t,
 ) {
     let mut state: *mut poly1305_state_st = poly1305_aligned_state(statep);
-    let mut f0: uint64_t = 0;
-    let mut f1: uint64_t = 0;
-    let mut f2: uint64_t = 0;
-    let mut f3: uint64_t = 0;
-    let mut g0: uint32_t = 0;
-    let mut g1: uint32_t = 0;
-    let mut g2: uint32_t = 0;
-    let mut g3: uint32_t = 0;
-    let mut g4: uint32_t = 0;
-    let mut b: uint32_t = 0;
-    let mut nb: uint32_t = 0;
+    let f0: uint64_t;
+    let mut f1: uint64_t;
+    let mut f2: uint64_t;
+    let mut f3: uint64_t;
+    let mut g0: uint32_t;
+    let mut g1: uint32_t;
+    let mut g2: uint32_t;
+    let mut g3: uint32_t;
+    let g4: uint32_t;
+    let mut b: uint32_t;
+    let nb: uint32_t;
     if (*state).buf_used != 0 {
         poly1305_update(state, ((*state).buf).as_mut_ptr(), (*state).buf_used);
     }
