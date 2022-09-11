@@ -147,7 +147,7 @@ mod sealed {
 
 #[cfg(target_os="xous")]
 mod c2rust {
-    mod aes_nohw;
+    pub mod aes_nohw;
     pub mod montgomery;
     mod montgomery_inv;
     pub mod limbs;

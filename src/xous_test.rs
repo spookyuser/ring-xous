@@ -1,3 +1,5 @@
+extern crate std;
+
 use alloc::{format, string::String, vec::Vec, vec};
 
 use crate::{bits, digest, error};
@@ -317,6 +319,19 @@ macro_rules! xous_test_file {
             contents: include_str!($file_name),
         }
     };
+}
+
+pub use crate::c2rust::aes_nohw;
+pub fn expand_aes_key(k: &[u8], schedule: *mut aes_nohw::aes_key_st) {
+    unsafe {
+        aes_nohw::GFp_aes_nohw_set_encrypt_key(k.as_ptr(), 256, schedule);
+    }
+}
+
+pub fn aes_encrypt(blk_in: &[u8], blk_out: &mut[u8], schedule: *const aes_nohw::aes_key_st) {
+    unsafe {
+        aes_nohw::GFp_aes_nohw_encrypt(blk_in.as_ptr(), blk_out.as_mut_ptr(), schedule);
+    }
 }
 
 use crate::ec::suite_b::ops::*;
