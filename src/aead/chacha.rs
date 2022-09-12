@@ -182,7 +182,7 @@ impl Key {
     }
 
     #[inline] // Optimize away match on `counter.`
-    #[cfg(target_arch="x86_64")]
+    #[cfg(not(target_arch="riscv32imac"))]
     unsafe fn encrypt(
         &self,
         counter: CounterOrIv,
