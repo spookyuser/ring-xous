@@ -264,6 +264,7 @@ mod sysrand_chunk {
 }
 
 #[cfg(all(
+    feature = "wasm32_unknown_unknown_js",
     target_arch = "wasm32",
     target_vendor = "unknown",
     target_os = "unknown",
@@ -288,6 +289,21 @@ mod sysrand_chunk {
             .map_err(|_| error::Unspecified)?;
 
         Ok(dest.len())
+    }
+}
+
+#[cfg(all(
+    not(feature = "wasm32_unknown_unknown_js"),
+    target_arch = "wasm32",
+    target_vendor = "unknown",
+    target_os = "unknown",
+    target_env = "",
+))]
+mod sysrand_chunk {
+    use crate::error;
+
+    pub fn chunk(mut _dest: &mut [u8]) -> Result<usize, error::Unspecified> {
+        unimplemented!()
     }
 }
 
