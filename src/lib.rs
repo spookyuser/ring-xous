@@ -81,7 +81,7 @@ extern crate alloc;
 #[macro_use]
 mod debug;
 
-#[cfg(target_os="xous")]
+#[cfg(any(target_arch="wasm32", target_os="xous"))]
 #[macro_use]
 mod prefixed;
 
@@ -109,11 +109,11 @@ pub mod io;
 
 mod cpu;
 pub mod digest;
-#[cfg(all(target_os="xous",not(target_arch="x86_64")))]
+#[cfg(any(target_arch="wasm32", all(target_os="xous",not(target_arch="x86_64"))))]
 pub mod ec_17;
-#[cfg(all(target_os="xous",not(target_arch="x86_64")))]
+#[cfg(any(target_arch="wasm32", all(target_os="xous",not(target_arch="x86_64"))))]
 pub use ec_17 as ec;
-#[cfg(not(all(target_os="xous",not(target_arch="x86_64"))))]
+#[cfg(not(any(target_arch="wasm32", all(target_os="xous",not(target_arch="x86_64")))))]
 mod ec;
 mod endian;
 pub mod error;
@@ -145,7 +145,7 @@ mod sealed {
     pub trait Sealed {}
 }
 
-#[cfg(target_os="xous")]
+#[cfg(any(target_arch="wasm32", target_os="xous"))]
 mod c2rust {
     pub mod aes_nohw;
     pub mod montgomery;
@@ -167,12 +167,12 @@ mod xous_rand;
 #[cfg(target_os="xous")]
 pub mod xous_test;
 
-#[cfg(target_os="xous")]
+#[cfg(any(target_arch="wasm32", target_os="xous"))]
 type c_char = i8;
-#[cfg(target_os="xous")]
+#[cfg(any(target_arch="wasm32", target_os="xous"))]
 type c_uint = u32;
-#[cfg(target_os="xous")]
 #[export_name = "__assert_fail"]
+#[cfg(any(target_arch="wasm32", target_os="xous"))]
 pub unsafe extern "C" fn __assert_fail(
     __assertion: *const c_char,
     __file: *const c_char,
@@ -181,4 +181,3 @@ pub unsafe extern "C" fn __assert_fail(
 ) -> ! {
     panic!("assert fail");
 }
-

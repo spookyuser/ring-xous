@@ -331,7 +331,7 @@ pub fn fold_5_bit_windows<R, I: FnOnce(Window) -> R, F: Fn(R, Window) -> R>(
         })
 }
 
-#[cfg(target_os="xous")]
+#[cfg(any(target_arch = "wasm32", target_os = "xous"))]
 #[inline]
 pub(crate) fn limbs_add_assign_mod(a: &mut [Limb], b: &[Limb], m: &[Limb]) {
     debug_assert_eq!(a.len(), m.len());
