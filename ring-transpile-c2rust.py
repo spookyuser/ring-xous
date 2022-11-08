@@ -64,17 +64,17 @@ def massage_line(line):
     line = line.replace("std::os::raw::c_uchar", "u8")
     line = line.replace("std::os::raw::c_schar", "i8")
     line = line.replace("std::os::raw::c_void", "u8")
-    line = line.replace("::std::mem::transmute", "std::mem::transmute")
-    line = line.replace("libc::c_char", "std::os::raw::c_char")
-    line = line.replace("libc::c_schar", "std::os::raw::c_schar")
-    line = line.replace("libc::c_uchar", "std::os::raw::c_uchar")
-    line = line.replace("libc::c_int", "std::os::raw::c_int")
-    line = line.replace("libc::c_uint", "std::os::raw::c_uint")
+    line = line.replace("::std::mem::transmute", "core::mem::transmute")
+    line = line.replace("libc::c_char", "core::ffi::c_char")
+    line = line.replace("libc::c_schar", "core::ffi::c_schar")
+    line = line.replace("libc::c_uchar", "core::ffi::c_uchar")
+    line = line.replace("libc::c_int", "core::ffi::c_int")
+    line = line.replace("libc::c_uint", "core::ffi::c_uint")
     line = line.replace("libc::c_ulonglong", "u64")
     line = line.replace("libc::c_longlong", "i64")
     line = line.replace("libc::c_ulong", "u32") # this must come after the longlong
     line = line.replace("libc::c_long", "i32")
-    line = line.replace("libc::c_void", "std::os::raw::c_void")
+    line = line.replace("libc::c_void", "core::ffi::c_void")
 
     # Fix program-specific oddities
     line = line.replace(" bf16", " u128") # fixed in https://github.com/immunant/c2rust/issues/486, but not yet released
@@ -84,9 +84,9 @@ def massage_line(line):
         line = line.replace("GFp_memset(", "let _ = GFp_memset(")
     if line == "GFp_bn_from_montgomery_in_place(":
         line = line.replace("GFp_bn_from_montgomery_in_place(", "let _ = GFp_bn_from_montgomery_in_place(")
-    line = line.replace("::std::mem::size_of", "std::mem::size_of")
-    line = line.replace("::std::vec::", "std::vec::")
-    line = line.replace(": Vec::", ": std::vec::Vec::")
+    line = line.replace("::std::mem::size_of", "core::mem::size_of")
+    line = line.replace("::std::vec::", "alloc::vec::")
+    line = line.replace(": Vec::", ": alloc::vec::Vec::")
     # line = line.replace(") = limbs_mul_add_limb(", ") = GFp_limbs_mul_add_limb(")
     line = line.replace("use std::arch::asm;", "")
     if p_sizeof.search(line):
@@ -235,7 +235,6 @@ def run():
                 print("#![allow(non_camel_case_types)]", file=dest_file)
                 print("#![allow(non_snake_case)]", file=dest_file)
                 print("#![allow(non_upper_case_globals)]", file=dest_file)
-                print("extern crate std;", file=dest_file)
                 #print("use core::ffi::*;", file=dest_file)
                 for line in src_file:
                     print(massage_line(line), file=dest_file)
