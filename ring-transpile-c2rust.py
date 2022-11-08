@@ -170,6 +170,7 @@ def lint():
                             line = line[:warn[2]-1] + '_' + line[warn[2]-1:]
                             # print("DEBUG: {}".format(subs[fname][line_no]))
                         elif "remove mut":
+                            # print("DEBUG: {}".format(line))
                             line = line[:warn[2]-1] + line[warn[2]+3:]
                         elif "unused func":
                             line = line[:warn[2]-1] + '_' + line[warn[2]-1:]
