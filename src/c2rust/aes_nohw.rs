@@ -1,36 +1,35 @@
 #![allow(non_camel_case_types)]
 #![allow(non_snake_case)]
 #![allow(non_upper_case_globals)]
-extern crate std;
 
 extern "C" {
     fn memcpy(
-        _: *mut std::os::raw::c_void,
-        _: *const std::os::raw::c_void,
-        _: std::os::raw::c_uint,
-    ) -> *mut std::os::raw::c_void;
+        _: *mut core::ffi::c_void,
+        _: *const core::ffi::c_void,
+        _: core::ffi::c_uint,
+    ) -> *mut core::ffi::c_void;
     fn memset(
-        _: *mut std::os::raw::c_void,
-        _: std::os::raw::c_int,
-        _: std::os::raw::c_uint,
-    ) -> *mut std::os::raw::c_void;
+        _: *mut core::ffi::c_void,
+        _: core::ffi::c_int,
+        _: core::ffi::c_uint,
+    ) -> *mut core::ffi::c_void;
     fn __assert_fail(
-        __assertion: *const std::os::raw::c_char,
-        __file: *const std::os::raw::c_char,
-        __line: std::os::raw::c_uint,
-        __function: *const std::os::raw::c_char,
+        __assertion: *const core::ffi::c_char,
+        __file: *const core::ffi::c_char,
+        __line: core::ffi::c_uint,
+        __function: *const core::ffi::c_char,
     ) -> !;
 }
-pub type size_t = std::os::raw::c_uint;
-pub type __uint8_t = std::os::raw::c_uchar;
-pub type __uint32_t = std::os::raw::c_uint;
+pub type size_t = core::ffi::c_uint;
+pub type __uint8_t = core::ffi::c_uchar;
+pub type __uint32_t = core::ffi::c_uint;
 pub type uint8_t = __uint8_t;
 pub type uint32_t = __uint32_t;
 #[derive(Copy, Clone)]
 #[repr(C)]
 pub struct aes_key_st {
     pub rd_key: [uint32_t; 60],
-    pub rounds: std::os::raw::c_uint,
+    pub rounds: core::ffi::c_uint,
 }
 pub type AES_KEY = aes_key_st;
 pub type aes_word_t = uint32_t;
@@ -56,22 +55,22 @@ unsafe extern "C" fn CRYPTO_bswap4(x: uint32_t) -> uint32_t {
 }
 #[inline]
 unsafe extern "C" fn GFp_memset(
-    dst: *mut std::os::raw::c_void,
-    c: std::os::raw::c_int,
+    dst: *mut core::ffi::c_void,
+    c: core::ffi::c_int,
     n: size_t,
-) -> *mut std::os::raw::c_void {
-    if n == 0 as std::os::raw::c_int as std::os::raw::c_uint {
+) -> *mut core::ffi::c_void {
+    if n == 0 as core::ffi::c_int as core::ffi::c_uint {
         return dst;
     }
     return memset(dst, c, n);
 }
 #[inline]
 unsafe extern "C" fn GFp_memcpy(
-    dst: *mut std::os::raw::c_void,
-    src: *const std::os::raw::c_void,
+    dst: *mut core::ffi::c_void,
+    src: *const core::ffi::c_void,
     n: size_t,
-) -> *mut std::os::raw::c_void {
-    if n == 0 as std::os::raw::c_int as std::os::raw::c_uint {
+) -> *mut core::ffi::c_void {
+    if n == 0 as core::ffi::c_int as core::ffi::c_uint {
         return dst;
     }
     return memcpy(dst, src, n);
@@ -94,11 +93,11 @@ unsafe extern "C" fn aes_nohw_not(a: aes_word_t) -> aes_word_t {
 }
 #[inline]
 unsafe extern "C" fn aes_nohw_shift_left(a: aes_word_t, i: aes_word_t) -> aes_word_t {
-    return a << i.wrapping_mul(2 as std::os::raw::c_int as std::os::raw::c_uint);
+    return a << i.wrapping_mul(2 as core::ffi::c_int as core::ffi::c_uint);
 }
 #[inline]
 unsafe extern "C" fn aes_nohw_shift_right(a: aes_word_t, i: aes_word_t) -> aes_word_t {
-    return a >> i.wrapping_mul(2 as std::os::raw::c_int as std::os::raw::c_uint);
+    return a >> i.wrapping_mul(2 as core::ffi::c_int as core::ffi::c_uint);
 }
 #[inline]
 unsafe extern "C" fn aes_nohw_batch_set(
@@ -106,13 +105,13 @@ unsafe extern "C" fn aes_nohw_batch_set(
     in_0: *const aes_word_t,
     i: size_t,
 ) {
-    (*batch).w[i as usize] = *in_0.offset(0 as std::os::raw::c_int as isize);
-    (*batch).w[i.wrapping_add(2 as std::os::raw::c_int as std::os::raw::c_uint) as usize] =
-        *in_0.offset(1 as std::os::raw::c_int as isize);
-    (*batch).w[i.wrapping_add(4 as std::os::raw::c_int as std::os::raw::c_uint) as usize] =
-        *in_0.offset(2 as std::os::raw::c_int as isize);
-    (*batch).w[i.wrapping_add(6 as std::os::raw::c_int as std::os::raw::c_uint) as usize] =
-        *in_0.offset(3 as std::os::raw::c_int as isize);
+    (*batch).w[i as usize] = *in_0.offset(0 as core::ffi::c_int as isize);
+    (*batch).w[i.wrapping_add(2 as core::ffi::c_int as core::ffi::c_uint) as usize] =
+        *in_0.offset(1 as core::ffi::c_int as isize);
+    (*batch).w[i.wrapping_add(4 as core::ffi::c_int as core::ffi::c_uint) as usize] =
+        *in_0.offset(2 as core::ffi::c_int as isize);
+    (*batch).w[i.wrapping_add(6 as core::ffi::c_int as core::ffi::c_uint) as usize] =
+        *in_0.offset(3 as core::ffi::c_int as isize);
 }
 #[inline]
 unsafe extern "C" fn aes_nohw_batch_get(
@@ -120,13 +119,13 @@ unsafe extern "C" fn aes_nohw_batch_get(
     out: *mut aes_word_t,
     i: size_t,
 ) {
-    *out.offset(0 as std::os::raw::c_int as isize) = (*batch).w[i as usize];
-    *out.offset(1 as std::os::raw::c_int as isize) =
-        (*batch).w[i.wrapping_add(2 as std::os::raw::c_int as std::os::raw::c_uint) as usize];
-    *out.offset(2 as std::os::raw::c_int as isize) =
-        (*batch).w[i.wrapping_add(4 as std::os::raw::c_int as std::os::raw::c_uint) as usize];
-    *out.offset(3 as std::os::raw::c_int as isize) =
-        (*batch).w[i.wrapping_add(6 as std::os::raw::c_int as std::os::raw::c_uint) as usize];
+    *out.offset(0 as core::ffi::c_int as isize) = (*batch).w[i as usize];
+    *out.offset(1 as core::ffi::c_int as isize) =
+        (*batch).w[i.wrapping_add(2 as core::ffi::c_int as core::ffi::c_uint) as usize];
+    *out.offset(2 as core::ffi::c_int as isize) =
+        (*batch).w[i.wrapping_add(4 as core::ffi::c_int as core::ffi::c_uint) as usize];
+    *out.offset(3 as core::ffi::c_int as isize) =
+        (*batch).w[i.wrapping_add(6 as core::ffi::c_int as core::ffi::c_uint) as usize];
 }
 #[inline]
 unsafe extern "C" fn aes_nohw_delta_swap(
@@ -141,13 +140,13 @@ unsafe extern "C" fn aes_nohw_delta_swap(
 unsafe extern "C" fn aes_nohw_compact_word(mut a: uint32_t) -> uint32_t {
     a = aes_nohw_delta_swap(
         a,
-        0xcc00cc as std::os::raw::c_int as aes_word_t,
-        6 as std::os::raw::c_int as aes_word_t,
+        0xcc00cc as core::ffi::c_int as aes_word_t,
+        6 as core::ffi::c_int as aes_word_t,
     );
     a = aes_nohw_delta_swap(
         a,
-        0xf0f0 as std::os::raw::c_int as aes_word_t,
-        12 as std::os::raw::c_int as aes_word_t,
+        0xf0f0 as core::ffi::c_int as aes_word_t,
+        12 as core::ffi::c_int as aes_word_t,
     );
     return a;
 }
@@ -155,13 +154,13 @@ unsafe extern "C" fn aes_nohw_compact_word(mut a: uint32_t) -> uint32_t {
 unsafe extern "C" fn aes_nohw_uncompact_word(mut a: uint32_t) -> uint32_t {
     a = aes_nohw_delta_swap(
         a,
-        0xf0f0 as std::os::raw::c_int as aes_word_t,
-        12 as std::os::raw::c_int as aes_word_t,
+        0xf0f0 as core::ffi::c_int as aes_word_t,
+        12 as core::ffi::c_int as aes_word_t,
     );
     a = aes_nohw_delta_swap(
         a,
-        0xcc00cc as std::os::raw::c_int as aes_word_t,
-        6 as std::os::raw::c_int as aes_word_t,
+        0xcc00cc as core::ffi::c_int as aes_word_t,
+        6 as core::ffi::c_int as aes_word_t,
     );
     return a;
 }
@@ -173,9 +172,9 @@ unsafe extern "C" fn aes_nohw_word_from_bytes(
     a3: uint8_t,
 ) -> uint32_t {
     return a0 as uint32_t
-        | (a1 as uint32_t) << 8 as std::os::raw::c_int
-        | (a2 as uint32_t) << 16 as std::os::raw::c_int
-        | (a3 as uint32_t) << 24 as std::os::raw::c_int;
+        | (a1 as uint32_t) << 8 as core::ffi::c_int
+        | (a2 as uint32_t) << 16 as core::ffi::c_int
+        | (a3 as uint32_t) << 24 as core::ffi::c_int;
 }
 #[inline]
 unsafe extern "C" fn lo(a: uint32_t) -> uint8_t {
@@ -184,83 +183,83 @@ unsafe extern "C" fn lo(a: uint32_t) -> uint8_t {
 #[inline]
 unsafe extern "C" fn aes_nohw_compact_block(out: *mut aes_word_t, in_0: *const uint8_t) {
     let _ = GFp_memcpy(
-        out as *mut std::os::raw::c_void,
-        in_0 as *const std::os::raw::c_void,
-        16 as std::os::raw::c_int as size_t,
+        out as *mut core::ffi::c_void,
+        in_0 as *const core::ffi::c_void,
+        16 as core::ffi::c_int as size_t,
     );
-    let a0: uint32_t = aes_nohw_compact_word(*out.offset(0 as std::os::raw::c_int as isize));
-    let a1: uint32_t = aes_nohw_compact_word(*out.offset(1 as std::os::raw::c_int as isize));
-    let a2: uint32_t = aes_nohw_compact_word(*out.offset(2 as std::os::raw::c_int as isize));
-    let a3: uint32_t = aes_nohw_compact_word(*out.offset(3 as std::os::raw::c_int as isize));
-    *out.offset(0 as std::os::raw::c_int as isize) =
+    let a0: uint32_t = aes_nohw_compact_word(*out.offset(0 as core::ffi::c_int as isize));
+    let a1: uint32_t = aes_nohw_compact_word(*out.offset(1 as core::ffi::c_int as isize));
+    let a2: uint32_t = aes_nohw_compact_word(*out.offset(2 as core::ffi::c_int as isize));
+    let a3: uint32_t = aes_nohw_compact_word(*out.offset(3 as core::ffi::c_int as isize));
+    *out.offset(0 as core::ffi::c_int as isize) =
         aes_nohw_word_from_bytes(lo(a0), lo(a1), lo(a2), lo(a3));
-    *out.offset(1 as std::os::raw::c_int as isize) = aes_nohw_word_from_bytes(
-        lo(a0 >> 8 as std::os::raw::c_int),
-        lo(a1 >> 8 as std::os::raw::c_int),
-        lo(a2 >> 8 as std::os::raw::c_int),
-        lo(a3 >> 8 as std::os::raw::c_int),
+    *out.offset(1 as core::ffi::c_int as isize) = aes_nohw_word_from_bytes(
+        lo(a0 >> 8 as core::ffi::c_int),
+        lo(a1 >> 8 as core::ffi::c_int),
+        lo(a2 >> 8 as core::ffi::c_int),
+        lo(a3 >> 8 as core::ffi::c_int),
     );
-    *out.offset(2 as std::os::raw::c_int as isize) = aes_nohw_word_from_bytes(
-        lo(a0 >> 16 as std::os::raw::c_int),
-        lo(a1 >> 16 as std::os::raw::c_int),
-        lo(a2 >> 16 as std::os::raw::c_int),
-        lo(a3 >> 16 as std::os::raw::c_int),
+    *out.offset(2 as core::ffi::c_int as isize) = aes_nohw_word_from_bytes(
+        lo(a0 >> 16 as core::ffi::c_int),
+        lo(a1 >> 16 as core::ffi::c_int),
+        lo(a2 >> 16 as core::ffi::c_int),
+        lo(a3 >> 16 as core::ffi::c_int),
     );
-    *out.offset(3 as std::os::raw::c_int as isize) = aes_nohw_word_from_bytes(
-        lo(a0 >> 24 as std::os::raw::c_int),
-        lo(a1 >> 24 as std::os::raw::c_int),
-        lo(a2 >> 24 as std::os::raw::c_int),
-        lo(a3 >> 24 as std::os::raw::c_int),
+    *out.offset(3 as core::ffi::c_int as isize) = aes_nohw_word_from_bytes(
+        lo(a0 >> 24 as core::ffi::c_int),
+        lo(a1 >> 24 as core::ffi::c_int),
+        lo(a2 >> 24 as core::ffi::c_int),
+        lo(a3 >> 24 as core::ffi::c_int),
     );
 }
 #[inline]
 unsafe extern "C" fn aes_nohw_uncompact_block(out: *mut uint8_t, in_0: *const aes_word_t) {
-    let a0: uint32_t = *in_0.offset(0 as std::os::raw::c_int as isize);
-    let a1: uint32_t = *in_0.offset(1 as std::os::raw::c_int as isize);
-    let a2: uint32_t = *in_0.offset(2 as std::os::raw::c_int as isize);
-    let a3: uint32_t = *in_0.offset(3 as std::os::raw::c_int as isize);
+    let a0: uint32_t = *in_0.offset(0 as core::ffi::c_int as isize);
+    let a1: uint32_t = *in_0.offset(1 as core::ffi::c_int as isize);
+    let a2: uint32_t = *in_0.offset(2 as core::ffi::c_int as isize);
+    let a3: uint32_t = *in_0.offset(3 as core::ffi::c_int as isize);
     let mut b0: uint32_t = aes_nohw_word_from_bytes(lo(a0), lo(a1), lo(a2), lo(a3));
     let mut b1: uint32_t = aes_nohw_word_from_bytes(
-        lo(a0 >> 8 as std::os::raw::c_int),
-        lo(a1 >> 8 as std::os::raw::c_int),
-        lo(a2 >> 8 as std::os::raw::c_int),
-        lo(a3 >> 8 as std::os::raw::c_int),
+        lo(a0 >> 8 as core::ffi::c_int),
+        lo(a1 >> 8 as core::ffi::c_int),
+        lo(a2 >> 8 as core::ffi::c_int),
+        lo(a3 >> 8 as core::ffi::c_int),
     );
     let mut b2: uint32_t = aes_nohw_word_from_bytes(
-        lo(a0 >> 16 as std::os::raw::c_int),
-        lo(a1 >> 16 as std::os::raw::c_int),
-        lo(a2 >> 16 as std::os::raw::c_int),
-        lo(a3 >> 16 as std::os::raw::c_int),
+        lo(a0 >> 16 as core::ffi::c_int),
+        lo(a1 >> 16 as core::ffi::c_int),
+        lo(a2 >> 16 as core::ffi::c_int),
+        lo(a3 >> 16 as core::ffi::c_int),
     );
     let mut b3: uint32_t = aes_nohw_word_from_bytes(
-        lo(a0 >> 24 as std::os::raw::c_int),
-        lo(a1 >> 24 as std::os::raw::c_int),
-        lo(a2 >> 24 as std::os::raw::c_int),
-        lo(a3 >> 24 as std::os::raw::c_int),
+        lo(a0 >> 24 as core::ffi::c_int),
+        lo(a1 >> 24 as core::ffi::c_int),
+        lo(a2 >> 24 as core::ffi::c_int),
+        lo(a3 >> 24 as core::ffi::c_int),
     );
     b0 = aes_nohw_uncompact_word(b0);
     b1 = aes_nohw_uncompact_word(b1);
     b2 = aes_nohw_uncompact_word(b2);
     b3 = aes_nohw_uncompact_word(b3);
     let _ = GFp_memcpy(
-        out as *mut std::os::raw::c_void,
-        &mut b0 as *mut uint32_t as *const std::os::raw::c_void,
-        4 as std::os::raw::c_int as size_t,
+        out as *mut core::ffi::c_void,
+        &mut b0 as *mut uint32_t as *const core::ffi::c_void,
+        4 as core::ffi::c_int as size_t,
     );
     let _ = GFp_memcpy(
-        out.offset(4 as std::os::raw::c_int as isize) as *mut std::os::raw::c_void,
-        &mut b1 as *mut uint32_t as *const std::os::raw::c_void,
-        4 as std::os::raw::c_int as size_t,
+        out.offset(4 as core::ffi::c_int as isize) as *mut core::ffi::c_void,
+        &mut b1 as *mut uint32_t as *const core::ffi::c_void,
+        4 as core::ffi::c_int as size_t,
     );
     let _ = GFp_memcpy(
-        out.offset(8 as std::os::raw::c_int as isize) as *mut std::os::raw::c_void,
-        &mut b2 as *mut uint32_t as *const std::os::raw::c_void,
-        4 as std::os::raw::c_int as size_t,
+        out.offset(8 as core::ffi::c_int as isize) as *mut core::ffi::c_void,
+        &mut b2 as *mut uint32_t as *const core::ffi::c_void,
+        4 as core::ffi::c_int as size_t,
     );
     let _ = GFp_memcpy(
-        out.offset(12 as std::os::raw::c_int as isize) as *mut std::os::raw::c_void,
-        &mut b3 as *mut uint32_t as *const std::os::raw::c_void,
-        4 as std::os::raw::c_int as size_t,
+        out.offset(12 as core::ffi::c_int as isize) as *mut core::ffi::c_void,
+        &mut b3 as *mut uint32_t as *const core::ffi::c_void,
+        4 as core::ffi::c_int as size_t,
     );
 }
 #[inline]
@@ -279,42 +278,42 @@ unsafe extern "C" fn aes_nohw_transpose(batch: *mut AES_NOHW_BATCH) {
     aes_nohw_swap_bits(
         &mut *((*batch).w)
             .as_mut_ptr()
-            .offset(0 as std::os::raw::c_int as isize),
+            .offset(0 as core::ffi::c_int as isize),
         &mut *((*batch).w)
             .as_mut_ptr()
-            .offset(1 as std::os::raw::c_int as isize),
-        0x55555555 as std::os::raw::c_int as uint32_t,
-        1 as std::os::raw::c_int as aes_word_t,
+            .offset(1 as core::ffi::c_int as isize),
+        0x55555555 as core::ffi::c_int as uint32_t,
+        1 as core::ffi::c_int as aes_word_t,
     );
     aes_nohw_swap_bits(
         &mut *((*batch).w)
             .as_mut_ptr()
-            .offset(2 as std::os::raw::c_int as isize),
+            .offset(2 as core::ffi::c_int as isize),
         &mut *((*batch).w)
             .as_mut_ptr()
-            .offset(3 as std::os::raw::c_int as isize),
-        0x55555555 as std::os::raw::c_int as uint32_t,
-        1 as std::os::raw::c_int as aes_word_t,
+            .offset(3 as core::ffi::c_int as isize),
+        0x55555555 as core::ffi::c_int as uint32_t,
+        1 as core::ffi::c_int as aes_word_t,
     );
     aes_nohw_swap_bits(
         &mut *((*batch).w)
             .as_mut_ptr()
-            .offset(4 as std::os::raw::c_int as isize),
+            .offset(4 as core::ffi::c_int as isize),
         &mut *((*batch).w)
             .as_mut_ptr()
-            .offset(5 as std::os::raw::c_int as isize),
-        0x55555555 as std::os::raw::c_int as uint32_t,
-        1 as std::os::raw::c_int as aes_word_t,
+            .offset(5 as core::ffi::c_int as isize),
+        0x55555555 as core::ffi::c_int as uint32_t,
+        1 as core::ffi::c_int as aes_word_t,
     );
     aes_nohw_swap_bits(
         &mut *((*batch).w)
             .as_mut_ptr()
-            .offset(6 as std::os::raw::c_int as isize),
+            .offset(6 as core::ffi::c_int as isize),
         &mut *((*batch).w)
             .as_mut_ptr()
-            .offset(7 as std::os::raw::c_int as isize),
-        0x55555555 as std::os::raw::c_int as uint32_t,
-        1 as std::os::raw::c_int as aes_word_t,
+            .offset(7 as core::ffi::c_int as isize),
+        0x55555555 as core::ffi::c_int as uint32_t,
+        1 as core::ffi::c_int as aes_word_t,
     );
 }
 unsafe extern "C" fn aes_nohw_to_batch(
@@ -323,30 +322,28 @@ unsafe extern "C" fn aes_nohw_to_batch(
     num_blocks: size_t,
 ) {
     let _ = GFp_memset(
-        out as *mut std::os::raw::c_void,
-        0 as std::os::raw::c_int,
-        std::mem::size_of::<AES_NOHW_BATCH>() as u32,
+        out as *mut core::ffi::c_void,
+        0 as core::ffi::c_int,
+        core::mem::size_of::<AES_NOHW_BATCH>() as u32,
     );
-    if num_blocks <= 2 as std::os::raw::c_int as std::os::raw::c_uint {
+    if num_blocks <= 2 as core::ffi::c_int as core::ffi::c_uint {
     } else {
         __assert_fail(
-            b"num_blocks <= 2\0" as *const u8 as *const std::os::raw::c_char,
-            b"crypto/fipsmodule/aes/aes_nohw.c\0" as *const u8 as *const std::os::raw::c_char,
-            479 as std::os::raw::c_int as std::os::raw::c_uint,
-            (*std::mem::transmute::<&[u8; 66], &[std::os::raw::c_char; 66]>(
+            b"num_blocks <= 2\0" as *const u8 as *const core::ffi::c_char,
+            b"crypto/fipsmodule/aes/aes_nohw.c\0" as *const u8 as *const core::ffi::c_char,
+            479 as core::ffi::c_int as core::ffi::c_uint,
+            (*core::mem::transmute::<&[u8; 66], &[core::ffi::c_char; 66]>(
                 b"void aes_nohw_to_batch(AES_NOHW_BATCH *, const uint8_t *, size_t)\0",
             ))
             .as_ptr(),
         );
     }
-    let mut i: size_t = 0 as std::os::raw::c_int as size_t;
+    let mut i: size_t = 0 as core::ffi::c_int as size_t;
     while i < num_blocks {
         let mut block: [aes_word_t; 4] = [0; 4];
         aes_nohw_compact_block(
             block.as_mut_ptr(),
-            in_0.offset(
-                (16 as std::os::raw::c_int as std::os::raw::c_uint).wrapping_mul(i) as isize,
-            ),
+            in_0.offset((16 as core::ffi::c_int as core::ffi::c_uint).wrapping_mul(i) as isize),
         );
         aes_nohw_batch_set(out, block.as_mut_ptr() as *const aes_word_t, i);
         i = i.wrapping_add(1);
@@ -360,26 +357,24 @@ unsafe extern "C" fn aes_nohw_from_batch(
 ) {
     let mut copy: AES_NOHW_BATCH = *batch;
     aes_nohw_transpose(&mut copy);
-    if num_blocks <= 2 as std::os::raw::c_int as std::os::raw::c_uint {
+    if num_blocks <= 2 as core::ffi::c_int as core::ffi::c_uint {
     } else {
         __assert_fail(
-            b"num_blocks <= 2\0" as *const u8 as *const std::os::raw::c_char,
-            b"crypto/fipsmodule/aes/aes_nohw.c\0" as *const u8 as *const std::os::raw::c_char,
-            496 as std::os::raw::c_int as std::os::raw::c_uint,
-            (*std::mem::transmute::<&[u8; 68], &[std::os::raw::c_char; 68]>(
+            b"num_blocks <= 2\0" as *const u8 as *const core::ffi::c_char,
+            b"crypto/fipsmodule/aes/aes_nohw.c\0" as *const u8 as *const core::ffi::c_char,
+            496 as core::ffi::c_int as core::ffi::c_uint,
+            (*core::mem::transmute::<&[u8; 68], &[core::ffi::c_char; 68]>(
                 b"void aes_nohw_from_batch(uint8_t *, size_t, const AES_NOHW_BATCH *)\0",
             ))
             .as_ptr(),
         );
     }
-    let mut i: size_t = 0 as std::os::raw::c_int as size_t;
+    let mut i: size_t = 0 as core::ffi::c_int as size_t;
     while i < num_blocks {
         let mut block: [aes_word_t; 4] = [0; 4];
         aes_nohw_batch_get(&mut copy, block.as_mut_ptr(), i);
         aes_nohw_uncompact_block(
-            out.offset(
-                (16 as std::os::raw::c_int as std::os::raw::c_uint).wrapping_mul(i) as isize,
-            ),
+            out.offset((16 as core::ffi::c_int as core::ffi::c_uint).wrapping_mul(i) as isize),
             block.as_mut_ptr() as *const aes_word_t,
         );
         i = i.wrapping_add(1);
@@ -389,21 +384,21 @@ unsafe extern "C" fn aes_nohw_add_round_key(
     mut batch: *mut AES_NOHW_BATCH,
     key: *const AES_NOHW_BATCH,
 ) {
-    let mut i: size_t = 0 as std::os::raw::c_int as size_t;
-    while i < 8 as std::os::raw::c_int as std::os::raw::c_uint {
+    let mut i: size_t = 0 as core::ffi::c_int as size_t;
+    while i < 8 as core::ffi::c_int as core::ffi::c_uint {
         (*batch).w[i as usize] = aes_nohw_xor((*batch).w[i as usize], (*key).w[i as usize]);
         i = i.wrapping_add(1);
     }
 }
 unsafe extern "C" fn aes_nohw_sub_bytes(mut batch: *mut AES_NOHW_BATCH) {
-    let x0: aes_word_t = (*batch).w[7 as std::os::raw::c_int as usize];
-    let x1: aes_word_t = (*batch).w[6 as std::os::raw::c_int as usize];
-    let x2: aes_word_t = (*batch).w[5 as std::os::raw::c_int as usize];
-    let x3: aes_word_t = (*batch).w[4 as std::os::raw::c_int as usize];
-    let x4: aes_word_t = (*batch).w[3 as std::os::raw::c_int as usize];
-    let x5: aes_word_t = (*batch).w[2 as std::os::raw::c_int as usize];
-    let x6: aes_word_t = (*batch).w[1 as std::os::raw::c_int as usize];
-    let x7: aes_word_t = (*batch).w[0 as std::os::raw::c_int as usize];
+    let x0: aes_word_t = (*batch).w[7 as core::ffi::c_int as usize];
+    let x1: aes_word_t = (*batch).w[6 as core::ffi::c_int as usize];
+    let x2: aes_word_t = (*batch).w[5 as core::ffi::c_int as usize];
+    let x3: aes_word_t = (*batch).w[4 as core::ffi::c_int as usize];
+    let x4: aes_word_t = (*batch).w[3 as core::ffi::c_int as usize];
+    let x5: aes_word_t = (*batch).w[2 as core::ffi::c_int as usize];
+    let x6: aes_word_t = (*batch).w[1 as core::ffi::c_int as usize];
+    let x7: aes_word_t = (*batch).w[0 as core::ffi::c_int as usize];
     let y14: aes_word_t = aes_nohw_xor(x3, x5);
     let y13: aes_word_t = aes_nohw_xor(x0, x6);
     let y9: aes_word_t = aes_nohw_xor(x0, x3);
@@ -519,62 +514,62 @@ unsafe extern "C" fn aes_nohw_sub_bytes(mut batch: *mut AES_NOHW_BATCH) {
     let s5: aes_word_t = aes_nohw_xor(t47, t65);
     let s1: aes_word_t = aes_nohw_xor(t64, aes_nohw_not(s3));
     let s2: aes_word_t = aes_nohw_xor(t55, aes_nohw_not(t67));
-    (*batch).w[0 as std::os::raw::c_int as usize] = s7;
-    (*batch).w[1 as std::os::raw::c_int as usize] = s6;
-    (*batch).w[2 as std::os::raw::c_int as usize] = s5;
-    (*batch).w[3 as std::os::raw::c_int as usize] = s4;
-    (*batch).w[4 as std::os::raw::c_int as usize] = s3;
-    (*batch).w[5 as std::os::raw::c_int as usize] = s2;
-    (*batch).w[6 as std::os::raw::c_int as usize] = s1;
-    (*batch).w[7 as std::os::raw::c_int as usize] = s0;
+    (*batch).w[0 as core::ffi::c_int as usize] = s7;
+    (*batch).w[1 as core::ffi::c_int as usize] = s6;
+    (*batch).w[2 as core::ffi::c_int as usize] = s5;
+    (*batch).w[3 as core::ffi::c_int as usize] = s4;
+    (*batch).w[4 as core::ffi::c_int as usize] = s3;
+    (*batch).w[5 as core::ffi::c_int as usize] = s2;
+    (*batch).w[6 as core::ffi::c_int as usize] = s1;
+    (*batch).w[7 as core::ffi::c_int as usize] = s0;
 }
 unsafe extern "C" fn aes_nohw_shift_rows(mut batch: *mut AES_NOHW_BATCH) {
-    let mut i: size_t = 0 as std::os::raw::c_int as size_t;
-    while i < 8 as std::os::raw::c_int as std::os::raw::c_uint {
+    let mut i: size_t = 0 as core::ffi::c_int as size_t;
+    while i < 8 as core::ffi::c_int as core::ffi::c_uint {
         let row0: aes_word_t = aes_nohw_and(
             (*batch).w[i as usize],
-            0x3030303 as std::os::raw::c_int as aes_word_t,
+            0x3030303 as core::ffi::c_int as aes_word_t,
         );
         let mut row1: aes_word_t = aes_nohw_and(
             (*batch).w[i as usize],
-            0xc0c0c0c as std::os::raw::c_int as aes_word_t,
+            0xc0c0c0c as core::ffi::c_int as aes_word_t,
         );
         let mut row2: aes_word_t = aes_nohw_and(
             (*batch).w[i as usize],
-            0x30303030 as std::os::raw::c_int as aes_word_t,
+            0x30303030 as core::ffi::c_int as aes_word_t,
         );
         let mut row3: aes_word_t =
-            aes_nohw_and((*batch).w[i as usize], 0xc0c0c0c0 as std::os::raw::c_uint);
+            aes_nohw_and((*batch).w[i as usize], 0xc0c0c0c0 as core::ffi::c_uint);
         row1 = aes_nohw_or(
             aes_nohw_shift_right(
                 row1,
-                (1 as std::os::raw::c_int * 4 as std::os::raw::c_int) as aes_word_t,
+                (1 as core::ffi::c_int * 4 as core::ffi::c_int) as aes_word_t,
             ),
             aes_nohw_shift_left(
                 row1,
-                (16 as std::os::raw::c_int - 1 as std::os::raw::c_int * 4 as std::os::raw::c_int)
+                (16 as core::ffi::c_int - 1 as core::ffi::c_int * 4 as core::ffi::c_int)
                     as aes_word_t,
             ),
         );
         row2 = aes_nohw_or(
             aes_nohw_shift_right(
                 row2,
-                (2 as std::os::raw::c_int * 4 as std::os::raw::c_int) as aes_word_t,
+                (2 as core::ffi::c_int * 4 as core::ffi::c_int) as aes_word_t,
             ),
             aes_nohw_shift_left(
                 row2,
-                (16 as std::os::raw::c_int - 2 as std::os::raw::c_int * 4 as std::os::raw::c_int)
+                (16 as core::ffi::c_int - 2 as core::ffi::c_int * 4 as core::ffi::c_int)
                     as aes_word_t,
             ),
         );
         row3 = aes_nohw_or(
             aes_nohw_shift_right(
                 row3,
-                (3 as std::os::raw::c_int * 4 as std::os::raw::c_int) as aes_word_t,
+                (3 as core::ffi::c_int * 4 as core::ffi::c_int) as aes_word_t,
             ),
             aes_nohw_shift_left(
                 row3,
-                (16 as std::os::raw::c_int - 3 as std::os::raw::c_int * 4 as std::os::raw::c_int)
+                (16 as core::ffi::c_int - 3 as core::ffi::c_int * 4 as core::ffi::c_int)
                     as aes_word_t,
             ),
         );
@@ -584,25 +579,23 @@ unsafe extern "C" fn aes_nohw_shift_rows(mut batch: *mut AES_NOHW_BATCH) {
 }
 #[inline]
 unsafe extern "C" fn aes_nohw_rotate_rows_down(v: aes_word_t) -> aes_word_t {
-    return v >> 2 as std::os::raw::c_int
-        & 0x3f3f3f3f as std::os::raw::c_int as std::os::raw::c_uint
-        | v << 6 as std::os::raw::c_int & 0xc0c0c0c0 as std::os::raw::c_uint;
+    return v >> 2 as core::ffi::c_int & 0x3f3f3f3f as core::ffi::c_int as core::ffi::c_uint
+        | v << 6 as core::ffi::c_int & 0xc0c0c0c0 as core::ffi::c_uint;
 }
 #[inline]
 unsafe extern "C" fn aes_nohw_rotate_rows_twice(v: aes_word_t) -> aes_word_t {
-    return v >> 4 as std::os::raw::c_int
-        & 0xf0f0f0f as std::os::raw::c_int as std::os::raw::c_uint
-        | v << 4 as std::os::raw::c_int & 0xf0f0f0f0 as std::os::raw::c_uint;
+    return v >> 4 as core::ffi::c_int & 0xf0f0f0f as core::ffi::c_int as core::ffi::c_uint
+        | v << 4 as core::ffi::c_int & 0xf0f0f0f0 as core::ffi::c_uint;
 }
 unsafe extern "C" fn aes_nohw_mix_columns(mut batch: *mut AES_NOHW_BATCH) {
-    let a0: aes_word_t = (*batch).w[0 as std::os::raw::c_int as usize];
-    let a1: aes_word_t = (*batch).w[1 as std::os::raw::c_int as usize];
-    let a2: aes_word_t = (*batch).w[2 as std::os::raw::c_int as usize];
-    let a3: aes_word_t = (*batch).w[3 as std::os::raw::c_int as usize];
-    let a4: aes_word_t = (*batch).w[4 as std::os::raw::c_int as usize];
-    let a5: aes_word_t = (*batch).w[5 as std::os::raw::c_int as usize];
-    let a6: aes_word_t = (*batch).w[6 as std::os::raw::c_int as usize];
-    let a7: aes_word_t = (*batch).w[7 as std::os::raw::c_int as usize];
+    let a0: aes_word_t = (*batch).w[0 as core::ffi::c_int as usize];
+    let a1: aes_word_t = (*batch).w[1 as core::ffi::c_int as usize];
+    let a2: aes_word_t = (*batch).w[2 as core::ffi::c_int as usize];
+    let a3: aes_word_t = (*batch).w[3 as core::ffi::c_int as usize];
+    let a4: aes_word_t = (*batch).w[4 as core::ffi::c_int as usize];
+    let a5: aes_word_t = (*batch).w[5 as core::ffi::c_int as usize];
+    let a6: aes_word_t = (*batch).w[6 as core::ffi::c_int as usize];
+    let a7: aes_word_t = (*batch).w[7 as core::ffi::c_int as usize];
     let r0: aes_word_t = aes_nohw_rotate_rows_down(a0);
     let a0_r0: aes_word_t = aes_nohw_xor(a0, r0);
     let r1: aes_word_t = aes_nohw_rotate_rows_down(a1);
@@ -619,27 +612,27 @@ unsafe extern "C" fn aes_nohw_mix_columns(mut batch: *mut AES_NOHW_BATCH) {
     let a6_r6: aes_word_t = aes_nohw_xor(a6, r6);
     let r7: aes_word_t = aes_nohw_rotate_rows_down(a7);
     let a7_r7: aes_word_t = aes_nohw_xor(a7, r7);
-    (*batch).w[0 as std::os::raw::c_int as usize] =
+    (*batch).w[0 as core::ffi::c_int as usize] =
         aes_nohw_xor(aes_nohw_xor(a7_r7, r0), aes_nohw_rotate_rows_twice(a0_r0));
-    (*batch).w[1 as std::os::raw::c_int as usize] = aes_nohw_xor(
+    (*batch).w[1 as core::ffi::c_int as usize] = aes_nohw_xor(
         aes_nohw_xor(a0_r0, a7_r7),
         aes_nohw_xor(r1, aes_nohw_rotate_rows_twice(a1_r1)),
     );
-    (*batch).w[2 as std::os::raw::c_int as usize] =
+    (*batch).w[2 as core::ffi::c_int as usize] =
         aes_nohw_xor(aes_nohw_xor(a1_r1, r2), aes_nohw_rotate_rows_twice(a2_r2));
-    (*batch).w[3 as std::os::raw::c_int as usize] = aes_nohw_xor(
+    (*batch).w[3 as core::ffi::c_int as usize] = aes_nohw_xor(
         aes_nohw_xor(a2_r2, a7_r7),
         aes_nohw_xor(r3, aes_nohw_rotate_rows_twice(a3_r3)),
     );
-    (*batch).w[4 as std::os::raw::c_int as usize] = aes_nohw_xor(
+    (*batch).w[4 as core::ffi::c_int as usize] = aes_nohw_xor(
         aes_nohw_xor(a3_r3, a7_r7),
         aes_nohw_xor(r4, aes_nohw_rotate_rows_twice(a4_r4)),
     );
-    (*batch).w[5 as std::os::raw::c_int as usize] =
+    (*batch).w[5 as core::ffi::c_int as usize] =
         aes_nohw_xor(aes_nohw_xor(a4_r4, r5), aes_nohw_rotate_rows_twice(a5_r5));
-    (*batch).w[6 as std::os::raw::c_int as usize] =
+    (*batch).w[6 as core::ffi::c_int as usize] =
         aes_nohw_xor(aes_nohw_xor(a5_r5, r6), aes_nohw_rotate_rows_twice(a6_r6));
-    (*batch).w[7 as std::os::raw::c_int as usize] =
+    (*batch).w[7 as core::ffi::c_int as usize] =
         aes_nohw_xor(aes_nohw_xor(a6_r6, r7), aes_nohw_rotate_rows_twice(a7_r7));
 }
 unsafe extern "C" fn aes_nohw_encrypt_batch(
@@ -651,9 +644,9 @@ unsafe extern "C" fn aes_nohw_encrypt_batch(
         batch,
         &*((*key).keys)
             .as_ptr()
-            .offset(0 as std::os::raw::c_int as isize),
+            .offset(0 as core::ffi::c_int as isize),
     );
-    let mut i: size_t = 1 as std::os::raw::c_int as size_t;
+    let mut i: size_t = 1 as core::ffi::c_int as size_t;
     while i < num_rounds {
         aes_nohw_sub_bytes(batch);
         aes_nohw_shift_rows(batch);
@@ -669,17 +662,18 @@ unsafe extern "C" fn aes_nohw_expand_round_keys(
     out: *mut AES_NOHW_SCHEDULE,
     key: *const AES_KEY,
 ) {
-    let mut i: std::os::raw::c_uint = 0 as std::os::raw::c_int as std::os::raw::c_uint;
+    let mut i: core::ffi::c_uint = 0 as core::ffi::c_int as core::ffi::c_uint;
     while i <= (*key).rounds {
-        let mut j: size_t = 0 as std::os::raw::c_int as size_t;
-        while j < 2 as std::os::raw::c_int as std::os::raw::c_uint {
+        let mut j: size_t = 0 as core::ffi::c_int as size_t;
+        while j < 2 as core::ffi::c_int as core::ffi::c_uint {
             let mut tmp: [aes_word_t; 4] = [0; 4];
             let _ = GFp_memcpy(
-                tmp.as_mut_ptr() as *mut std::os::raw::c_void,
-                ((*key).rd_key).as_ptr().offset(
-                    (4 as std::os::raw::c_int as std::os::raw::c_uint).wrapping_mul(i) as isize,
-                ) as *const std::os::raw::c_void,
-                16 as std::os::raw::c_int as size_t,
+                tmp.as_mut_ptr() as *mut core::ffi::c_void,
+                ((*key).rd_key)
+                    .as_ptr()
+                    .offset((4 as core::ffi::c_int as core::ffi::c_uint).wrapping_mul(i) as isize)
+                    as *const core::ffi::c_void,
+                16 as core::ffi::c_int as size_t,
             );
             aes_nohw_batch_set(
                 &mut *((*out).keys).as_mut_ptr().offset(i as isize),
@@ -693,217 +687,215 @@ unsafe extern "C" fn aes_nohw_expand_round_keys(
     }
 }
 static mut aes_nohw_rcon: [uint8_t; 10] = [
-    0x1 as std::os::raw::c_int as uint8_t,
-    0x2 as std::os::raw::c_int as uint8_t,
-    0x4 as std::os::raw::c_int as uint8_t,
-    0x8 as std::os::raw::c_int as uint8_t,
-    0x10 as std::os::raw::c_int as uint8_t,
-    0x20 as std::os::raw::c_int as uint8_t,
-    0x40 as std::os::raw::c_int as uint8_t,
-    0x80 as std::os::raw::c_int as uint8_t,
-    0x1b as std::os::raw::c_int as uint8_t,
-    0x36 as std::os::raw::c_int as uint8_t,
+    0x1 as core::ffi::c_int as uint8_t,
+    0x2 as core::ffi::c_int as uint8_t,
+    0x4 as core::ffi::c_int as uint8_t,
+    0x8 as core::ffi::c_int as uint8_t,
+    0x10 as core::ffi::c_int as uint8_t,
+    0x20 as core::ffi::c_int as uint8_t,
+    0x40 as core::ffi::c_int as uint8_t,
+    0x80 as core::ffi::c_int as uint8_t,
+    0x1b as core::ffi::c_int as uint8_t,
+    0x36 as core::ffi::c_int as uint8_t,
 ];
 #[inline]
 unsafe extern "C" fn aes_nohw_rcon_slice(mut rcon: uint8_t, i: size_t) -> aes_word_t {
-    rcon = (rcon as std::os::raw::c_int
-        >> i.wrapping_mul(2 as std::os::raw::c_int as std::os::raw::c_uint)
-        & ((1 as std::os::raw::c_int) << 2 as std::os::raw::c_int) - 1 as std::os::raw::c_int)
+    rcon = (rcon as core::ffi::c_int >> i.wrapping_mul(2 as core::ffi::c_int as core::ffi::c_uint)
+        & ((1 as core::ffi::c_int) << 2 as core::ffi::c_int) - 1 as core::ffi::c_int)
         as uint8_t;
     return rcon as aes_word_t;
 }
 unsafe extern "C" fn aes_nohw_sub_block(out: *mut aes_word_t, in_0: *const aes_word_t) {
     let mut batch: AES_NOHW_BATCH = AES_NOHW_BATCH { w: [0; 8] };
     let _ = GFp_memset(
-        &mut batch as *mut AES_NOHW_BATCH as *mut std::os::raw::c_void,
-        0 as std::os::raw::c_int,
-        std::mem::size_of::<AES_NOHW_BATCH>() as u32,
+        &mut batch as *mut AES_NOHW_BATCH as *mut core::ffi::c_void,
+        0 as core::ffi::c_int,
+        core::mem::size_of::<AES_NOHW_BATCH>() as u32,
     );
-    aes_nohw_batch_set(&mut batch, in_0, 0 as std::os::raw::c_int as size_t);
+    aes_nohw_batch_set(&mut batch, in_0, 0 as core::ffi::c_int as size_t);
     aes_nohw_transpose(&mut batch);
     aes_nohw_sub_bytes(&mut batch);
     aes_nohw_transpose(&mut batch);
-    aes_nohw_batch_get(&mut batch, out, 0 as std::os::raw::c_int as size_t);
+    aes_nohw_batch_get(&mut batch, out, 0 as core::ffi::c_int as size_t);
 }
 unsafe extern "C" fn aes_nohw_setup_key_128(mut key: *mut AES_KEY, in_0: *const uint8_t) {
-    (*key).rounds = 10 as std::os::raw::c_int as std::os::raw::c_uint;
+    (*key).rounds = 10 as core::ffi::c_int as core::ffi::c_uint;
     let mut block: [aes_word_t; 4] = [0; 4];
     aes_nohw_compact_block(block.as_mut_ptr(), in_0);
     let _ = GFp_memcpy(
-        ((*key).rd_key).as_mut_ptr() as *mut std::os::raw::c_void,
-        block.as_mut_ptr() as *const std::os::raw::c_void,
-        16 as std::os::raw::c_int as size_t,
+        ((*key).rd_key).as_mut_ptr() as *mut core::ffi::c_void,
+        block.as_mut_ptr() as *const core::ffi::c_void,
+        16 as core::ffi::c_int as size_t,
     );
-    let mut i: size_t = 1 as std::os::raw::c_int as size_t;
-    while i <= 10 as std::os::raw::c_int as std::os::raw::c_uint {
+    let mut i: size_t = 1 as core::ffi::c_int as size_t;
+    while i <= 10 as core::ffi::c_int as core::ffi::c_uint {
         let mut sub: [aes_word_t; 4] = [0; 4];
         aes_nohw_sub_block(sub.as_mut_ptr(), block.as_mut_ptr() as *const aes_word_t);
-        let rcon: uint8_t = aes_nohw_rcon
-            [i.wrapping_sub(1 as std::os::raw::c_int as std::os::raw::c_uint) as usize];
-        let mut j: size_t = 0 as std::os::raw::c_int as size_t;
+        let rcon: uint8_t =
+            aes_nohw_rcon[i.wrapping_sub(1 as core::ffi::c_int as core::ffi::c_uint) as usize];
+        let mut j: size_t = 0 as core::ffi::c_int as size_t;
         while j
-            < (16 as std::os::raw::c_int as std::os::raw::c_uint)
-                .wrapping_div(std::mem::size_of::<aes_word_t>() as u32)
+            < (16 as core::ffi::c_int as core::ffi::c_uint)
+                .wrapping_div(core::mem::size_of::<aes_word_t>() as u32)
         {
             block[j as usize] = aes_nohw_xor(block[j as usize], aes_nohw_rcon_slice(rcon, j));
             block[j as usize] = aes_nohw_xor(
                 block[j as usize],
                 aes_nohw_shift_right(
                     aes_nohw_rotate_rows_down(sub[j as usize]),
-                    12 as std::os::raw::c_int as aes_word_t,
+                    12 as core::ffi::c_int as aes_word_t,
                 ),
             );
             let v: aes_word_t = block[j as usize];
             block[j as usize] = aes_nohw_xor(
                 block[j as usize],
-                aes_nohw_shift_left(v, 4 as std::os::raw::c_int as aes_word_t),
+                aes_nohw_shift_left(v, 4 as core::ffi::c_int as aes_word_t),
             );
             block[j as usize] = aes_nohw_xor(
                 block[j as usize],
-                aes_nohw_shift_left(v, 8 as std::os::raw::c_int as aes_word_t),
+                aes_nohw_shift_left(v, 8 as core::ffi::c_int as aes_word_t),
             );
             block[j as usize] = aes_nohw_xor(
                 block[j as usize],
-                aes_nohw_shift_left(v, 12 as std::os::raw::c_int as aes_word_t),
+                aes_nohw_shift_left(v, 12 as core::ffi::c_int as aes_word_t),
             );
             j = j.wrapping_add(1);
         }
         let _ = GFp_memcpy(
             ((*key).rd_key)
                 .as_mut_ptr()
-                .offset((4 as std::os::raw::c_int as std::os::raw::c_uint).wrapping_mul(i) as isize)
-                as *mut std::os::raw::c_void,
-            block.as_mut_ptr() as *const std::os::raw::c_void,
-            16 as std::os::raw::c_int as size_t,
+                .offset((4 as core::ffi::c_int as core::ffi::c_uint).wrapping_mul(i) as isize)
+                as *mut core::ffi::c_void,
+            block.as_mut_ptr() as *const core::ffi::c_void,
+            16 as core::ffi::c_int as size_t,
         );
         i = i.wrapping_add(1);
     }
 }
 unsafe extern "C" fn aes_nohw_setup_key_256(mut key: *mut AES_KEY, in_0: *const uint8_t) {
-    (*key).rounds = 14 as std::os::raw::c_int as std::os::raw::c_uint;
+    (*key).rounds = 14 as core::ffi::c_int as core::ffi::c_uint;
     let mut block1: [aes_word_t; 4] = [0; 4];
     let mut block2: [aes_word_t; 4] = [0; 4];
     aes_nohw_compact_block(block1.as_mut_ptr(), in_0);
     let _ = GFp_memcpy(
-        ((*key).rd_key).as_mut_ptr() as *mut std::os::raw::c_void,
-        block1.as_mut_ptr() as *const std::os::raw::c_void,
-        16 as std::os::raw::c_int as size_t,
+        ((*key).rd_key).as_mut_ptr() as *mut core::ffi::c_void,
+        block1.as_mut_ptr() as *const core::ffi::c_void,
+        16 as core::ffi::c_int as size_t,
     );
     aes_nohw_compact_block(
         block2.as_mut_ptr(),
-        in_0.offset(16 as std::os::raw::c_int as isize),
+        in_0.offset(16 as core::ffi::c_int as isize),
     );
     let _ = GFp_memcpy(
         ((*key).rd_key)
             .as_mut_ptr()
-            .offset(4 as std::os::raw::c_int as isize) as *mut std::os::raw::c_void,
-        block2.as_mut_ptr() as *const std::os::raw::c_void,
-        16 as std::os::raw::c_int as size_t,
+            .offset(4 as core::ffi::c_int as isize) as *mut core::ffi::c_void,
+        block2.as_mut_ptr() as *const core::ffi::c_void,
+        16 as core::ffi::c_int as size_t,
     );
-    let mut i: size_t = 2 as std::os::raw::c_int as size_t;
-    while i <= 14 as std::os::raw::c_int as std::os::raw::c_uint {
+    let mut i: size_t = 2 as core::ffi::c_int as size_t;
+    while i <= 14 as core::ffi::c_int as core::ffi::c_uint {
         let mut sub: [aes_word_t; 4] = [0; 4];
         aes_nohw_sub_block(sub.as_mut_ptr(), block2.as_mut_ptr() as *const aes_word_t);
         let rcon: uint8_t = aes_nohw_rcon[i
-            .wrapping_div(2 as std::os::raw::c_int as std::os::raw::c_uint)
-            .wrapping_sub(1 as std::os::raw::c_int as std::os::raw::c_uint)
+            .wrapping_div(2 as core::ffi::c_int as core::ffi::c_uint)
+            .wrapping_sub(1 as core::ffi::c_int as core::ffi::c_uint)
             as usize];
-        let mut j: size_t = 0 as std::os::raw::c_int as size_t;
+        let mut j: size_t = 0 as core::ffi::c_int as size_t;
         while j
-            < (16 as std::os::raw::c_int as std::os::raw::c_uint)
-                .wrapping_div(std::mem::size_of::<aes_word_t>() as u32)
+            < (16 as core::ffi::c_int as core::ffi::c_uint)
+                .wrapping_div(core::mem::size_of::<aes_word_t>() as u32)
         {
             block1[j as usize] = aes_nohw_xor(block1[j as usize], aes_nohw_rcon_slice(rcon, j));
             block1[j as usize] = aes_nohw_xor(
                 block1[j as usize],
                 aes_nohw_shift_right(
                     aes_nohw_rotate_rows_down(sub[j as usize]),
-                    12 as std::os::raw::c_int as aes_word_t,
+                    12 as core::ffi::c_int as aes_word_t,
                 ),
             );
             let v: aes_word_t = block1[j as usize];
             block1[j as usize] = aes_nohw_xor(
                 block1[j as usize],
-                aes_nohw_shift_left(v, 4 as std::os::raw::c_int as aes_word_t),
+                aes_nohw_shift_left(v, 4 as core::ffi::c_int as aes_word_t),
             );
             block1[j as usize] = aes_nohw_xor(
                 block1[j as usize],
-                aes_nohw_shift_left(v, 8 as std::os::raw::c_int as aes_word_t),
+                aes_nohw_shift_left(v, 8 as core::ffi::c_int as aes_word_t),
             );
             block1[j as usize] = aes_nohw_xor(
                 block1[j as usize],
-                aes_nohw_shift_left(v, 12 as std::os::raw::c_int as aes_word_t),
+                aes_nohw_shift_left(v, 12 as core::ffi::c_int as aes_word_t),
             );
             j = j.wrapping_add(1);
         }
         let _ = GFp_memcpy(
             ((*key).rd_key)
                 .as_mut_ptr()
-                .offset((4 as std::os::raw::c_int as std::os::raw::c_uint).wrapping_mul(i) as isize)
-                as *mut std::os::raw::c_void,
-            block1.as_mut_ptr() as *const std::os::raw::c_void,
-            16 as std::os::raw::c_int as size_t,
+                .offset((4 as core::ffi::c_int as core::ffi::c_uint).wrapping_mul(i) as isize)
+                as *mut core::ffi::c_void,
+            block1.as_mut_ptr() as *const core::ffi::c_void,
+            16 as core::ffi::c_int as size_t,
         );
-        if i == 14 as std::os::raw::c_int as std::os::raw::c_uint {
+        if i == 14 as core::ffi::c_int as core::ffi::c_uint {
             break;
         }
         aes_nohw_sub_block(sub.as_mut_ptr(), block1.as_mut_ptr() as *const aes_word_t);
-        let mut j_0: size_t = 0 as std::os::raw::c_int as size_t;
+        let mut j_0: size_t = 0 as core::ffi::c_int as size_t;
         while j_0
-            < (16 as std::os::raw::c_int as std::os::raw::c_uint)
-                .wrapping_div(std::mem::size_of::<aes_word_t>() as u32)
+            < (16 as core::ffi::c_int as core::ffi::c_uint)
+                .wrapping_div(core::mem::size_of::<aes_word_t>() as u32)
         {
             block2[j_0 as usize] = aes_nohw_xor(
                 block2[j_0 as usize],
-                aes_nohw_shift_right(sub[j_0 as usize], 12 as std::os::raw::c_int as aes_word_t),
+                aes_nohw_shift_right(sub[j_0 as usize], 12 as core::ffi::c_int as aes_word_t),
             );
             let v_0: aes_word_t = block2[j_0 as usize];
             block2[j_0 as usize] = aes_nohw_xor(
                 block2[j_0 as usize],
-                aes_nohw_shift_left(v_0, 4 as std::os::raw::c_int as aes_word_t),
+                aes_nohw_shift_left(v_0, 4 as core::ffi::c_int as aes_word_t),
             );
             block2[j_0 as usize] = aes_nohw_xor(
                 block2[j_0 as usize],
-                aes_nohw_shift_left(v_0, 8 as std::os::raw::c_int as aes_word_t),
+                aes_nohw_shift_left(v_0, 8 as core::ffi::c_int as aes_word_t),
             );
             block2[j_0 as usize] = aes_nohw_xor(
                 block2[j_0 as usize],
-                aes_nohw_shift_left(v_0, 12 as std::os::raw::c_int as aes_word_t),
+                aes_nohw_shift_left(v_0, 12 as core::ffi::c_int as aes_word_t),
             );
             j_0 = j_0.wrapping_add(1);
         }
         let _ = GFp_memcpy(
             ((*key).rd_key).as_mut_ptr().offset(
-                (4 as std::os::raw::c_int as std::os::raw::c_uint)
-                    .wrapping_mul(i.wrapping_add(1 as std::os::raw::c_int as std::os::raw::c_uint))
+                (4 as core::ffi::c_int as core::ffi::c_uint)
+                    .wrapping_mul(i.wrapping_add(1 as core::ffi::c_int as core::ffi::c_uint))
                     as isize,
-            ) as *mut std::os::raw::c_void,
-            block2.as_mut_ptr() as *const std::os::raw::c_void,
-            16 as std::os::raw::c_int as size_t,
+            ) as *mut core::ffi::c_void,
+            block2.as_mut_ptr() as *const core::ffi::c_void,
+            16 as core::ffi::c_int as size_t,
         );
-        i = (i as std::os::raw::c_uint)
-            .wrapping_add(2 as std::os::raw::c_int as std::os::raw::c_uint) as size_t
-            as size_t;
+        i = (i as core::ffi::c_uint).wrapping_add(2 as core::ffi::c_int as core::ffi::c_uint)
+            as size_t as size_t;
     }
 }
 #[no_mangle]
 pub unsafe extern "C" fn GFp_aes_nohw_set_encrypt_key(
     key: *const uint8_t,
-    bits: std::os::raw::c_uint,
+    bits: core::ffi::c_uint,
     aeskey: *mut AES_KEY,
-) -> std::os::raw::c_int {
+) -> core::ffi::c_int {
     match bits {
         128 => {
             aes_nohw_setup_key_128(aeskey, key);
-            return 0 as std::os::raw::c_int;
+            return 0 as core::ffi::c_int;
         }
         256 => {
             aes_nohw_setup_key_256(aeskey, key);
-            return 0 as std::os::raw::c_int;
+            return 0 as core::ffi::c_int;
         }
         _ => {}
     }
-    return 1 as std::os::raw::c_int;
+    return 1 as core::ffi::c_int;
 }
 #[no_mangle]
 pub unsafe extern "C" fn GFp_aes_nohw_encrypt(
@@ -916,9 +908,9 @@ pub unsafe extern "C" fn GFp_aes_nohw_encrypt(
     };
     aes_nohw_expand_round_keys(&mut sched, key);
     let mut batch: AES_NOHW_BATCH = AES_NOHW_BATCH { w: [0; 8] };
-    aes_nohw_to_batch(&mut batch, in_0, 1 as std::os::raw::c_int as size_t);
+    aes_nohw_to_batch(&mut batch, in_0, 1 as core::ffi::c_int as size_t);
     aes_nohw_encrypt_batch(&mut sched, (*key).rounds, &mut batch);
-    aes_nohw_from_batch(out, 1 as std::os::raw::c_int as size_t, &mut batch);
+    aes_nohw_from_batch(out, 1 as core::ffi::c_int as size_t, &mut batch);
 }
 #[inline]
 unsafe extern "C" fn aes_nohw_xor_block(
@@ -926,27 +918,27 @@ unsafe extern "C" fn aes_nohw_xor_block(
     a: *const uint8_t,
     b: *const uint8_t,
 ) {
-    let mut i: size_t = 0 as std::os::raw::c_int as size_t;
-    while i < 16 as std::os::raw::c_int as std::os::raw::c_uint {
+    let mut i: size_t = 0 as core::ffi::c_int as size_t;
+    while i < 16 as core::ffi::c_int as core::ffi::c_uint {
         let mut x: aes_word_t = 0;
         let mut y: aes_word_t = 0;
         let _ = GFp_memcpy(
-            &mut x as *mut aes_word_t as *mut std::os::raw::c_void,
-            a.offset(i as isize) as *const std::os::raw::c_void,
-            std::mem::size_of::<aes_word_t>() as u32,
+            &mut x as *mut aes_word_t as *mut core::ffi::c_void,
+            a.offset(i as isize) as *const core::ffi::c_void,
+            core::mem::size_of::<aes_word_t>() as u32,
         );
         let _ = GFp_memcpy(
-            &mut y as *mut aes_word_t as *mut std::os::raw::c_void,
-            b.offset(i as isize) as *const std::os::raw::c_void,
-            std::mem::size_of::<aes_word_t>() as u32,
+            &mut y as *mut aes_word_t as *mut core::ffi::c_void,
+            b.offset(i as isize) as *const core::ffi::c_void,
+            core::mem::size_of::<aes_word_t>() as u32,
         );
         x = aes_nohw_xor(x, y);
         let _ = GFp_memcpy(
-            out.offset(i as isize) as *mut std::os::raw::c_void,
-            &mut x as *mut aes_word_t as *const std::os::raw::c_void,
-            std::mem::size_of::<aes_word_t>() as u32,
+            out.offset(i as isize) as *mut core::ffi::c_void,
+            &mut x as *mut aes_word_t as *const core::ffi::c_void,
+            core::mem::size_of::<aes_word_t>() as u32,
         );
-        i = (i as std::os::raw::c_uint).wrapping_add(std::mem::size_of::<aes_word_t>() as u32)
+        i = (i as core::ffi::c_uint).wrapping_add(core::mem::size_of::<aes_word_t>() as u32)
             as size_t as size_t;
     }
 }
@@ -958,7 +950,7 @@ pub unsafe extern "C" fn GFp_aes_nohw_ctr32_encrypt_blocks(
     key: *const AES_KEY,
     ivec: *const uint8_t,
 ) {
-    if blocks == 0 as std::os::raw::c_int as std::os::raw::c_uint {
+    if blocks == 0 as core::ffi::c_int as core::ffi::c_uint {
         return;
     }
     let mut sched: AES_NOHW_SCHEDULE = AES_NOHW_SCHEDULE {
@@ -967,29 +959,30 @@ pub unsafe extern "C" fn GFp_aes_nohw_ctr32_encrypt_blocks(
     aes_nohw_expand_round_keys(&mut sched, key);
     let mut ivs: C2RustUnnamed = C2RustUnnamed { u32_0: [0; 8] };
     let mut enc_ivs: C2RustUnnamed = C2RustUnnamed { u32_0: [0; 8] };
-    let mut i: size_t = 0 as std::os::raw::c_int as size_t;
-    while i < 2 as std::os::raw::c_int as std::os::raw::c_uint {
+    let mut i: size_t = 0 as core::ffi::c_int as size_t;
+    while i < 2 as core::ffi::c_int as core::ffi::c_uint {
         let _ = GFp_memcpy(
-            (ivs.u8_0).as_mut_ptr().offset(
-                (16 as std::os::raw::c_int as std::os::raw::c_uint).wrapping_mul(i) as isize,
-            ) as *mut std::os::raw::c_void,
-            ivec as *const std::os::raw::c_void,
-            16 as std::os::raw::c_int as size_t,
+            (ivs.u8_0)
+                .as_mut_ptr()
+                .offset((16 as core::ffi::c_int as core::ffi::c_uint).wrapping_mul(i) as isize)
+                as *mut core::ffi::c_void,
+            ivec as *const core::ffi::c_void,
+            16 as core::ffi::c_int as size_t,
         );
         i = i.wrapping_add(1);
     }
-    let mut ctr: uint32_t = CRYPTO_bswap4(ivs.u32_0[3 as std::os::raw::c_int as usize]);
+    let mut ctr: uint32_t = CRYPTO_bswap4(ivs.u32_0[3 as core::ffi::c_int as usize]);
     loop {
-        let mut i_0: uint32_t = 0 as std::os::raw::c_int as uint32_t;
-        while i_0 < 2 as std::os::raw::c_int as std::os::raw::c_uint {
-            ivs.u32_0[(4 as std::os::raw::c_int as std::os::raw::c_uint)
+        let mut i_0: uint32_t = 0 as core::ffi::c_int as uint32_t;
+        while i_0 < 2 as core::ffi::c_int as core::ffi::c_uint {
+            ivs.u32_0[(4 as core::ffi::c_int as core::ffi::c_uint)
                 .wrapping_mul(i_0)
-                .wrapping_add(3 as std::os::raw::c_int as std::os::raw::c_uint)
+                .wrapping_add(3 as core::ffi::c_int as core::ffi::c_uint)
                 as usize] = CRYPTO_bswap4(ctr.wrapping_add(i_0));
             i_0 = i_0.wrapping_add(1);
         }
-        let todo: size_t = if blocks >= 2 as std::os::raw::c_int as std::os::raw::c_uint {
-            2 as std::os::raw::c_int as std::os::raw::c_uint
+        let todo: size_t = if blocks >= 2 as core::ffi::c_int as core::ffi::c_uint {
+            2 as core::ffi::c_int as core::ffi::c_uint
         } else {
             blocks
         };
@@ -997,29 +990,28 @@ pub unsafe extern "C" fn GFp_aes_nohw_ctr32_encrypt_blocks(
         aes_nohw_to_batch(&mut batch, (ivs.u8_0).as_mut_ptr(), todo);
         aes_nohw_encrypt_batch(&mut sched, (*key).rounds, &mut batch);
         aes_nohw_from_batch((enc_ivs.u8_0).as_mut_ptr(), todo, &mut batch);
-        let mut i_1: size_t = 0 as std::os::raw::c_int as size_t;
+        let mut i_1: size_t = 0 as core::ffi::c_int as size_t;
         while i_1 < todo {
             aes_nohw_xor_block(
                 out.offset(
-                    (16 as std::os::raw::c_int as std::os::raw::c_uint).wrapping_mul(i_1) as isize,
+                    (16 as core::ffi::c_int as core::ffi::c_uint).wrapping_mul(i_1) as isize,
                 ),
                 in_0.offset(
-                    (16 as std::os::raw::c_int as std::os::raw::c_uint).wrapping_mul(i_1) as isize,
+                    (16 as core::ffi::c_int as core::ffi::c_uint).wrapping_mul(i_1) as isize,
                 ),
                 (enc_ivs.u8_0).as_mut_ptr().offset(
-                    (16 as std::os::raw::c_int as std::os::raw::c_uint).wrapping_mul(i_1) as isize,
+                    (16 as core::ffi::c_int as core::ffi::c_uint).wrapping_mul(i_1) as isize,
                 ) as *const uint8_t,
             );
             i_1 = i_1.wrapping_add(1);
         }
-        blocks = (blocks as std::os::raw::c_uint).wrapping_sub(todo) as size_t as size_t;
-        if blocks == 0 as std::os::raw::c_int as std::os::raw::c_uint {
+        blocks = (blocks as core::ffi::c_uint).wrapping_sub(todo) as size_t as size_t;
+        if blocks == 0 as core::ffi::c_int as core::ffi::c_uint {
             break;
         }
-        in_0 = in_0.offset((16 as std::os::raw::c_int * 2 as std::os::raw::c_int) as isize);
-        out = out.offset((16 as std::os::raw::c_int * 2 as std::os::raw::c_int) as isize);
-        ctr = (ctr as std::os::raw::c_uint)
-            .wrapping_add(2 as std::os::raw::c_int as std::os::raw::c_uint)
+        in_0 = in_0.offset((16 as core::ffi::c_int * 2 as core::ffi::c_int) as isize);
+        out = out.offset((16 as core::ffi::c_int * 2 as core::ffi::c_int) as isize);
+        ctr = (ctr as core::ffi::c_uint).wrapping_add(2 as core::ffi::c_int as core::ffi::c_uint)
             as uint32_t as uint32_t;
     }
 }
