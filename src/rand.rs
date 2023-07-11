@@ -179,7 +179,8 @@ use crate::xous_rand::fill_impl;
 
 #[cfg(all(
     any(target_os = "android", target_os = "linux"),
-    feature = "dev_urandom_fallback"
+    feature = "dev_urandom_fallback",
+    not(target_arch = "mips")
 ))]
 use self::sysrand_or_urandom::fill as fill_impl;
 
@@ -190,6 +191,7 @@ use self::sysrand_or_urandom::fill as fill_impl;
     target_os = "netbsd",
     target_os = "openbsd",
     target_os = "solaris",
+    target_arch = "mips"
 ))]
 use self::urandom::fill as fill_impl;
 
@@ -199,7 +201,10 @@ use self::darwin::fill as fill_impl;
 #[cfg(any(target_os = "fuchsia"))]
 use self::fuchsia::fill as fill_impl;
 
-#[cfg(any(target_os = "android", target_os = "linux"))]
+#[cfg(all(
+    any(target_os = "android", target_os = "linux"),
+    not(target_arch = "mips")
+))]
 mod sysrand_chunk {
     use crate::{c, error};
 
@@ -338,6 +343,7 @@ mod sysrand_chunk {
     target_os = "espidf",
     windows
 ))]
+#[cfg(not(target_arch = "mips"))]
 mod sysrand {
     use super::sysrand_chunk::chunk;
     use crate::error;
@@ -355,7 +361,8 @@ mod sysrand {
 // Keep the `cfg` conditions in sync with the conditions in lib.rs.
 #[cfg(all(
     any(target_os = "android", target_os = "linux"),
-    feature = "dev_urandom_fallback"
+    feature = "dev_urandom_fallback",
+    not(target_arch = "mips")
 ))]
 mod sysrand_or_urandom {
     use crate::error;

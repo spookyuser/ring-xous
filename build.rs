@@ -334,16 +334,7 @@ fn build_c_code(target: &Target, pregenerated: PathBuf, out_dir: &Path) {
         }
     }
     // Xous uses a pure Rust transpiled version of the code base
-    // or also just if it's not in the list of supported ones
-    if (&target.os == "xous" && &target.arch != "x86_64")
-        || ASM_TARGETS
-            .iter()
-            .find(|(arch, _, _)| arch == &target.arch)
-            .is_none()
-    {
-        println(
-            "Arch not found so we not building"
-        )
+    if (&target.os == "xous" && &target.arch != "x86_64") || &target.arch == "mips" {
         return;
     }
 
