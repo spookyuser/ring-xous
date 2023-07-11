@@ -341,6 +341,9 @@ fn build_c_code(target: &Target, pregenerated: PathBuf, out_dir: &Path) {
             .find(|(arch, _, _)| arch == &target.arch)
             .is_none()
     {
+        println(
+            "Arch not found so we not building"
+        )
         return;
     }
 
