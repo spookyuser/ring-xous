@@ -97,7 +97,7 @@ def massage_line(line):
         "core::sync::atomic::compiler_fence(core::sync::atomic::Ordering::SeqCst);"
     )
     line = line.replace(
-        'asm!("", inlateout(reg) a, options(preserves_flags, pure, readonly));',
+        'asm!("", inlateout(reg) a, options(preserves_flags, pure, readonly, att_syntax));',
         compiler_fence,
     )
 
@@ -106,7 +106,7 @@ def massage_line(line):
 def lint():
     # lint the c2rust using cargo and a cleanup pass
     build = subprocess.run(
-        ["cargo", "build", "--target=riscv32imac-unknown-xous-elf"],
+        ["cargo", "build", "--target=mips-unknown-linux-musl"],
         stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
     state = "SEARCHING"
     subs = {}
@@ -207,6 +207,7 @@ def run():
             "-D__xous__",
             "-D__riscv",
             "-D__riscv_xlen=32",
+            "-D__mips",
             "{file}"
         ],
         "directory": "{cwd}",

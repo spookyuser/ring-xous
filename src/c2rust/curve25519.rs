@@ -88,6 +88,7 @@ unsafe extern "C" fn fe_limbs_copy(r: *mut fe_limb_t, a: *const fe_limb_t) {
     while i < 10 as core::ffi::c_int as core::ffi::c_uint {
         *r.offset(i as isize) = *a.offset(i as isize);
         i = i.wrapping_add(1);
+        i;
     }
 }
 #[inline]
@@ -16503,6 +16504,7 @@ unsafe extern "C" fn fe_frombytes_strict(h: *mut fe, s: *const uint8_t) {
     let mut _assert_fe_i: core::ffi::c_uint = 0 as core::ffi::c_int as core::ffi::c_uint;
     while _assert_fe_i < 10 as core::ffi::c_int as core::ffi::c_uint {
         _assert_fe_i = _assert_fe_i.wrapping_add(1);
+        _assert_fe_i;
     }
 }
 unsafe extern "C" fn fe_frombytes(h: *mut fe, s: *const uint8_t) {
@@ -16521,6 +16523,7 @@ unsafe extern "C" fn fe_tobytes(s: *mut uint8_t, f: *const fe) {
     let mut _assert_fe_i: core::ffi::c_uint = 0 as core::ffi::c_int as core::ffi::c_uint;
     while _assert_fe_i < 10 as core::ffi::c_int as core::ffi::c_uint {
         _assert_fe_i = _assert_fe_i.wrapping_add(1);
+        _assert_fe_i;
     }
     fiat_25519_to_bytes(s, ((*f).v).as_ptr());
 }
@@ -16528,21 +16531,21 @@ unsafe extern "C" fn fe_0(h: *mut fe) {
     let _ = GFp_memset(
         h as *mut core::ffi::c_void,
         0 as core::ffi::c_int,
-        core::mem::size_of::<fe>() as u32,
+        ::core::mem::size_of::<fe>() as u32,
     );
 }
 unsafe extern "C" fn fe_loose_0(h: *mut fe_loose) {
     let _ = GFp_memset(
         h as *mut core::ffi::c_void,
         0 as core::ffi::c_int,
-        core::mem::size_of::<fe_loose>() as u32,
+        ::core::mem::size_of::<fe_loose>() as u32,
     );
 }
 unsafe extern "C" fn fe_1(mut h: *mut fe) {
     let _ = GFp_memset(
         h as *mut core::ffi::c_void,
         0 as core::ffi::c_int,
-        core::mem::size_of::<fe>() as u32,
+        ::core::mem::size_of::<fe>() as u32,
     );
     (*h).v[0 as core::ffi::c_int as usize] = 1 as core::ffi::c_int as fe_limb_t;
 }
@@ -16550,7 +16553,7 @@ unsafe extern "C" fn fe_loose_1(mut h: *mut fe_loose) {
     let _ = GFp_memset(
         h as *mut core::ffi::c_void,
         0 as core::ffi::c_int,
-        core::mem::size_of::<fe_loose>() as u32,
+        ::core::mem::size_of::<fe_loose>() as u32,
     );
     (*h).v[0 as core::ffi::c_int as usize] = 1 as core::ffi::c_int as fe_limb_t;
 }
@@ -16558,41 +16561,49 @@ unsafe extern "C" fn fe_add(h: *mut fe_loose, f: *const fe, g: *const fe) {
     let mut _assert_fe_i: core::ffi::c_uint = 0 as core::ffi::c_int as core::ffi::c_uint;
     while _assert_fe_i < 10 as core::ffi::c_int as core::ffi::c_uint {
         _assert_fe_i = _assert_fe_i.wrapping_add(1);
+        _assert_fe_i;
     }
     let mut _assert_fe_i_0: core::ffi::c_uint = 0 as core::ffi::c_int as core::ffi::c_uint;
     while _assert_fe_i_0 < 10 as core::ffi::c_int as core::ffi::c_uint {
         _assert_fe_i_0 = _assert_fe_i_0.wrapping_add(1);
+        _assert_fe_i_0;
     }
     fiat_25519_add(((*h).v).as_mut_ptr(), ((*f).v).as_ptr(), ((*g).v).as_ptr());
     let mut _assert_fe_i_1: core::ffi::c_uint = 0 as core::ffi::c_int as core::ffi::c_uint;
     while _assert_fe_i_1 < 10 as core::ffi::c_int as core::ffi::c_uint {
         _assert_fe_i_1 = _assert_fe_i_1.wrapping_add(1);
+        _assert_fe_i_1;
     }
 }
 unsafe extern "C" fn fe_sub(h: *mut fe_loose, f: *const fe, g: *const fe) {
     let mut _assert_fe_i: core::ffi::c_uint = 0 as core::ffi::c_int as core::ffi::c_uint;
     while _assert_fe_i < 10 as core::ffi::c_int as core::ffi::c_uint {
         _assert_fe_i = _assert_fe_i.wrapping_add(1);
+        _assert_fe_i;
     }
     let mut _assert_fe_i_0: core::ffi::c_uint = 0 as core::ffi::c_int as core::ffi::c_uint;
     while _assert_fe_i_0 < 10 as core::ffi::c_int as core::ffi::c_uint {
         _assert_fe_i_0 = _assert_fe_i_0.wrapping_add(1);
+        _assert_fe_i_0;
     }
     fiat_25519_sub(((*h).v).as_mut_ptr(), ((*f).v).as_ptr(), ((*g).v).as_ptr());
     let mut _assert_fe_i_1: core::ffi::c_uint = 0 as core::ffi::c_int as core::ffi::c_uint;
     while _assert_fe_i_1 < 10 as core::ffi::c_int as core::ffi::c_uint {
         _assert_fe_i_1 = _assert_fe_i_1.wrapping_add(1);
+        _assert_fe_i_1;
     }
 }
 unsafe extern "C" fn fe_carry(h: *mut fe, f: *const fe_loose) {
     let mut _assert_fe_i: core::ffi::c_uint = 0 as core::ffi::c_int as core::ffi::c_uint;
     while _assert_fe_i < 10 as core::ffi::c_int as core::ffi::c_uint {
         _assert_fe_i = _assert_fe_i.wrapping_add(1);
+        _assert_fe_i;
     }
     fiat_25519_carry(((*h).v).as_mut_ptr(), ((*f).v).as_ptr());
     let mut _assert_fe_i_0: core::ffi::c_uint = 0 as core::ffi::c_int as core::ffi::c_uint;
     while _assert_fe_i_0 < 10 as core::ffi::c_int as core::ffi::c_uint {
         _assert_fe_i_0 = _assert_fe_i_0.wrapping_add(1);
+        _assert_fe_i_0;
     }
 }
 unsafe extern "C" fn fe_mul_impl(
@@ -16603,15 +16614,18 @@ unsafe extern "C" fn fe_mul_impl(
     let mut _assert_fe_i: core::ffi::c_uint = 0 as core::ffi::c_int as core::ffi::c_uint;
     while _assert_fe_i < 10 as core::ffi::c_int as core::ffi::c_uint {
         _assert_fe_i = _assert_fe_i.wrapping_add(1);
+        _assert_fe_i;
     }
     let mut _assert_fe_i_0: core::ffi::c_uint = 0 as core::ffi::c_int as core::ffi::c_uint;
     while _assert_fe_i_0 < 10 as core::ffi::c_int as core::ffi::c_uint {
         _assert_fe_i_0 = _assert_fe_i_0.wrapping_add(1);
+        _assert_fe_i_0;
     }
     fiat_25519_carry_mul(out, in1, in2);
     let mut _assert_fe_i_1: core::ffi::c_uint = 0 as core::ffi::c_int as core::ffi::c_uint;
     while _assert_fe_i_1 < 10 as core::ffi::c_int as core::ffi::c_uint {
         _assert_fe_i_1 = _assert_fe_i_1.wrapping_add(1);
+        _assert_fe_i_1;
     }
 }
 unsafe extern "C" fn fe_mul_ltt(h: *mut fe_loose, f: *const fe, g: *const fe) {
@@ -16633,68 +16647,75 @@ unsafe extern "C" fn fe_sq_tl(h: *mut fe, f: *const fe_loose) {
     let mut _assert_fe_i: core::ffi::c_uint = 0 as core::ffi::c_int as core::ffi::c_uint;
     while _assert_fe_i < 10 as core::ffi::c_int as core::ffi::c_uint {
         _assert_fe_i = _assert_fe_i.wrapping_add(1);
+        _assert_fe_i;
     }
     fiat_25519_carry_square(((*h).v).as_mut_ptr(), ((*f).v).as_ptr());
     let mut _assert_fe_i_0: core::ffi::c_uint = 0 as core::ffi::c_int as core::ffi::c_uint;
     while _assert_fe_i_0 < 10 as core::ffi::c_int as core::ffi::c_uint {
         _assert_fe_i_0 = _assert_fe_i_0.wrapping_add(1);
+        _assert_fe_i_0;
     }
 }
 unsafe extern "C" fn fe_sq_tt(h: *mut fe, f: *const fe) {
     let mut _assert_fe_i: core::ffi::c_uint = 0 as core::ffi::c_int as core::ffi::c_uint;
     while _assert_fe_i < 10 as core::ffi::c_int as core::ffi::c_uint {
         _assert_fe_i = _assert_fe_i.wrapping_add(1);
+        _assert_fe_i;
     }
     fiat_25519_carry_square(((*h).v).as_mut_ptr(), ((*f).v).as_ptr());
     let mut _assert_fe_i_0: core::ffi::c_uint = 0 as core::ffi::c_int as core::ffi::c_uint;
     while _assert_fe_i_0 < 10 as core::ffi::c_int as core::ffi::c_uint {
         _assert_fe_i_0 = _assert_fe_i_0.wrapping_add(1);
+        _assert_fe_i_0;
     }
 }
-unsafe extern "C" fn fe_cswap(f: *mut fe, g: *mut fe, mut b: fe_limb_t) {
+unsafe extern "C" fn fe_cswap(mut f: *mut fe, mut g: *mut fe, mut b: fe_limb_t) {
     b = (0 as core::ffi::c_int as core::ffi::c_uint).wrapping_sub(b);
     let mut i: core::ffi::c_uint = 0 as core::ffi::c_int as core::ffi::c_uint;
     while i < 10 as core::ffi::c_int as core::ffi::c_uint {
         let mut x: fe_limb_t = (*f).v[i as usize] ^ (*g).v[i as usize];
         x &= b;
-        let ref mut fresh0 = (*f).v[i as usize];
-        *fresh0 ^= x;
-        let ref mut fresh1 = (*g).v[i as usize];
-        *fresh1 ^= x;
+        (*f).v[i as usize] ^= x;
+        (*g).v[i as usize] ^= x;
         i = i.wrapping_add(1);
+        i;
     }
 }
 unsafe extern "C" fn fe_mul121666(h: *mut fe, f: *const fe_loose) {
     let mut _assert_fe_i: core::ffi::c_uint = 0 as core::ffi::c_int as core::ffi::c_uint;
     while _assert_fe_i < 10 as core::ffi::c_int as core::ffi::c_uint {
         _assert_fe_i = _assert_fe_i.wrapping_add(1);
+        _assert_fe_i;
     }
     fiat_25519_carry_scmul_121666(((*h).v).as_mut_ptr(), ((*f).v).as_ptr());
     let mut _assert_fe_i_0: core::ffi::c_uint = 0 as core::ffi::c_int as core::ffi::c_uint;
     while _assert_fe_i_0 < 10 as core::ffi::c_int as core::ffi::c_uint {
         _assert_fe_i_0 = _assert_fe_i_0.wrapping_add(1);
+        _assert_fe_i_0;
     }
 }
 unsafe extern "C" fn fe_neg(h: *mut fe_loose, f: *const fe) {
     let mut _assert_fe_i: core::ffi::c_uint = 0 as core::ffi::c_int as core::ffi::c_uint;
     while _assert_fe_i < 10 as core::ffi::c_int as core::ffi::c_uint {
         _assert_fe_i = _assert_fe_i.wrapping_add(1);
+        _assert_fe_i;
     }
     fiat_25519_opp(((*h).v).as_mut_ptr(), ((*f).v).as_ptr());
     let mut _assert_fe_i_0: core::ffi::c_uint = 0 as core::ffi::c_int as core::ffi::c_uint;
     while _assert_fe_i_0 < 10 as core::ffi::c_int as core::ffi::c_uint {
         _assert_fe_i_0 = _assert_fe_i_0.wrapping_add(1);
+        _assert_fe_i_0;
     }
 }
-unsafe extern "C" fn fe_cmov(f: *mut fe_loose, g: *const fe_loose, mut b: fe_limb_t) {
+unsafe extern "C" fn fe_cmov(mut f: *mut fe_loose, g: *const fe_loose, mut b: fe_limb_t) {
     b = (0 as core::ffi::c_int as core::ffi::c_uint).wrapping_sub(b);
     let mut i: core::ffi::c_uint = 0 as core::ffi::c_int as core::ffi::c_uint;
     while i < 10 as core::ffi::c_int as core::ffi::c_uint {
         let mut x: fe_limb_t = (*f).v[i as usize] ^ (*g).v[i as usize];
         x &= b;
-        let ref mut fresh2 = (*f).v[i as usize];
-        *fresh2 ^= x;
+        (*f).v[i as usize] ^= x;
         i = i.wrapping_add(1);
+        i;
     }
 }
 unsafe extern "C" fn fe_copy(h: *mut fe, f: *const fe) {
@@ -16718,6 +16739,7 @@ unsafe extern "C" fn fe_loose_invert(out: *mut fe, z: *const fe_loose) {
     while i < 2 as core::ffi::c_int {
         fe_sq_tt(&mut t1, &mut t1);
         i += 1;
+        i;
     }
     fe_mul_tlt(&mut t1, z, &mut t1);
     fe_mul_ttt(&mut t0, &mut t0, &mut t1);
@@ -16728,6 +16750,7 @@ unsafe extern "C" fn fe_loose_invert(out: *mut fe, z: *const fe_loose) {
     while i < 5 as core::ffi::c_int {
         fe_sq_tt(&mut t2, &mut t2);
         i += 1;
+        i;
     }
     fe_mul_ttt(&mut t1, &mut t2, &mut t1);
     fe_sq_tt(&mut t2, &mut t1);
@@ -16735,6 +16758,7 @@ unsafe extern "C" fn fe_loose_invert(out: *mut fe, z: *const fe_loose) {
     while i < 10 as core::ffi::c_int {
         fe_sq_tt(&mut t2, &mut t2);
         i += 1;
+        i;
     }
     fe_mul_ttt(&mut t2, &mut t2, &mut t1);
     fe_sq_tt(&mut t3, &mut t2);
@@ -16742,6 +16766,7 @@ unsafe extern "C" fn fe_loose_invert(out: *mut fe, z: *const fe_loose) {
     while i < 20 as core::ffi::c_int {
         fe_sq_tt(&mut t3, &mut t3);
         i += 1;
+        i;
     }
     fe_mul_ttt(&mut t2, &mut t3, &mut t2);
     fe_sq_tt(&mut t2, &mut t2);
@@ -16749,6 +16774,7 @@ unsafe extern "C" fn fe_loose_invert(out: *mut fe, z: *const fe_loose) {
     while i < 10 as core::ffi::c_int {
         fe_sq_tt(&mut t2, &mut t2);
         i += 1;
+        i;
     }
     fe_mul_ttt(&mut t1, &mut t2, &mut t1);
     fe_sq_tt(&mut t2, &mut t1);
@@ -16756,6 +16782,7 @@ unsafe extern "C" fn fe_loose_invert(out: *mut fe, z: *const fe_loose) {
     while i < 50 as core::ffi::c_int {
         fe_sq_tt(&mut t2, &mut t2);
         i += 1;
+        i;
     }
     fe_mul_ttt(&mut t2, &mut t2, &mut t1);
     fe_sq_tt(&mut t3, &mut t2);
@@ -16763,6 +16790,7 @@ unsafe extern "C" fn fe_loose_invert(out: *mut fe, z: *const fe_loose) {
     while i < 100 as core::ffi::c_int {
         fe_sq_tt(&mut t3, &mut t3);
         i += 1;
+        i;
     }
     fe_mul_ttt(&mut t2, &mut t3, &mut t2);
     fe_sq_tt(&mut t2, &mut t2);
@@ -16770,6 +16798,7 @@ unsafe extern "C" fn fe_loose_invert(out: *mut fe, z: *const fe_loose) {
     while i < 50 as core::ffi::c_int {
         fe_sq_tt(&mut t2, &mut t2);
         i += 1;
+        i;
     }
     fe_mul_ttt(&mut t1, &mut t2, &mut t1);
     fe_sq_tt(&mut t1, &mut t1);
@@ -16777,6 +16806,7 @@ unsafe extern "C" fn fe_loose_invert(out: *mut fe, z: *const fe_loose) {
     while i < 5 as core::ffi::c_int {
         fe_sq_tt(&mut t1, &mut t1);
         i += 1;
+        i;
     }
     fe_mul_ttt(out, &mut t1, &mut t0);
 }
@@ -16827,7 +16857,7 @@ unsafe extern "C" fn fe_isnonzero(f: *const fe_loose) -> core::ffi::c_int {
     return (GFp_memcmp(
         s.as_mut_ptr(),
         zero.as_ptr(),
-        core::mem::size_of::<[uint8_t; 32]>() as u32,
+        ::core::mem::size_of::<[uint8_t; 32]>() as u32,
     ) != 0 as core::ffi::c_int) as core::ffi::c_int;
 }
 unsafe extern "C" fn fe_isnegative(f: *const fe) -> core::ffi::c_int {
@@ -16852,6 +16882,7 @@ unsafe extern "C" fn fe_pow22523(out: *mut fe, z: *const fe) {
     while i < 2 as core::ffi::c_int {
         fe_sq_tt(&mut t1, &mut t1);
         i += 1;
+        i;
     }
     fe_mul_ttt(&mut t1, z, &mut t1);
     fe_mul_ttt(&mut t0, &mut t0, &mut t1);
@@ -16862,6 +16893,7 @@ unsafe extern "C" fn fe_pow22523(out: *mut fe, z: *const fe) {
     while i < 5 as core::ffi::c_int {
         fe_sq_tt(&mut t1, &mut t1);
         i += 1;
+        i;
     }
     fe_mul_ttt(&mut t0, &mut t1, &mut t0);
     fe_sq_tt(&mut t1, &mut t0);
@@ -16869,6 +16901,7 @@ unsafe extern "C" fn fe_pow22523(out: *mut fe, z: *const fe) {
     while i < 10 as core::ffi::c_int {
         fe_sq_tt(&mut t1, &mut t1);
         i += 1;
+        i;
     }
     fe_mul_ttt(&mut t1, &mut t1, &mut t0);
     fe_sq_tt(&mut t2, &mut t1);
@@ -16876,6 +16909,7 @@ unsafe extern "C" fn fe_pow22523(out: *mut fe, z: *const fe) {
     while i < 20 as core::ffi::c_int {
         fe_sq_tt(&mut t2, &mut t2);
         i += 1;
+        i;
     }
     fe_mul_ttt(&mut t1, &mut t2, &mut t1);
     fe_sq_tt(&mut t1, &mut t1);
@@ -16883,6 +16917,7 @@ unsafe extern "C" fn fe_pow22523(out: *mut fe, z: *const fe) {
     while i < 10 as core::ffi::c_int {
         fe_sq_tt(&mut t1, &mut t1);
         i += 1;
+        i;
     }
     fe_mul_ttt(&mut t0, &mut t1, &mut t0);
     fe_sq_tt(&mut t1, &mut t0);
@@ -16890,6 +16925,7 @@ unsafe extern "C" fn fe_pow22523(out: *mut fe, z: *const fe) {
     while i < 50 as core::ffi::c_int {
         fe_sq_tt(&mut t1, &mut t1);
         i += 1;
+        i;
     }
     fe_mul_ttt(&mut t1, &mut t1, &mut t0);
     fe_sq_tt(&mut t2, &mut t1);
@@ -16897,6 +16933,7 @@ unsafe extern "C" fn fe_pow22523(out: *mut fe, z: *const fe) {
     while i < 100 as core::ffi::c_int {
         fe_sq_tt(&mut t2, &mut t2);
         i += 1;
+        i;
     }
     fe_mul_ttt(&mut t1, &mut t2, &mut t1);
     fe_sq_tt(&mut t1, &mut t1);
@@ -16904,6 +16941,7 @@ unsafe extern "C" fn fe_pow22523(out: *mut fe, z: *const fe) {
     while i < 50 as core::ffi::c_int {
         fe_sq_tt(&mut t1, &mut t1);
         i += 1;
+        i;
     }
     fe_mul_ttt(&mut t0, &mut t1, &mut t0);
     fe_sq_tt(&mut t0, &mut t0);
@@ -16911,6 +16949,7 @@ unsafe extern "C" fn fe_pow22523(out: *mut fe, z: *const fe) {
     while i < 2 as core::ffi::c_int {
         fe_sq_tt(&mut t0, &mut t0);
         i += 1;
+        i;
     }
     fe_mul_ttt(out, &mut t0, z);
 }
@@ -17252,6 +17291,7 @@ pub unsafe extern "C" fn GFp_x25519_ge_scalarmult_base(h: *mut ge_p3, a: *const 
             (*a.offset(i as isize) as core::ffi::c_int >> 4 as core::ffi::c_int
                 & 15 as core::ffi::c_int) as core::ffi::c_schar;
         i += 1;
+        i;
     }
     carry = 0 as core::ffi::c_int as core::ffi::c_schar;
     i = 0 as core::ffi::c_int;
@@ -17264,6 +17304,7 @@ pub unsafe extern "C" fn GFp_x25519_ge_scalarmult_base(h: *mut ge_p3, a: *const 
             - ((carry as core::ffi::c_int) << 4 as core::ffi::c_int))
             as core::ffi::c_schar;
         i += 1;
+        i;
     }
     e[63 as core::ffi::c_int as usize] = (e[63 as core::ffi::c_int as usize] as core::ffi::c_int
         + carry as core::ffi::c_int) as core::ffi::c_schar;
@@ -17302,6 +17343,7 @@ unsafe extern "C" fn slide(r: *mut core::ffi::c_schar, a: *const uint8_t) {
                 >> (i & 7 as core::ffi::c_int))
             as core::ffi::c_schar;
         i += 1;
+        i;
     }
     i = 0 as core::ffi::c_int;
     while i < 256 as core::ffi::c_int {
@@ -17313,8 +17355,8 @@ unsafe extern "C" fn slide(r: *mut core::ffi::c_schar, a: *const uint8_t) {
                         + ((*r.offset((i + b) as isize) as core::ffi::c_int) << b)
                         <= 15 as core::ffi::c_int
                     {
-                        let ref mut fresh3 = *r.offset(i as isize);
-                        *fresh3 = (*fresh3 as core::ffi::c_int
+                        let ref mut fresh0 = *r.offset(i as isize);
+                        *fresh0 = (*fresh0 as core::ffi::c_int
                             + ((*r.offset((i + b) as isize) as core::ffi::c_int) << b))
                             as core::ffi::c_schar;
                         *r.offset((i + b) as isize) = 0 as core::ffi::c_int as core::ffi::c_schar;
@@ -17325,8 +17367,8 @@ unsafe extern "C" fn slide(r: *mut core::ffi::c_schar, a: *const uint8_t) {
                         {
                             break;
                         }
-                        let ref mut fresh4 = *r.offset(i as isize);
-                        *fresh4 = (*fresh4 as core::ffi::c_int
+                        let ref mut fresh1 = *r.offset(i as isize);
+                        *fresh1 = (*fresh1 as core::ffi::c_int
                             - ((*r.offset((i + b) as isize) as core::ffi::c_int) << b))
                             as core::ffi::c_schar;
                         k = i + b;
@@ -17337,14 +17379,17 @@ unsafe extern "C" fn slide(r: *mut core::ffi::c_schar, a: *const uint8_t) {
                             } else {
                                 *r.offset(k as isize) = 0 as core::ffi::c_int as core::ffi::c_schar;
                                 k += 1;
+                                k;
                             }
                         }
                     }
                 }
                 b += 1;
+                b;
             }
         }
         i += 1;
+        i;
     }
 }
 unsafe extern "C" fn ge_double_scalarmult_vartime(
@@ -17467,6 +17512,7 @@ unsafe extern "C" fn ge_double_scalarmult_vartime(
             break;
         }
         i -= 1;
+        i;
     }
     while i >= 0 as core::ffi::c_int {
         ge_p2_dbl(&mut t, r);
@@ -17514,6 +17560,7 @@ unsafe extern "C" fn ge_double_scalarmult_vartime(
         }
         x25519_ge_p1p1_to_p2(r, &mut t);
         i -= 1;
+        i;
     }
 }
 #[inline]
@@ -18600,6 +18647,7 @@ pub unsafe extern "C" fn GFp_x25519_scalar_mult_generic_masked(
         fe_mul_ttt(&mut z3, &mut x1, &mut z2);
         fe_mul_tll(&mut z2, &mut tmp1l, &mut tmp0l);
         pos -= 1;
+        pos;
     }
     fe_cswap(&mut x2, &mut x3, swap);
     fe_cswap(&mut z2, &mut z3, swap);
@@ -18667,12 +18715,12 @@ pub unsafe extern "C" fn GFp_x25519_ge_double_scalarmult_vartime(
 }
 #[no_mangle]
 pub unsafe extern "C" fn GFp_x25519_sc_mask(a: *mut uint8_t) {
-    let ref mut fresh5 = *a.offset(0 as core::ffi::c_int as isize);
-    *fresh5 = (*fresh5 as core::ffi::c_int & 248 as core::ffi::c_int) as uint8_t;
-    let ref mut fresh6 = *a.offset(31 as core::ffi::c_int as isize);
-    *fresh6 = (*fresh6 as core::ffi::c_int & 127 as core::ffi::c_int) as uint8_t;
-    let ref mut fresh7 = *a.offset(31 as core::ffi::c_int as isize);
-    *fresh7 = (*fresh7 as core::ffi::c_int | 64 as core::ffi::c_int) as uint8_t;
+    let ref mut fresh2 = *a.offset(0 as core::ffi::c_int as isize);
+    *fresh2 = (*fresh2 as core::ffi::c_int & 248 as core::ffi::c_int) as uint8_t;
+    let ref mut fresh3 = *a.offset(31 as core::ffi::c_int as isize);
+    *fresh3 = (*fresh3 as core::ffi::c_int & 127 as core::ffi::c_int) as uint8_t;
+    let ref mut fresh4 = *a.offset(31 as core::ffi::c_int as isize);
+    *fresh4 = (*fresh4 as core::ffi::c_int | 64 as core::ffi::c_int) as uint8_t;
 }
 #[no_mangle]
 pub unsafe extern "C" fn GFp_x25519_sc_muladd(

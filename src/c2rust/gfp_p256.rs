@@ -58,5 +58,6 @@ pub unsafe extern "C" fn p256_scalar_sqr_rep_mont(
     while i < rep {
         p256_scalar_mul_mont(r, r as *const Limb, r as *const Limb);
         i = i.wrapping_add(1);
+        i;
     }
 }

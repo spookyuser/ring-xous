@@ -48,7 +48,7 @@ unsafe extern "C" fn value_barrier_w(a: crypto_word) -> crypto_word {
 #[inline]
 unsafe extern "C" fn constant_time_msb_w(a: crypto_word) -> crypto_word {
     return (0 as core::ffi::c_uint).wrapping_sub(
-        a >> (core::mem::size_of::<crypto_word>() as u32)
+        a >> (::core::mem::size_of::<crypto_word>() as u32)
             .wrapping_mul(8 as core::ffi::c_int as core::ffi::c_uint)
             .wrapping_sub(1 as core::ffi::c_int as core::ffi::c_uint),
     );
@@ -71,6 +71,7 @@ unsafe extern "C" fn limbs_copy(r: *mut Limb, a: *const Limb, num_limbs: size_t)
     while i < num_limbs {
         *r.offset(i as isize) = *a.offset(i as isize);
         i = i.wrapping_add(1);
+        i;
     }
 }
 #[inline]
@@ -115,6 +116,7 @@ pub unsafe extern "C" fn OPENSSL_memcpy(
     while i < n {
         *d.offset(i as isize) = *s.offset(i as isize);
         i = i.wrapping_add(1);
+        i;
     }
     return dst;
 }
@@ -129,6 +131,7 @@ pub unsafe extern "C" fn OPENSSL_memset(
     while i < n {
         *d.offset(i as isize) = c as core::ffi::c_uchar;
         i = i.wrapping_add(1);
+        i;
     }
     return dst;
 }
@@ -4090,6 +4093,7 @@ unsafe extern "C" fn fiat_p256_copy(
     while i < 8 as core::ffi::c_int as core::ffi::c_uint {
         *out.offset(i as isize) = *in1.offset(i as isize);
         i = i.wrapping_add(1);
+        i;
     }
 }
 unsafe extern "C" fn fiat_p256_cmovznz(
@@ -5055,7 +5059,7 @@ unsafe extern "C" fn fiat_p256_select_point_affine(
     OPENSSL_memset(
         out as *mut core::ffi::c_void,
         0 as core::ffi::c_int,
-        (core::mem::size_of::<fiat_p256_felem>() as u32)
+        (::core::mem::size_of::<fiat_p256_felem>() as u32)
             .wrapping_mul(3 as core::ffi::c_int as core::ffi::c_uint),
     );
     let mut i: size_t = 0 as core::ffi::c_int as size_t;
@@ -5075,6 +5079,7 @@ unsafe extern "C" fn fiat_p256_select_point_affine(
             (*out.offset(1 as core::ffi::c_int as isize)).as_mut_ptr() as *const fiat_p256_limb_t,
         );
         i = i.wrapping_add(1);
+        i;
     }
     fiat_p256_cmovznz(
         (*out.offset(2 as core::ffi::c_int as isize)).as_mut_ptr(),
@@ -5092,7 +5097,7 @@ unsafe extern "C" fn fiat_p256_select_point(
     OPENSSL_memset(
         out as *mut core::ffi::c_void,
         0 as core::ffi::c_int,
-        (core::mem::size_of::<fiat_p256_felem>() as u32)
+        (::core::mem::size_of::<fiat_p256_felem>() as u32)
             .wrapping_mul(3 as core::ffi::c_int as core::ffi::c_uint),
     );
     let mut i: size_t = 0 as core::ffi::c_int as size_t;
@@ -5117,6 +5122,7 @@ unsafe extern "C" fn fiat_p256_select_point(
             (*out.offset(2 as core::ffi::c_int as isize)).as_mut_ptr() as *const fiat_p256_limb_t,
         );
         i = i.wrapping_add(1);
+        i;
     }
 }
 unsafe extern "C" fn fiat_p256_get_bit(
@@ -5143,55 +5149,123 @@ pub unsafe extern "C" fn p256_point_mul(
             b"r != ((void*)0)\0" as *const u8 as *const core::ffi::c_char,
             b"crypto/fipsmodule/ec_17/p256.c\0" as *const u8 as *const core::ffi::c_char,
             351 as core::ffi::c_int as core::ffi::c_uint,
-            (*core::mem::transmute::<&[u8; 76], &[core::ffi::c_char; 76]>(
+            (*::core::mem::transmute::<&[u8; 76], &[core::ffi::c_char; 76]>(
                 b"void p256_point_mul(P256_POINT *, const Limb *, const Limb *, const Limb *)\0",
             ))
             .as_ptr(),
         );
     }
+    'c_18678: {
+        if !r.is_null() {
+        } else {
+            __assert_fail(
+b"r != ((void*)0)\0" as *const u8 as *const core::ffi::c_char,
+b"crypto/fipsmodule/ec_17/p256.c\0" as *const u8 as *const core::ffi::c_char,
+351 as core::ffi::c_int as core::ffi::c_uint,
+(*::core::mem::transmute::<
+&[u8; 76],
+&[core::ffi::c_char; 76],
+>(
+b"void p256_point_mul(P256_POINT *, const Limb *, const Limb *, const Limb *)\0",
+))
+.as_ptr(),
+);
+        }
+    };
     if !scalar.is_null() {
     } else {
         __assert_fail(
             b"scalar != ((void*)0)\0" as *const u8 as *const core::ffi::c_char,
             b"crypto/fipsmodule/ec_17/p256.c\0" as *const u8 as *const core::ffi::c_char,
             352 as core::ffi::c_int as core::ffi::c_uint,
-            (*core::mem::transmute::<&[u8; 76], &[core::ffi::c_char; 76]>(
+            (*::core::mem::transmute::<&[u8; 76], &[core::ffi::c_char; 76]>(
                 b"void p256_point_mul(P256_POINT *, const Limb *, const Limb *, const Limb *)\0",
             ))
             .as_ptr(),
         );
     }
+    'c_18635: {
+        if !scalar.is_null() {
+        } else {
+            __assert_fail(
+b"scalar != ((void*)0)\0" as *const u8 as *const core::ffi::c_char,
+b"crypto/fipsmodule/ec_17/p256.c\0" as *const u8 as *const core::ffi::c_char,
+352 as core::ffi::c_int as core::ffi::c_uint,
+(*::core::mem::transmute::<
+&[u8; 76],
+&[core::ffi::c_char; 76],
+>(
+b"void p256_point_mul(P256_POINT *, const Limb *, const Limb *, const Limb *)\0",
+))
+.as_ptr(),
+);
+        }
+    };
     if !p_x.is_null() {
     } else {
         __assert_fail(
             b"p_x != ((void*)0)\0" as *const u8 as *const core::ffi::c_char,
             b"crypto/fipsmodule/ec_17/p256.c\0" as *const u8 as *const core::ffi::c_char,
             353 as core::ffi::c_int as core::ffi::c_uint,
-            (*core::mem::transmute::<&[u8; 76], &[core::ffi::c_char; 76]>(
+            (*::core::mem::transmute::<&[u8; 76], &[core::ffi::c_char; 76]>(
                 b"void p256_point_mul(P256_POINT *, const Limb *, const Limb *, const Limb *)\0",
             ))
             .as_ptr(),
         );
     }
+    'c_18593: {
+        if !p_x.is_null() {
+        } else {
+            __assert_fail(
+b"p_x != ((void*)0)\0" as *const u8 as *const core::ffi::c_char,
+b"crypto/fipsmodule/ec_17/p256.c\0" as *const u8 as *const core::ffi::c_char,
+353 as core::ffi::c_int as core::ffi::c_uint,
+(*::core::mem::transmute::<
+&[u8; 76],
+&[core::ffi::c_char; 76],
+>(
+b"void p256_point_mul(P256_POINT *, const Limb *, const Limb *, const Limb *)\0",
+))
+.as_ptr(),
+);
+        }
+    };
     if !p_y.is_null() {
     } else {
         __assert_fail(
             b"p_y != ((void*)0)\0" as *const u8 as *const core::ffi::c_char,
             b"crypto/fipsmodule/ec_17/p256.c\0" as *const u8 as *const core::ffi::c_char,
             354 as core::ffi::c_int as core::ffi::c_uint,
-            (*core::mem::transmute::<&[u8; 76], &[core::ffi::c_char; 76]>(
+            (*::core::mem::transmute::<&[u8; 76], &[core::ffi::c_char; 76]>(
                 b"void p256_point_mul(P256_POINT *, const Limb *, const Limb *, const Limb *)\0",
             ))
             .as_ptr(),
         );
     }
+    'c_18548: {
+        if !p_y.is_null() {
+        } else {
+            __assert_fail(
+b"p_y != ((void*)0)\0" as *const u8 as *const core::ffi::c_char,
+b"crypto/fipsmodule/ec_17/p256.c\0" as *const u8 as *const core::ffi::c_char,
+354 as core::ffi::c_int as core::ffi::c_uint,
+(*::core::mem::transmute::<
+&[u8; 76],
+&[core::ffi::c_char; 76],
+>(
+b"void p256_point_mul(P256_POINT *, const Limb *, const Limb *, const Limb *)\0",
+))
+.as_ptr(),
+);
+        }
+    };
     let mut scalar_bytes: P256_SCALAR_BYTES = [0; 33];
     p256_scalar_bytes_from_limbs(scalar_bytes.as_mut_ptr(), scalar);
     let mut p_pre_comp: [[fiat_p256_felem; 3]; 17] = [[[0; 8]; 3]; 17];
     OPENSSL_memset(
         &mut p_pre_comp as *mut [[fiat_p256_felem; 3]; 17] as *mut core::ffi::c_void,
         0 as core::ffi::c_int,
-        core::mem::size_of::<[[fiat_p256_felem; 3]; 17]>() as u32,
+        ::core::mem::size_of::<[[fiat_p256_felem; 3]; 17]>() as u32,
     );
     limbs_copy(
         &mut *(*(*p_pre_comp
@@ -5267,6 +5341,7 @@ pub unsafe extern "C" fn p256_point_mul(
             );
         }
         j = j.wrapping_add(1);
+        j;
     }
     let mut nq: [fiat_p256_felem; 3] = [
         [0 as core::ffi::c_int as uint32_t, 0, 0, 0, 0, 0, 0, 0],
@@ -5362,6 +5437,7 @@ pub unsafe extern "C" fn p256_point_mul(
             }
         }
         i = i.wrapping_sub(1);
+        i;
     }
     limbs_copy(
         ((*r).X).as_mut_ptr(),
@@ -5484,6 +5560,7 @@ pub unsafe extern "C" fn p256_point_mul_base(r: *mut P256_POINT, scalar: *const 
             (tmp[2 as core::ffi::c_int as usize]).as_mut_ptr() as *const uint32_t,
         );
         i = i.wrapping_sub(1);
+        i;
     }
     limbs_copy(
         ((*r).X).as_mut_ptr(),

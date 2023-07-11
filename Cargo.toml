@@ -22,6 +22,7 @@ include = [
     "pregenerated/*",
 
     "build.rs",
+    "src/c2rust/*.rs",
 
     "crypto/chacha/asm/chacha-armv4.pl",
     "crypto/chacha/asm/chacha-armv8.pl",
@@ -94,14 +95,14 @@ include = [
     "crypto/cipher_extra/asm/chacha20_poly1305_x86_64.pl",
     "doc/link-to-readme.md",
     "examples/checkdigest.rs",
-    "include/GFp/aes.h",
-    "include/GFp/arm_arch.h",
-    "include/GFp/base.h",
-    "include/GFp/check.h",
-    "include/GFp/cpu.h",
-    "include/GFp/mem.h",
-    "include/GFp/poly1305.h",
-    "include/GFp/type_check.h",
+    # "include/GFp/aes.h",
+    # "include/GFp/arm_arch.h",
+    # "include/GFp/base.h",
+    # "include/GFp/check.h",
+    # "include/GFp/cpu.h",
+    # "include/GFp/mem.h",
+    # "include/GFp/poly1305.h",
+    # "include/GFp/type_check.h",
     "src/aead.rs",
     "src/aead/aes.rs",
     "src/aead/aes_gcm.rs",
@@ -304,6 +305,7 @@ name = "ring"
 untrusted = { version = "0.7.1" }
 log = "0.4.14"
 
+
 [target.'cfg(any(target_arch = "x86",target_arch = "x86_64", all(any(target_arch = "aarch64", target_arch = "arm"), any(target_os = "android", target_os = "fuchsia", target_os = "linux"))))'.dependencies]
 spin = { version = "0.5.2", default-features = false }
 
@@ -347,9 +349,8 @@ rkyv = { version = "0.4.3", default-features = false, features = [
 [target.'cfg(target_arch = "mips")'.dependencies]
 spin = { version = "0.5.2", default-features = false }
 libc = { version = "0.2.80", default-features = false }
-
-
 # Keep this in sync with `[dependencies]` in pregenerate_asm/Cargo.toml.
+
 [build-dependencies]
 cc = { version = "1.0.62", default-features = false }
 

@@ -12,9 +12,10 @@
             "-D__xous__",
             "-D__riscv",
             "-D__riscv_xlen=32",
+            "-D__mips",
             "crypto/fipsmodule/aes/aes_nohw.c"
         ],
-        "directory": "/mnt/f/largework/rust-win/code/ring-xous",
+        "directory": "/workspaces/starving/mine/ring-xous",
         "file": "crypto/fipsmodule/aes/aes_nohw.c"
     },
     {
@@ -30,9 +31,10 @@
             "-D__xous__",
             "-D__riscv",
             "-D__riscv_xlen=32",
+            "-D__mips",
             "crypto/fipsmodule/bn/montgomery.c"
         ],
-        "directory": "/mnt/f/largework/rust-win/code/ring-xous",
+        "directory": "/workspaces/starving/mine/ring-xous",
         "file": "crypto/fipsmodule/bn/montgomery.c"
     },
     {
@@ -48,9 +50,10 @@
             "-D__xous__",
             "-D__riscv",
             "-D__riscv_xlen=32",
+            "-D__mips",
             "crypto/fipsmodule/bn/montgomery_inv.c"
         ],
-        "directory": "/mnt/f/largework/rust-win/code/ring-xous",
+        "directory": "/workspaces/starving/mine/ring-xous",
         "file": "crypto/fipsmodule/bn/montgomery_inv.c"
     },
     {
@@ -66,9 +69,10 @@
             "-D__xous__",
             "-D__riscv",
             "-D__riscv_xlen=32",
+            "-D__mips",
             "crypto/limbs/limbs.c"
         ],
-        "directory": "/mnt/f/largework/rust-win/code/ring-xous",
+        "directory": "/workspaces/starving/mine/ring-xous",
         "file": "crypto/limbs/limbs.c"
     },
     {
@@ -84,9 +88,10 @@
             "-D__xous__",
             "-D__riscv",
             "-D__riscv_xlen=32",
+            "-D__mips",
             "crypto/mem.c"
         ],
-        "directory": "/mnt/f/largework/rust-win/code/ring-xous",
+        "directory": "/workspaces/starving/mine/ring-xous",
         "file": "crypto/mem.c"
     },
     {
@@ -102,9 +107,10 @@
             "-D__xous__",
             "-D__riscv",
             "-D__riscv_xlen=32",
+            "-D__mips",
             "crypto/poly1305/poly1305.c"
         ],
-        "directory": "/mnt/f/largework/rust-win/code/ring-xous",
+        "directory": "/workspaces/starving/mine/ring-xous",
         "file": "crypto/poly1305/poly1305.c"
     },
     {
@@ -120,9 +126,10 @@
             "-D__xous__",
             "-D__riscv",
             "-D__riscv_xlen=32",
+            "-D__mips",
             "crypto/crypto.c"
         ],
-        "directory": "/mnt/f/largework/rust-win/code/ring-xous",
+        "directory": "/workspaces/starving/mine/ring-xous",
         "file": "crypto/crypto.c"
     },
     {
@@ -138,9 +145,10 @@
             "-D__xous__",
             "-D__riscv",
             "-D__riscv_xlen=32",
+            "-D__mips",
             "crypto/curve25519/curve25519.c"
         ],
-        "directory": "/mnt/f/largework/rust-win/code/ring-xous",
+        "directory": "/workspaces/starving/mine/ring-xous",
         "file": "crypto/curve25519/curve25519.c"
     },
     {
@@ -156,9 +164,10 @@
             "-D__xous__",
             "-D__riscv",
             "-D__riscv_xlen=32",
+            "-D__mips",
             "crypto/fipsmodule/ec_17/ecp_nistz.c"
         ],
-        "directory": "/mnt/f/largework/rust-win/code/ring-xous",
+        "directory": "/workspaces/starving/mine/ring-xous",
         "file": "crypto/fipsmodule/ec_17/ecp_nistz.c"
     },
     {
@@ -174,9 +183,10 @@
             "-D__xous__",
             "-D__riscv",
             "-D__riscv_xlen=32",
+            "-D__mips",
             "crypto/fipsmodule/ec_17/gfp_p256.c"
         ],
-        "directory": "/mnt/f/largework/rust-win/code/ring-xous",
+        "directory": "/workspaces/starving/mine/ring-xous",
         "file": "crypto/fipsmodule/ec_17/gfp_p256.c"
     },
     {
@@ -192,9 +202,10 @@
             "-D__xous__",
             "-D__riscv",
             "-D__riscv_xlen=32",
+            "-D__mips",
             "crypto/fipsmodule/ec_17/gfp_p384.c"
         ],
-        "directory": "/mnt/f/largework/rust-win/code/ring-xous",
+        "directory": "/workspaces/starving/mine/ring-xous",
         "file": "crypto/fipsmodule/ec_17/gfp_p384.c"
     },
     {
@@ -210,9 +221,10 @@
             "-D__xous__",
             "-D__riscv",
             "-D__riscv_xlen=32",
+            "-D__mips",
             "crypto/fipsmodule/ec_17/p256.c"
         ],
-        "directory": "/mnt/f/largework/rust-win/code/ring-xous",
+        "directory": "/workspaces/starving/mine/ring-xous",
         "file": "crypto/fipsmodule/ec_17/p256.c"
     }
 ]

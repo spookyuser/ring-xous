@@ -20,6 +20,7 @@ pub unsafe extern "C" fn GFp_bn_neg_inv_mod_r_u64(n: uint64_t) -> uint64_t {
         let alpha_if_u_is_odd: uint64_t = alpha & u_is_odd;
         v = (v >> 1 as core::ffi::c_int).wrapping_add(alpha_if_u_is_odd);
         i = i.wrapping_add(1);
+        i;
     }
     return v;
 }

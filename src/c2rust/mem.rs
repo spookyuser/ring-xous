@@ -18,6 +18,7 @@ pub unsafe extern "C" fn GFp_memcmp(
             | *a.offset(i as isize) as core::ffi::c_int ^ *b.offset(i as isize) as core::ffi::c_int)
             as uint8_t;
         i = i.wrapping_add(1);
+        i;
     }
     return x as core::ffi::c_int;
 }

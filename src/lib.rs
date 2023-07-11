@@ -81,7 +81,7 @@ extern crate alloc;
 #[macro_use]
 mod debug;
 
-#[cfg(any(target_arch = "wasm32", target_os = "xous"))]
+#[cfg(any(target_arch = "wasm32", target_arch = "mips", target_os = "xous"))]
 #[macro_use]
 mod prefixed;
 
@@ -111,16 +111,19 @@ mod cpu;
 pub mod digest;
 #[cfg(any(
     target_arch = "wasm32",
+    target_arch = "mips",
     all(target_os = "xous", not(target_arch = "x86_64"))
 ))]
 pub mod ec_17;
 #[cfg(any(
     target_arch = "wasm32",
+    target_arch = "mips",
     all(target_os = "xous", not(target_arch = "x86_64"))
 ))]
 pub use ec_17 as ec;
 #[cfg(not(any(
     target_arch = "wasm32",
+    target_arch = "mips",
     all(target_os = "xous", not(target_arch = "x86_64"))
 )))]
 mod ec;
@@ -154,21 +157,25 @@ mod sealed {
     pub trait Sealed {}
 }
 
-#[cfg(any(target_arch = "wasm32", target_os = "xous", target_arch = "none"))]
+#[cfg(any(
+    target_arch = "wasm32",
+    target_arch = "mips",
+    target_os = "xous",
+    target_arch = "mips"
+))]
 mod c2rust {
-    pub mod aes_nohw;
+    mod aes_nohw;
     mod crypto;
     mod curve25519;
     mod ecp_nistz;
-    pub mod limbs;
-    mod mem;
-    pub mod montgomery;
-    mod montgomery_inv;
-    mod poly1305;
-    // mod ecp_nistz256;
     mod gfp_p256;
     mod gfp_p384;
+    mod limbs;
+    mod mem;
+    mod montgomery;
+    mod montgomery_inv;
     mod p256;
+    mod poly1305;
 }
 
 #[cfg(target_os = "xous")]
@@ -176,12 +183,12 @@ mod xous_rand;
 #[cfg(target_os = "xous")]
 pub mod xous_test;
 
-#[cfg(any(target_arch = "wasm32", target_os = "xous"))]
+#[cfg(any(target_arch = "wasm32", target_arch = "mips", target_os = "xous"))]
 type c_char = i8;
-#[cfg(any(target_arch = "wasm32", target_os = "xous"))]
+#[cfg(any(target_arch = "wasm32", target_arch = "mips", target_os = "xous"))]
 type c_uint = u32;
 #[export_name = "__assert_fail"]
-#[cfg(any(target_arch = "wasm32", target_os = "xous"))]
+#[cfg(any(target_arch = "wasm32", target_arch = "mips", target_os = "xous"))]
 pub unsafe extern "C" fn __assert_fail(
     __assertion: *const c_char,
     __file: *const c_char,

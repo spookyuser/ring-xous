@@ -14,11 +14,11 @@
 // CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 use super::{counter, iv::Iv, quic::Sample, BLOCK_LEN};
+use crate::endian::*;
 #[cfg(all(not(target_arch = "x86_64"), target_os = "xous"))]
 use crate::polyfill::ChunksFixedMut;
 #[cfg(all(not(target_arch = "x86_64"), target_os = "xous"))]
 use core::ops::RangeFrom;
-use crate::endian::*;
 
 #[cfg(all(not(target_arch = "x86_64"), target_os = "xous"))]
 pub(super) fn ChaCha20_ctr32(
@@ -38,8 +38,22 @@ pub(super) fn ChaCha20_ctr32(
     let counter = counter.into_words_less_safe();
 
     let mut state = [
-        SIGMA[0], SIGMA[1], SIGMA[2], SIGMA[3], key[0].into(), key[1].into(), key[2].into(), key[3].into(), key[4].into(), key[5].into(),
-        key[6].into(), key[7].into(), counter[0], counter[1], counter[2], counter[3],
+        SIGMA[0],
+        SIGMA[1],
+        SIGMA[2],
+        SIGMA[3],
+        key[0].into(),
+        key[1].into(),
+        key[2].into(),
+        key[3].into(),
+        key[4].into(),
+        key[5].into(),
+        key[6].into(),
+        key[7].into(),
+        counter[0],
+        counter[1],
+        counter[2],
+        counter[3],
     ];
 
     let mut in_out_len = in_out.len().checked_sub(src.start).unwrap();
@@ -182,7 +196,7 @@ impl Key {
     }
 
     #[inline] // Optimize away match on `counter.`
-    #[cfg(not(target_arch="riscv32"))]
+    #[cfg(not(target_arch = "mips"))]
     unsafe fn encrypt(
         &self,
         counter: CounterOrIv,
@@ -215,8 +229,13 @@ impl Key {
 
     /// This is "less safe" because it skips the important check that `encrypt_within` does.
     /// It assumes `src` equals `0..`, which is checked and corrected by `encrypt_within`.
-    #[cfg(all(not(target_arch = "x86_64"), target_os = "xous"))]
-    #[inline] // Optimize away match on `counter.`
+
+    #[cfg(any(
+        not(target_arch = "x86_64"),
+        not(target_arch = "mips"),
+        target_os = "xous"
+    ))]
+    #[inline]
     unsafe fn encrypt(
         &self,
         counter: CounterOrIv,
@@ -231,8 +250,7 @@ impl Key {
                 Counter::from_bytes_less_safe(iv.into_bytes_less_safe())
             }
         };
-        let in_out =
-            core::slice::from_raw_parts_mut(output, in_out_len);
+        let in_out = core::slice::from_raw_parts_mut(output, in_out_len);
         ChaCha20_ctr32(self, ctr, in_out, 0..);
     }
 
@@ -241,7 +259,6 @@ impl Key {
     pub(super) fn words_less_safe(&self) -> &[LittleEndian<u32>; KEY_LEN / 4] {
         &self.0
     }
-
 }
 
 pub type Counter = counter::Counter<LittleEndian<u32>>;

@@ -69,7 +69,7 @@ unsafe extern "C" fn value_barrier_w(a: crypto_word) -> crypto_word {
 #[inline]
 unsafe extern "C" fn constant_time_msb_w(a: crypto_word) -> crypto_word {
     return (0 as core::ffi::c_uint).wrapping_sub(
-        a >> (core::mem::size_of::<crypto_word>() as u32)
+        a >> (::core::mem::size_of::<crypto_word>() as u32)
             .wrapping_mul(8 as core::ffi::c_int as core::ffi::c_uint)
             .wrapping_sub(1 as core::ffi::c_int as core::ffi::c_uint),
     );
@@ -154,12 +154,27 @@ unsafe extern "C" fn limbs_add(
             b"crypto/fipsmodule/ec_17/../../limbs/limbs.inl\0" as *const u8
                 as *const core::ffi::c_char,
             118 as core::ffi::c_int as core::ffi::c_uint,
-            (*core::mem::transmute::<&[u8; 60], &[core::ffi::c_char; 60]>(
+            (*::core::mem::transmute::<&[u8; 60], &[core::ffi::c_char; 60]>(
                 b"Carry limbs_add(Limb *, const Limb *, const Limb *, size_t)\0",
             ))
             .as_ptr(),
         );
     }
+    'c_1022: {
+        if num_limbs >= 1 as core::ffi::c_int as core::ffi::c_uint {
+        } else {
+            __assert_fail(
+                b"num_limbs >= 1\0" as *const u8 as *const core::ffi::c_char,
+                b"crypto/fipsmodule/ec_17/../../limbs/limbs.inl\0" as *const u8
+                    as *const core::ffi::c_char,
+                118 as core::ffi::c_int as core::ffi::c_uint,
+                (*::core::mem::transmute::<&[u8; 60], &[core::ffi::c_char; 60]>(
+                    b"Carry limbs_add(Limb *, const Limb *, const Limb *, size_t)\0",
+                ))
+                .as_ptr(),
+            );
+        }
+    };
     let mut carry: Carry = limb_add(
         &mut *r.offset(0 as core::ffi::c_int as isize),
         *a.offset(0 as core::ffi::c_int as isize),
@@ -174,6 +189,7 @@ unsafe extern "C" fn limbs_add(
             carry,
         );
         i = i.wrapping_add(1);
+        i;
     }
     return carry;
 }
@@ -191,12 +207,27 @@ unsafe extern "C" fn limbs_sub(
             b"crypto/fipsmodule/ec_17/../../limbs/limbs.inl\0" as *const u8
                 as *const core::ffi::c_char,
             129 as core::ffi::c_int as core::ffi::c_uint,
-            (*core::mem::transmute::<&[u8; 60], &[core::ffi::c_char; 60]>(
+            (*::core::mem::transmute::<&[u8; 60], &[core::ffi::c_char; 60]>(
                 b"Carry limbs_sub(Limb *, const Limb *, const Limb *, size_t)\0",
             ))
             .as_ptr(),
         );
     }
+    'c_1134: {
+        if num_limbs >= 1 as core::ffi::c_int as core::ffi::c_uint {
+        } else {
+            __assert_fail(
+                b"num_limbs >= 1\0" as *const u8 as *const core::ffi::c_char,
+                b"crypto/fipsmodule/ec_17/../../limbs/limbs.inl\0" as *const u8
+                    as *const core::ffi::c_char,
+                129 as core::ffi::c_int as core::ffi::c_uint,
+                (*::core::mem::transmute::<&[u8; 60], &[core::ffi::c_char; 60]>(
+                    b"Carry limbs_sub(Limb *, const Limb *, const Limb *, size_t)\0",
+                ))
+                .as_ptr(),
+            );
+        }
+    };
     let mut borrow: Carry = limb_sub(
         &mut *r.offset(0 as core::ffi::c_int as isize),
         *a.offset(0 as core::ffi::c_int as isize),
@@ -211,6 +242,7 @@ unsafe extern "C" fn limbs_sub(
             borrow,
         );
         i = i.wrapping_add(1);
+        i;
     }
     return borrow;
 }
@@ -220,6 +252,7 @@ unsafe extern "C" fn limbs_copy(r: *mut Limb, a: *const Limb, num_limbs: size_t)
     while i < num_limbs {
         *r.offset(i as isize) = *a.offset(i as isize);
         i = i.wrapping_add(1);
+        i;
     }
 }
 #[inline]
@@ -228,6 +261,7 @@ unsafe extern "C" fn limbs_zero(r: *mut Limb, num_limbs: size_t) {
     while i < num_limbs {
         *r.offset(i as isize) = 0 as core::ffi::c_int as Limb;
         i = i.wrapping_add(1);
+        i;
     }
 }
 static mut Q: [BN_ULONG; 12] = [
@@ -294,6 +328,7 @@ unsafe extern "C" fn copy_conditional(r: *mut Limb, a: *const Limb, condition: L
         *r.offset(i as isize) =
             constant_time_select_w(condition, *a.offset(i as isize), *r.offset(i as isize));
         i = i.wrapping_add(1);
+        i;
     }
 }
 #[inline]
@@ -358,6 +393,7 @@ unsafe extern "C" fn elem_div_by_2(r: *mut Limb, a: *const Limb) {
                     .wrapping_sub(1 as core::ffi::c_int as core::ffi::c_uint);
         carry = new_carry;
         i = i.wrapping_add(1);
+        i;
     }
     static mut Q_PLUS_1_SHR_1: Elem = [
         0x80000000 as core::ffi::c_uint,
@@ -452,6 +488,7 @@ pub unsafe extern "C" fn p384_elem_neg(r: *mut Limb, a: *const Limb) {
             *r.offset(i as isize),
         );
         i = i.wrapping_add(1);
+        i;
     }
 }
 #[no_mangle]
@@ -517,8 +554,10 @@ unsafe extern "C" fn p384_point_select_w5(
                 z[j as usize],
             );
             j = j.wrapping_add(1);
+            j;
         }
         i = i.wrapping_add(1);
+        i;
     }
     limbs_copy(
         ((*out).X).as_mut_ptr(),
@@ -549,24 +588,52 @@ unsafe extern "C" fn booth_recode(
             b"w >= 2\0" as *const u8 as *const core::ffi::c_char,
             b"crypto/fipsmodule/ec_17/ecp_nistz.h\0" as *const u8 as *const core::ffi::c_char,
             251 as core::ffi::c_int as core::ffi::c_uint,
-            (*core::mem::transmute::<&[u8; 74], &[core::ffi::c_char; 74]>(
+            (*::core::mem::transmute::<&[u8; 74], &[core::ffi::c_char; 74]>(
                 b"void booth_recode(crypto_word *, crypto_word *, crypto_word, crypto_word)\0",
             ))
             .as_ptr(),
         );
     }
+    'c_2393: {
+        if w >= 2 as core::ffi::c_int as core::ffi::c_uint {
+        } else {
+            __assert_fail(
+                b"w >= 2\0" as *const u8 as *const core::ffi::c_char,
+                b"crypto/fipsmodule/ec_17/ecp_nistz.h\0" as *const u8 as *const core::ffi::c_char,
+                251 as core::ffi::c_int as core::ffi::c_uint,
+                (*::core::mem::transmute::<&[u8; 74], &[core::ffi::c_char; 74]>(
+                    b"void booth_recode(crypto_word *, crypto_word *, crypto_word, crypto_word)\0",
+                ))
+                .as_ptr(),
+            );
+        }
+    };
     if w <= 7 as core::ffi::c_int as core::ffi::c_uint {
     } else {
         __assert_fail(
             b"w <= 7\0" as *const u8 as *const core::ffi::c_char,
             b"crypto/fipsmodule/ec_17/ecp_nistz.h\0" as *const u8 as *const core::ffi::c_char,
             252 as core::ffi::c_int as core::ffi::c_uint,
-            (*core::mem::transmute::<&[u8; 74], &[core::ffi::c_char; 74]>(
+            (*::core::mem::transmute::<&[u8; 74], &[core::ffi::c_char; 74]>(
                 b"void booth_recode(crypto_word *, crypto_word *, crypto_word, crypto_word)\0",
             ))
             .as_ptr(),
         );
     }
+    'c_2352: {
+        if w <= 7 as core::ffi::c_int as core::ffi::c_uint {
+        } else {
+            __assert_fail(
+                b"w <= 7\0" as *const u8 as *const core::ffi::c_char,
+                b"crypto/fipsmodule/ec_17/ecp_nistz.h\0" as *const u8 as *const core::ffi::c_char,
+                252 as core::ffi::c_int as core::ffi::c_uint,
+                (*::core::mem::transmute::<&[u8; 74], &[core::ffi::c_char; 74]>(
+                    b"void booth_recode(crypto_word *, crypto_word *, crypto_word, crypto_word)\0",
+                ))
+                .as_ptr(),
+            );
+        }
+    };
     let s: crypto_word = !(in_0 >> w).wrapping_sub(1 as core::ffi::c_int as core::ffi::c_uint);
     let mut d: crypto_word;
     d = ((1 as core::ffi::c_uint) << w.wrapping_add(1 as core::ffi::c_int as core::ffi::c_uint))
@@ -807,8 +874,8 @@ pub unsafe extern "C" fn nistz384_point_mul(
     let mut p_str: [uint8_t; 49] = [0; 49];
     little_endian_bytes_from_scalar(
         p_str.as_mut_ptr(),
-        (core::mem::size_of::<[uint8_t; 49]>() as u32)
-            .wrapping_div(core::mem::size_of::<uint8_t>() as u32),
+        (::core::mem::size_of::<[uint8_t; 49]>() as u32)
+            .wrapping_div(::core::mem::size_of::<uint8_t>() as u32),
         p_scalar,
         (384 as core::ffi::c_uint).wrapping_div(32 as core::ffi::c_uint),
     );

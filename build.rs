@@ -334,7 +334,11 @@ fn build_c_code(target: &Target, pregenerated: PathBuf, out_dir: &Path) {
         }
     }
     // Xous uses a pure Rust transpiled version of the code base
-    if (&target.os == "xous" && &target.arch != "x86_64") || &target.arch == "mips" {
+    if (&target.os == "xous" && &target.arch != "x86_64") {
+        return;
+    }
+
+    if (&target.arch == "mips") {
         return;
     }
 
@@ -589,6 +593,7 @@ fn cc(
     // poly1305_vec.c requires <emmintrin.h> which requires <stdlib.h>.
     if (target.arch == "wasm32" && target.os == "unknown")
         || (target.os == "linux" && is_musl && target.arch != "x86_64")
+        || (target.arch == "mips")
     {
         if let Ok(compiler) = c.try_get_compiler() {
             // TODO: Expand this to non-clang compilers in 0.17.0 if practical.

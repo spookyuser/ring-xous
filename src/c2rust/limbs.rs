@@ -28,7 +28,7 @@ unsafe extern "C" fn value_barrier_w(a: crypto_word) -> crypto_word {
 #[inline]
 unsafe extern "C" fn constant_time_msb_w(a: crypto_word) -> crypto_word {
     return (0 as core::ffi::c_uint).wrapping_sub(
-        a >> (core::mem::size_of::<crypto_word>() as u32)
+        a >> (::core::mem::size_of::<crypto_word>() as u32)
             .wrapping_mul(8 as core::ffi::c_int as core::ffi::c_uint)
             .wrapping_sub(1 as core::ffi::c_int as core::ffi::c_uint),
     );
@@ -123,12 +123,26 @@ unsafe extern "C" fn limbs_add(
             b"num_limbs >= 1\0" as *const u8 as *const core::ffi::c_char,
             b"crypto/limbs/limbs.inl\0" as *const u8 as *const core::ffi::c_char,
             118 as core::ffi::c_int as core::ffi::c_uint,
-            (*core::mem::transmute::<&[u8; 60], &[core::ffi::c_char; 60]>(
+            (*::core::mem::transmute::<&[u8; 60], &[core::ffi::c_char; 60]>(
                 b"Carry limbs_add(Limb *, const Limb *, const Limb *, size_t)\0",
             ))
             .as_ptr(),
         );
     }
+    'c_1449: {
+        if num_limbs >= 1 as core::ffi::c_int as core::ffi::c_uint {
+        } else {
+            __assert_fail(
+                b"num_limbs >= 1\0" as *const u8 as *const core::ffi::c_char,
+                b"crypto/limbs/limbs.inl\0" as *const u8 as *const core::ffi::c_char,
+                118 as core::ffi::c_int as core::ffi::c_uint,
+                (*::core::mem::transmute::<&[u8; 60], &[core::ffi::c_char; 60]>(
+                    b"Carry limbs_add(Limb *, const Limb *, const Limb *, size_t)\0",
+                ))
+                .as_ptr(),
+            );
+        }
+    };
     let mut carry: Carry = limb_add(
         &mut *r.offset(0 as core::ffi::c_int as isize),
         *a.offset(0 as core::ffi::c_int as isize),
@@ -143,6 +157,7 @@ unsafe extern "C" fn limbs_add(
             carry,
         );
         i = i.wrapping_add(1);
+        i;
     }
     return carry;
 }
@@ -159,12 +174,26 @@ unsafe extern "C" fn limbs_sub(
             b"num_limbs >= 1\0" as *const u8 as *const core::ffi::c_char,
             b"crypto/limbs/limbs.inl\0" as *const u8 as *const core::ffi::c_char,
             129 as core::ffi::c_int as core::ffi::c_uint,
-            (*core::mem::transmute::<&[u8; 60], &[core::ffi::c_char; 60]>(
+            (*::core::mem::transmute::<&[u8; 60], &[core::ffi::c_char; 60]>(
                 b"Carry limbs_sub(Limb *, const Limb *, const Limb *, size_t)\0",
             ))
             .as_ptr(),
         );
     }
+    'c_1646: {
+        if num_limbs >= 1 as core::ffi::c_int as core::ffi::c_uint {
+        } else {
+            __assert_fail(
+                b"num_limbs >= 1\0" as *const u8 as *const core::ffi::c_char,
+                b"crypto/limbs/limbs.inl\0" as *const u8 as *const core::ffi::c_char,
+                129 as core::ffi::c_int as core::ffi::c_uint,
+                (*::core::mem::transmute::<&[u8; 60], &[core::ffi::c_char; 60]>(
+                    b"Carry limbs_sub(Limb *, const Limb *, const Limb *, size_t)\0",
+                ))
+                .as_ptr(),
+            );
+        }
+    };
     let mut borrow: Carry = limb_sub(
         &mut *r.offset(0 as core::ffi::c_int as isize),
         *a.offset(0 as core::ffi::c_int as isize),
@@ -179,6 +208,7 @@ unsafe extern "C" fn limbs_sub(
             borrow,
         );
         i = i.wrapping_add(1);
+        i;
     }
     return borrow;
 }
@@ -194,6 +224,7 @@ unsafe extern "C" fn limbs_select(
     while i < num_limbs {
         *r.offset(i as isize) = 0 as core::ffi::c_int as Limb;
         i = i.wrapping_add(1);
+        i;
     }
     let mut e: size_t = 0 as core::ffi::c_int as size_t;
     while e < num_entries {
@@ -206,8 +237,10 @@ unsafe extern "C" fn limbs_select(
                 *r.offset(i_0 as isize),
             );
             i_0 = i_0.wrapping_add(1);
+            i_0;
         }
         e = e.wrapping_add(1);
+        e;
     }
 }
 #[no_mangle]
@@ -221,6 +254,7 @@ pub unsafe extern "C" fn LIMBS_are_zero(a: *const Limb, num_limbs: size_t) -> Li
             is_zero,
         );
         i = i.wrapping_add(1);
+        i;
     }
     return is_zero;
 }
@@ -239,6 +273,7 @@ pub unsafe extern "C" fn LIMBS_equal(
             eq,
         );
         i = i.wrapping_add(1);
+        i;
     }
     return eq;
 }
@@ -257,12 +292,26 @@ pub unsafe extern "C" fn LIMBS_equal_limb(
             b"num_limbs >= 1\0" as *const u8 as *const core::ffi::c_char,
             b"crypto/limbs/limbs.c\0" as *const u8 as *const core::ffi::c_char,
             51 as core::ffi::c_int as core::ffi::c_uint,
-            (*core::mem::transmute::<&[u8; 50], &[core::ffi::c_char; 50]>(
+            (*::core::mem::transmute::<&[u8; 50], &[core::ffi::c_char; 50]>(
                 b"Limb LIMBS_equal_limb(const Limb *, Limb, size_t)\0",
             ))
             .as_ptr(),
         );
     }
+    'c_812: {
+        if num_limbs >= 1 as core::ffi::c_int as core::ffi::c_uint {
+        } else {
+            __assert_fail(
+                b"num_limbs >= 1\0" as *const u8 as *const core::ffi::c_char,
+                b"crypto/limbs/limbs.c\0" as *const u8 as *const core::ffi::c_char,
+                51 as core::ffi::c_int as core::ffi::c_uint,
+                (*::core::mem::transmute::<&[u8; 50], &[core::ffi::c_char; 50]>(
+                    b"Limb LIMBS_equal_limb(const Limb *, Limb, size_t)\0",
+                ))
+                .as_ptr(),
+            );
+        }
+    };
     let lo_equal: Limb = constant_time_eq_w(*a.offset(0 as core::ffi::c_int as isize), b);
     let hi_zero: Limb = LIMBS_are_zero(
         &*a.offset(1 as core::ffi::c_int as isize),
@@ -292,12 +341,26 @@ pub unsafe extern "C" fn LIMBS_less_than(
             b"num_limbs >= 1\0" as *const u8 as *const core::ffi::c_char,
             b"crypto/limbs/limbs.c\0" as *const u8 as *const core::ffi::c_char,
             71 as core::ffi::c_int as core::ffi::c_uint,
-            (*core::mem::transmute::<&[u8; 57], &[core::ffi::c_char; 57]>(
+            (*::core::mem::transmute::<&[u8; 57], &[core::ffi::c_char; 57]>(
                 b"Limb LIMBS_less_than(const Limb *, const Limb *, size_t)\0",
             ))
             .as_ptr(),
         );
     }
+    'c_1100: {
+        if num_limbs >= 1 as core::ffi::c_int as core::ffi::c_uint {
+        } else {
+            __assert_fail(
+                b"num_limbs >= 1\0" as *const u8 as *const core::ffi::c_char,
+                b"crypto/limbs/limbs.c\0" as *const u8 as *const core::ffi::c_char,
+                71 as core::ffi::c_int as core::ffi::c_uint,
+                (*::core::mem::transmute::<&[u8; 57], &[core::ffi::c_char; 57]>(
+                    b"Limb LIMBS_less_than(const Limb *, const Limb *, size_t)\0",
+                ))
+                .as_ptr(),
+            );
+        }
+    };
     let mut dummy: Limb = 0;
     let mut borrow: Carry = limb_sub(
         &mut dummy,
@@ -313,6 +376,7 @@ pub unsafe extern "C" fn LIMBS_less_than(
             borrow,
         );
         i = i.wrapping_add(1);
+        i;
     }
     return constant_time_is_nonzero_w(borrow);
 }
@@ -328,12 +392,26 @@ pub unsafe extern "C" fn LIMBS_less_than_limb(
             b"num_limbs >= 1\0" as *const u8 as *const core::ffi::c_char,
             b"crypto/limbs/limbs.c\0" as *const u8 as *const core::ffi::c_char,
             84 as core::ffi::c_int as core::ffi::c_uint,
-            (*core::mem::transmute::<&[u8; 54], &[core::ffi::c_char; 54]>(
+            (*::core::mem::transmute::<&[u8; 54], &[core::ffi::c_char; 54]>(
                 b"Limb LIMBS_less_than_limb(const Limb *, Limb, size_t)\0",
             ))
             .as_ptr(),
         );
     }
+    'c_2396: {
+        if num_limbs >= 1 as core::ffi::c_int as core::ffi::c_uint {
+        } else {
+            __assert_fail(
+                b"num_limbs >= 1\0" as *const u8 as *const core::ffi::c_char,
+                b"crypto/limbs/limbs.c\0" as *const u8 as *const core::ffi::c_char,
+                84 as core::ffi::c_int as core::ffi::c_uint,
+                (*::core::mem::transmute::<&[u8; 54], &[core::ffi::c_char; 54]>(
+                    b"Limb LIMBS_less_than_limb(const Limb *, Limb, size_t)\0",
+                ))
+                .as_ptr(),
+            );
+        }
+    };
     let mut dummy: Limb = 0;
     let lo: Limb = constant_time_is_nonzero_w(limb_sub(
         &mut dummy,
@@ -358,12 +436,26 @@ pub unsafe extern "C" fn LIMBS_reduce_once(
             b"num_limbs >= 1\0" as *const u8 as *const core::ffi::c_char,
             b"crypto/limbs/limbs.c\0" as *const u8 as *const core::ffi::c_char,
             94 as core::ffi::c_int as core::ffi::c_uint,
-            (*core::mem::transmute::<&[u8; 53], &[core::ffi::c_char; 53]>(
+            (*::core::mem::transmute::<&[u8; 53], &[core::ffi::c_char; 53]>(
                 b"void LIMBS_reduce_once(Limb *, const Limb *, size_t)\0",
             ))
             .as_ptr(),
         );
     }
+    'c_1180: {
+        if num_limbs >= 1 as core::ffi::c_int as core::ffi::c_uint {
+        } else {
+            __assert_fail(
+                b"num_limbs >= 1\0" as *const u8 as *const core::ffi::c_char,
+                b"crypto/limbs/limbs.c\0" as *const u8 as *const core::ffi::c_char,
+                94 as core::ffi::c_int as core::ffi::c_uint,
+                (*::core::mem::transmute::<&[u8; 53], &[core::ffi::c_char; 53]>(
+                    b"void LIMBS_reduce_once(Limb *, const Limb *, size_t)\0",
+                ))
+                .as_ptr(),
+            );
+        }
+    };
     let lt: Limb = LIMBS_less_than(r as *const Limb, m, num_limbs);
     let mut borrow: Carry = limb_sub(
         &mut *r.offset(0 as core::ffi::c_int as isize),
@@ -387,6 +479,7 @@ pub unsafe extern "C" fn LIMBS_reduce_once(
             borrow,
         );
         i = i.wrapping_add(1);
+        i;
     }
 }
 #[no_mangle]
@@ -414,6 +507,7 @@ pub unsafe extern "C" fn LIMBS_add_mod(
             borrow,
         );
         i = i.wrapping_add(1);
+        i;
     }
 }
 #[no_mangle]
@@ -439,6 +533,7 @@ pub unsafe extern "C" fn LIMBS_sub_mod(
             carry,
         );
         i = i.wrapping_add(1);
+        i;
     }
 }
 #[no_mangle]
@@ -463,6 +558,7 @@ pub unsafe extern "C" fn LIMBS_shl_mod(
         *r.offset(i as isize) = limb << 1 as core::ffi::c_int | carry;
         carry = new_carry;
         i = i.wrapping_add(1);
+        i;
     }
     let overflow2: Limb = !LIMBS_less_than(r as *const Limb, m, num_limbs);
     let overflow: Limb = overflow1 | overflow2;
@@ -480,6 +576,7 @@ pub unsafe extern "C" fn LIMBS_shl_mod(
             borrow,
         );
         i_0 = i_0.wrapping_add(1);
+        i_0;
     }
 }
 #[no_mangle]
@@ -540,6 +637,7 @@ pub unsafe extern "C" fn GFp_limbs_mul_add_limb(
         c = limb_add(&mut *r.offset(i as isize), *r.offset(i as isize), tmp);
         let _c = limb_adc(&mut carried, carried, 0 as core::ffi::c_int as Limb, c);
         i = i.wrapping_add(1);
+        i;
     }
     return carried;
 }
@@ -562,6 +660,7 @@ pub unsafe extern "C" fn limbs_mul_add_limb(
         c = limb_add(&mut *r.offset(i as isize), *r.offset(i as isize), tmp);
         let _c = limb_adc(&mut carried, carried, 0 as core::ffi::c_int as Limb, c);
         i = i.wrapping_add(1);
+        i;
     }
     return carried;
 }
