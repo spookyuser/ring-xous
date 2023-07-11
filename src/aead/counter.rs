@@ -81,7 +81,7 @@ where
         let old_value: u32 = (*counter).into();
         *counter = U32::from(old_value + increment_by);
     }
-    #[cfg(all(not(target_arch = "x86_64"), target_os = "xous"))]
+    // #[cfg(all(not(target_arch = "x86_64"), target_os = "xous"))]
     pub fn into_words_less_safe(self) -> [u32; 4] {
         [
             self.u32s[0].into(),
@@ -90,7 +90,7 @@ where
             self.u32s[3].into(),
         ]
     }
-    #[cfg(all(not(target_arch = "x86_64"), target_os = "xous"))]
+    // #[cfg(all(not(target_arch = "x86_64"), target_os = "xous"))]
     pub fn from_bytes_less_safe(bytes: [u8; 16]) -> Self {
         Counter {
             u32s: [
@@ -98,7 +98,7 @@ where
                 U32::from(u32::from_le_bytes(bytes[4..8].try_into().unwrap())),
                 U32::from(u32::from_le_bytes(bytes[8..12].try_into().unwrap())),
                 U32::from(u32::from_le_bytes(bytes[12..16].try_into().unwrap())),
-            ]
+            ],
         }
     }
 }
