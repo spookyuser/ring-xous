@@ -245,13 +245,20 @@ fn signature_ecdsa_sign_fixed_sign_and_verify_test() {
                 }
             };
 
+               let public_key = signature::UnparsedPublicKey::new(verification_alg, q);
+
             let private_key =
-                signature::EcdsaKeyPair::from_private_key_and_public_key(signing_alg, &d, &q)
+                signature::EcdsaKeyPair::from_private_key_and_public_key(
+                    signing_alg,
+                    &d,
+                    public_key,
+                    &q,
+                )
                     .unwrap();
 
             let signature = private_key.sign(&rng, &msg).unwrap();
 
-            let public_key = signature::UnparsedPublicKey::new(verification_alg, q);
+         
             assert_eq!(public_key.verify(&msg, signature.as_ref()), Ok(()));
 
             Ok(())
@@ -300,7 +307,13 @@ fn signature_ecdsa_sign_asn1_test() {
             };
 
             let private_key =
-                signature::EcdsaKeyPair::from_private_key_and_public_key(signing_alg, &d, &q)
+                signature::EcdsaKeyPair::from_private_key_and_public_key(
+                     signing_alg,
+                    &d,
+                    verification_alg,
+                    &q,
+
+                )
                     .unwrap();
 
             let signature = private_key.sign(&rng, &msg).unwrap();
