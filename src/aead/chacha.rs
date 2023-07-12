@@ -15,12 +15,21 @@
 
 use super::{counter, iv::Iv, quic::Sample, BLOCK_LEN};
 use crate::endian::*;
-// #[cfg(all(not(target_arch = "x86_64"), target_os = "xous"))]
+#[cfg(any(
+    target_arch = "mips",
+    all(not(target_arch = "x86_64"), target_os = "xous")
+))]
 use crate::polyfill::ChunksFixedMut;
-// #[cfg(all(not(target_arch = "x86_64"), target_os = "xous"))]
+#[cfg(any(
+    target_arch = "mips",
+    all(not(target_arch = "x86_64"), target_os = "xous")
+))]
 use core::ops::RangeFrom;
 
-// #[cfg(all(not(target_arch = "x86_64"), target_os = "xous"))]
+#[cfg(any(
+    target_arch = "mips",
+    all(not(target_arch = "x86_64"), target_os = "xous")
+))]
 pub(super) fn ChaCha20_ctr32(
     key: &Key,
     counter: Counter,
@@ -79,7 +88,10 @@ pub(super) fn ChaCha20_ctr32(
 }
 
 // Performs 20 rounds of ChaCha on `input`, storing the result in `output`.
-// #[cfg(all(not(target_arch = "x86_64"), target_os = "xous"))]
+#[cfg(any(
+    target_arch = "mips",
+    all(not(target_arch = "x86_64"), target_os = "xous")
+))]
 #[inline(always)]
 fn chacha_core(output: &mut [u8; BLOCK_LEN * 4], input: &State) {
     let mut x = *input;
@@ -104,7 +116,10 @@ fn chacha_core(output: &mut [u8; BLOCK_LEN * 4], input: &State) {
     }
 }
 
-// #[cfg(all(not(target_arch = "x86_64"), target_os = "xous"))]
+#[cfg(any(
+    target_arch = "mips",
+    all(not(target_arch = "x86_64"), target_os = "xous")
+))]
 #[inline(always)]
 fn quarterround(x: &mut State, a: usize, b: usize, c: usize, d: usize) {
     #[inline(always)]
@@ -117,7 +132,10 @@ fn quarterround(x: &mut State, a: usize, b: usize, c: usize, d: usize) {
     step(x, a, b, d, 8);
     step(x, c, d, b, 7);
 }
-// #[cfg(all(not(target_arch = "x86_64"), target_os = "xous"))]
+#[cfg(any(
+    target_arch = "mips",
+    all(not(target_arch = "x86_64"), target_os = "xous")
+))]
 type State = [u32; BLOCK_LEN];
 
 #[repr(transparent)]
@@ -196,7 +214,7 @@ impl Key {
     }
 
     #[inline] // Optimize away match on `counter.`
-    #[cfg(target_arch = "riscv")]
+    #[cfg(not(any(target_arch = "mips", target_arch = "riscv")))]
     unsafe fn encrypt(
         &self,
         counter: CounterOrIv,
@@ -230,7 +248,10 @@ impl Key {
     /// This is "less safe" because it skips the important check that `encrypt_within` does.
     /// It assumes `src` equals `0..`, which is checked and corrected by `encrypt_within`.
 
-    // #[cfg(all(not(target_arch = "x86_64"), target_os = "xous"))]
+    #[cfg(any(
+        target_arch = "mips",
+        all(not(target_arch = "x86_64"), target_os = "xous")
+    ))]
     #[inline]
     unsafe fn encrypt(
         &self,

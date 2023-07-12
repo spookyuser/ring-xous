@@ -29,6 +29,12 @@ use std::{
     time::SystemTime,
 };
 
+macro_rules! p {
+    ($($tokens: tt)*) => {
+        println!("cargo:warning={}", format!($($tokens)*))
+    }
+}
+
 const X86: &str = "x86";
 const X86_64: &str = "x86_64";
 const AARCH64: &str = "aarch64";
@@ -327,6 +333,8 @@ struct Target {
 }
 
 fn build_c_code(target: &Target, pregenerated: PathBuf, out_dir: &Path) {
+    p!("*************");
+    p!("Building C code for target {:?}", target.arch);
     #[cfg(not(feature = "wasm32_c"))]
     {
         if &target.arch == "wasm32" {
@@ -334,11 +342,12 @@ fn build_c_code(target: &Target, pregenerated: PathBuf, out_dir: &Path) {
         }
     }
     // Xous uses a pure Rust transpiled version of the code base
-    if (&target.os == "xous" && &target.arch != "x86_64") {
+    if &target.os == "xous" && &target.arch != "x86_64" {
         return;
     }
 
-    if (&target.arch == "mips") {
+    if &target.arch == "mips" {
+        p!("Returning");
         return;
     }
 
