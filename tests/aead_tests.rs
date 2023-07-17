@@ -108,7 +108,7 @@ fn test_aead<Seal, Open>(
         let key_bytes = test_case.consume_bytes("KEY");
         let nonce_bytes = test_case.consume_bytes("NONCE");
         let plaintext = test_case.consume_bytes("IN");
-        let aad = test_case.consume_bytes("AD");
+        let aad: Vec<u8> = test_case.consume_bytes("AD");
         let mut ct = test_case.consume_bytes("CT");
         let tag = test_case.consume_bytes("TAG");
         let error = test_case.consume_optional_string("FAILS");

@@ -369,7 +369,7 @@ fn detect_implementation(cpu_features: cpu::Features) -> Implementation {
         target_arch = "x86_64",
         target_arch = "x86"
     )))]
-    let _cpu_features = cpu_features;
+    let _cpu_features: cpu::Features = cpu_features;
 
     #[cfg(any(
         target_arch = "aarch64",

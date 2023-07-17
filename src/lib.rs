@@ -157,12 +157,7 @@ mod sealed {
     pub trait Sealed {}
 }
 
-#[cfg(any(
-    target_arch = "wasm32",
-    target_arch = "mips",
-    target_os = "xous",
-    target_arch = "mips"
-))]
+#[cfg(any(target_arch = "wasm32", target_arch = "mips", target_os = "xous",))]
 mod c2rust {
     mod aes_nohw;
     mod crypto;
