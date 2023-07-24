@@ -16,8 +16,6 @@ use core::ops::RangeFrom;
 use log::{debug, error, info, log_enabled, Level};
 use ring::{aead, error, test, test_file};
 use std::env;
-// Hex
-use hex::FromHex;
 
 fn init() {
     env::set_var("RUST_LOG", "debug");
@@ -49,7 +47,7 @@ fn testy_test() {
 
     debug!("key_bytes: {:?}", key_bytes_str);
     debug!("nonce_bytes: {:?}", nonce_bytes_str);
-    debug!("plaintext: {:?}", plaintext_st);
+    debug!("plaintext: {:?}", plaintext_str);
     debug!("aad: {:?}", aad_str);
     debug!("ct: {:?}", ct_str);
     debug!("tag: {:?}", tag_str);
@@ -73,14 +71,15 @@ fn testy_test() {
     );
 
     ct.extend(tag);
-    let s_in_out_hex = hex::encode(&s_in_out);
+    debug!("Expected ct: {:?}", ct_str);
+    debug!(
+        "Actual ct: {:?}",
+        hex::encode(&s_in_out).split_at(ct_str.len()).0
+    );
 
-    debug!("Input was: {:?}", s_in_out_hex);
-    debug!("Output was: {:?}", ct_str);
     if s_result.is_ok() {
         assert_eq!(&ct, &s_in_out);
         debug!("Okay")
-    } else {
     }
 
     // In release builds, test all prefix lengths from 0 to 4096 bytes.
