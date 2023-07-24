@@ -6,7 +6,7 @@ ssl/test/runner/runner
 *.swo
 doc/*.html
 doc/doc.css
-
+*.DS_STORE
 *.bk
 *.orig
 *~

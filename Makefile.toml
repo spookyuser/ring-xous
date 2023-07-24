@@ -1,0 +1,27 @@
+env_files = ["../build.env"]
+
+[tasks.test]
+command = "cargo"
+args = [
+    "test",
+    "--target=mips-unknown-linux-musl",
+    "--test",
+    "aead_tests",
+    "--no-run",
+]
+
+[tasks.send]
+command = "rsync"
+args = [
+    "-avz",
+    "--delete",
+    "--exclude",
+    "*.*",
+    "-e",
+    "ssh",
+    "/workspaces/tiny-backup/ring-xous/target/mips-unknown-linux-musl/debug/deps",
+    "root@openwrt:/rtest/",
+]
+
+[tasks.run]
+dependencies = ["test", "send"]

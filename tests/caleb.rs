@@ -1,8 +1,10 @@
 extern crate libc;
 
+#[path = "../src/c2rust/aes_nohw.rs"]
+mod aes_nohw;
+use aes_nohw::GFp_aes_nohw_set_encrypt_key;
+use aes_nohw::AES_KEY;
 use ring::aead;
-use ring::c2rust::aes_nohw::GFp_aes_nohw_set_encrypt_key;
-use ring::c2rust::aes_nohw::AES_KEY;
 
 use ring::error;
 
@@ -137,7 +139,7 @@ fn seal_with_key(
 mod tests {
     // use ring::c2rust::aes_nohw::aes_key_st;
 
-    use ring::c2rust::aes_nohw::GFp_aes_nohw_encrypt;
+    use aes_nohw::GFp_aes_nohw_encrypt;
 
     use super::*;
     use std::os::raw::c_void;

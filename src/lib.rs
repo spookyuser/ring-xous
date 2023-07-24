@@ -158,7 +158,7 @@ mod sealed {
 }
 
 #[cfg(any(target_arch = "wasm32", target_arch = "mips", target_os = "xous",))]
-mod c2rust {
+pub mod c2rust {
     mod aes_nohw;
     mod crypto;
     mod curve25519;

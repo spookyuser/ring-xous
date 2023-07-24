@@ -102,12 +102,12 @@ fn from_hex_digit(d: u8) -> Result<u8, String> {
 
 #[test]
 fn testy_test() {
-    let key_bytes = consume_bytes("d480429666d48b400633921c5407d1d1");
-    let nonce_bytes = consume_bytes("3388c676dc754acfa66e172a");
-    let plaintext = consume_bytes("");
-    let aad: Vec<u8> = consume_bytes("");
-    let mut ct = consume_bytes("key");
-    let tag = consume_bytes("7d7daf44850921a34e636b01adeb104f");
+    let key_bytes = consume_bytes("3881e7be1bb3bbcaff20bdb78e5d1b67");
+    let nonce_bytes = consume_bytes("dcf5b7ae2d7552e2297fcfa9");
+    let plaintext = consume_bytes("0a2714aa7d");
+    let aad: Vec<u8> = consume_bytes("c60c64bbf7");
+    let mut ct: Vec<u8> = consume_bytes("5626f96ecb");
+    let tag = consume_bytes("ff4c4f1d92b0abb1d0820833d9eb83c7");
     let error = consume_string("Error");
     let algorithm = &aead::AES_128_GCM;
 
