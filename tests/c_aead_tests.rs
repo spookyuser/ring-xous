@@ -13,103 +13,46 @@
 // CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 use core::ops::RangeFrom;
+use log::{debug, error, info, log_enabled, Level};
 use ring::{aead, error, test, test_file};
+use std::env;
+// Hex
+use hex::FromHex;
 
-fn consume_bytes(key: &str) -> Vec<u8> {
-    let s = consume_string(key);
-    if s.starts_with('\"') {
-        // The value is a quoted UTF-8 string.
-
-        let mut bytes = Vec::with_capacity(s.as_bytes().len() - 2);
-        let mut s = s.as_bytes().iter().skip(1);
-        loop {
-            let b = match s.next() {
-                Some(b'\\') => {
-                    match s.next() {
-                        // We don't allow all octal escape sequences, only "\0" for null.
-                        Some(b'0') => 0u8,
-                        Some(b't') => b'\t',
-                        Some(b'n') => b'\n',
-                        // "\xHH"
-                        Some(b'x') => {
-                            let hi = s.next().expect("Invalid hex escape sequence in string.");
-                            let lo = s.next().expect("Invalid hex escape sequence in string.");
-                            if let (Ok(hi), Ok(lo)) = (from_hex_digit(*hi), from_hex_digit(*lo)) {
-                                (hi << 4) | lo
-                            } else {
-                                panic!("Invalid hex escape sequence in string.");
-                            }
-                        }
-                        _ => {
-                            panic!("Invalid hex escape sequence in string.");
-                        }
-                    }
-                }
-                Some(b'"') => {
-                    if s.next().is_some() {
-                        panic!("characters after the closing quote of a quoted string.");
-                    }
-                    break;
-                }
-                Some(b) => *b,
-                None => panic!("Missing terminating '\"' in string literal."),
-            };
-            bytes.push(b);
-        }
-        bytes
-    } else {
-        // The value is hex encoded.
-        match from_hex(&s) {
-            Ok(s) => s,
-            Err(err_str) => {
-                panic!("{} in {}", err_str, s);
-            }
-        }
-    }
-}
-
-fn consume_string(key: &str) -> String {
-    key.to_string()
-}
-fn from_hex(hex_str: &str) -> Result<Vec<u8>, String> {
-    if hex_str.len() % 2 != 0 {
-        return Err(String::from(
-            "Hex string does not have an even number of digits",
-        ));
-    }
-
-    let mut result = Vec::with_capacity(hex_str.len() / 2);
-    for digits in hex_str.as_bytes().chunks(2) {
-        let hi = from_hex_digit(digits[0])?;
-        let lo = from_hex_digit(digits[1])?;
-        result.push((hi * 0x10) | lo);
-    }
-    Ok(result)
-}
-
-fn from_hex_digit(d: u8) -> Result<u8, String> {
-    use core::ops::RangeInclusive;
-    const DECIMAL: (u8, RangeInclusive<u8>) = (0, b'0'..=b'9');
-    const HEX_LOWER: (u8, RangeInclusive<u8>) = (10, b'a'..=b'f');
-    const HEX_UPPER: (u8, RangeInclusive<u8>) = (10, b'A'..=b'F');
-    for (offset, range) in &[DECIMAL, HEX_LOWER, HEX_UPPER] {
-        if range.contains(&d) {
-            return Ok(d - range.start() + offset);
-        }
-    }
-    Err(format!("Invalid hex digit '{}'", d as char))
+fn init() {
+    env::set_var("RUST_LOG", "debug");
+    let _ = env_logger::builder().is_test(true).try_init();
+    // Set the default log level to debug for tests.
 }
 
 #[test]
 fn testy_test() {
-    let key_bytes = consume_bytes("3881e7be1bb3bbcaff20bdb78e5d1b67");
-    let nonce_bytes = consume_bytes("dcf5b7ae2d7552e2297fcfa9");
-    let plaintext = consume_bytes("0a2714aa7d");
-    let aad: Vec<u8> = consume_bytes("c60c64bbf7");
-    let mut ct: Vec<u8> = consume_bytes("5626f96ecb");
-    let tag = consume_bytes("ff4c4f1d92b0abb1d0820833d9eb83c7");
+    init();
+    // Make some variables for the key_bytes etc before we consume them
+    let key_bytes_str = "3881e7be1bb3bbcaff20bdb78e5d1b67";
+    let nonce_bytes_str = "dcf5b7ae2d7552e2297fcfa9";
+    let plaintext_str = "0a2714aa7d";
+    let aad_str = "c60c64bbf7";
+    let ct_str = "5626f96ecb";
+    let tag_str = "ff4c4f1d92b0abb1d0820833d9eb83c7";
+
+    // Debug all inputs
+
+    let key_bytes = consume_bytes(key_bytes_str);
+    let nonce_bytes = consume_bytes(nonce_bytes_str);
+    let plaintext = consume_bytes(plaintext_str);
+    let aad: Vec<u8> = consume_bytes(aad_str);
+    let mut ct: Vec<u8> = consume_bytes(ct_str);
+    let tag = consume_bytes(tag_str);
     let error = consume_string("Error");
     let algorithm = &aead::AES_128_GCM;
+
+    debug!("key_bytes: {:?}", key_bytes_str);
+    debug!("nonce_bytes: {:?}", nonce_bytes_str);
+    debug!("plaintext: {:?}", plaintext_st);
+    debug!("aad: {:?}", aad_str);
+    debug!("ct: {:?}", ct_str);
+    debug!("tag: {:?}", tag_str);
 
     // match &error {
     //     Some(err) if err == "WRONG_NONCE_LENGTH" => {
@@ -130,9 +73,14 @@ fn testy_test() {
     );
 
     ct.extend(tag);
+    let s_in_out_hex = hex::encode(&s_in_out);
 
+    debug!("Input was: {:?}", s_in_out_hex);
+    debug!("Output was: {:?}", ct_str);
     if s_result.is_ok() {
         assert_eq!(&ct, &s_in_out);
+        debug!("Okay")
+    } else {
     }
 
     // In release builds, test all prefix lengths from 0 to 4096 bytes.
@@ -215,6 +163,91 @@ fn testy_test() {
             in_prefix_len..,
         );
     }
+}
+
+fn consume_bytes(key: &str) -> Vec<u8> {
+    let s = consume_string(key);
+    if s.starts_with('\"') {
+        // The value is a quoted UTF-8 string.
+
+        let mut bytes = Vec::with_capacity(s.as_bytes().len() - 2);
+        let mut s: std::iter::Skip<std::slice::Iter<'_, u8>> = s.as_bytes().iter().skip(1);
+        loop {
+            let b = match s.next() {
+                Some(b'\\') => {
+                    match s.next() {
+                        // We don't allow all octal escape sequences, only "\0" for null.
+                        Some(b'0') => 0u8,
+                        Some(b't') => b'\t',
+                        Some(b'n') => b'\n',
+                        // "\xHH"
+                        Some(b'x') => {
+                            let hi = s.next().expect("Invalid hex escape sequence in string.");
+                            let lo = s.next().expect("Invalid hex escape sequence in string.");
+                            if let (Ok(hi), Ok(lo)) = (from_hex_digit(*hi), from_hex_digit(*lo)) {
+                                (hi << 4) | lo
+                            } else {
+                                panic!("Invalid hex escape sequence in string.");
+                            }
+                        }
+                        _ => {
+                            panic!("Invalid hex escape sequence in string.");
+                        }
+                    }
+                }
+                Some(b'"') => {
+                    if s.next().is_some() {
+                        panic!("characters after the closing quote of a quoted string.");
+                    }
+                    break;
+                }
+                Some(b) => *b,
+                None => panic!("Missing terminating '\"' in string literal."),
+            };
+            bytes.push(b);
+        }
+        bytes
+    } else {
+        // The value is hex encoded.
+        match from_hex(&s) {
+            Ok(s) => s,
+            Err(err_str) => {
+                panic!("{} in {}", err_str, s);
+            }
+        }
+    }
+}
+
+fn consume_string(key: &str) -> String {
+    key.to_string()
+}
+fn from_hex(hex_str: &str) -> Result<Vec<u8>, String> {
+    if hex_str.len() % 2 != 0 {
+        return Err(String::from(
+            "Hex string does not have an even number of digits",
+        ));
+    }
+
+    let mut result = Vec::with_capacity(hex_str.len() / 2);
+    for digits in hex_str.as_bytes().chunks(2) {
+        let hi = from_hex_digit(digits[0])?;
+        let lo = from_hex_digit(digits[1])?;
+        result.push((hi * 0x10) | lo);
+    }
+    Ok(result)
+}
+
+fn from_hex_digit(d: u8) -> Result<u8, String> {
+    use core::ops::RangeInclusive;
+    const DECIMAL: (u8, RangeInclusive<u8>) = (0, b'0'..=b'9');
+    const HEX_LOWER: (u8, RangeInclusive<u8>) = (10, b'a'..=b'f');
+    const HEX_UPPER: (u8, RangeInclusive<u8>) = (10, b'A'..=b'F');
+    for (offset, range) in &[DECIMAL, HEX_LOWER, HEX_UPPER] {
+        if range.contains(&d) {
+            return Ok(d - range.start() + offset);
+        }
+    }
+    Err(format!("Invalid hex digit '{}'", d as char))
 }
 
 fn seal_with_key(
