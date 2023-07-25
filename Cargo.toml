@@ -307,6 +307,8 @@ log = "0.4.14"
 aead = "0.5.2"
 env_logger = "0.10.0"
 hex = "0.4.3"
+aes-gcm = "0.10.2"
+hex-literal = "0.4.1"
 
 
 [target.'cfg(any(target_arch = "x86",target_arch = "x86_64", all(any(target_arch = "aarch64", target_arch = "arm"), any(target_os = "android", target_os = "fuchsia", target_os = "linux"))))'.dependencies]

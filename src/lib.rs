@@ -160,19 +160,8 @@ mod sealed {
 #[cfg(any(target_arch = "wasm32", target_arch = "mips", target_os = "xous",))]
 pub mod c2rust {
     mod aes_nohw;
-    mod crypto;
-    mod curve25519;
-    mod ecp_nistz;
-    mod gfp_p256;
-    mod gfp_p384;
-    mod limbs;
     mod mem;
-    mod montgomery;
-    mod montgomery_inv;
-    mod p256;
-    mod poly1305;
 }
-
 #[cfg(target_os = "xous")]
 mod xous_rand;
 #[cfg(target_os = "xous")]

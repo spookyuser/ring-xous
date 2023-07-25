@@ -338,7 +338,7 @@ unsafe extern "C" fn aes_nohw_to_batch(
             .as_ptr(),
         );
     }
-    'c_1655: {
+    'c_1649: {
         if num_blocks <= 2 as core::ffi::c_int as core::ffi::c_uint {
         } else {
             __assert_fail(
@@ -384,7 +384,7 @@ unsafe extern "C" fn aes_nohw_from_batch(
             .as_ptr(),
         );
     }
-    'c_1764: {
+    'c_1758: {
         if num_blocks <= 2 as core::ffi::c_int as core::ffi::c_uint {
         } else {
             __assert_fail(

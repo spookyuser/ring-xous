@@ -19,10 +19,10 @@ pub type crypto_word = uint32_t;
 pub type Limb = crypto_word;
 #[no_mangle]
 pub unsafe extern "C" fn little_endian_bytes_from_scalar(
-    str: *mut uint8_t,
-    str_len: size_t,
-    scalar: *const Limb,
-    num_limbs: size_t,
+    mut str: *mut uint8_t,
+    mut str_len: size_t,
+    mut scalar: *const Limb,
+    mut num_limbs: size_t,
 ) {
     if str_len
         == num_limbs
@@ -40,7 +40,7 @@ pub unsafe extern "C" fn little_endian_bytes_from_scalar(
             .as_ptr(),
         );
     }
-    'c_1072: {
+    'c_1066: {
         if str_len
             == num_limbs
                 .wrapping_mul(::core::mem::size_of::<Limb>() as u32)
@@ -63,7 +63,7 @@ b"void little_endian_bytes_from_scalar(uint8_t *, size_t, const Limb *, size_t)\
 );
         }
     };
-    let mut i: size_t;
+    let mut i: size_t = 0;
     i = 0 as core::ffi::c_int as size_t;
     while i < num_limbs.wrapping_mul(::core::mem::size_of::<Limb>() as u32) {
         let mut d: Limb =

@@ -6,7 +6,7 @@ args = [
     "test",
     "--target=mips-unknown-linux-musl",
     "--test",
-    "aead_tests",
+    "c_aead_tests",
     "--no-run",
 ]
 

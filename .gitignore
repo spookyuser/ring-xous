@@ -10,6 +10,7 @@ doc/doc.css
 *.bk
 *.orig
 *~
+*.out
 
 # Visual Studio Junk
 .vs/
