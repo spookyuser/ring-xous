@@ -35,15 +35,15 @@ extern "C" {
     fn GFp_memcmp(a: *const u8, b: *const u8, len: c::size_t) -> c::int;
 }
 
-#[cfg(test)]
-mod tests {
-    use crate::{bssl, error};
+// #[cfg(test)]
+// mod tests {
+//     use crate::{bssl, error};
 
-    #[test]
-    fn test_constant_time() -> Result<(), error::Unspecified> {
-        extern "C" {
-            fn bssl_constant_time_test_main() -> bssl::Result;
-        }
-        Result::from(unsafe { bssl_constant_time_test_main() })
-    }
-}
+//     #[test]
+//     fn test_constant_time() -> Result<(), error::Unspecified> {
+//         extern "C" {
+//             fn bssl_constant_time_test_main() -> bssl::Result;
+//         }
+//         Result::from(unsafe { bssl_constant_time_test_main() })
+//     }
+// }

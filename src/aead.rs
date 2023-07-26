@@ -24,6 +24,7 @@
 use self::block::{Block, BLOCK_LEN};
 use crate::{constant_time, cpu, error, hkdf, polyfill};
 use core::ops::RangeFrom;
+use log::{debug, error, info, log_enabled, Level};
 
 pub use self::{
     aes_gcm::{AES_128_GCM, AES_256_GCM},
@@ -677,3 +678,4 @@ mod nonce;
 mod poly1305;
 pub mod quic;
 mod shift;
+mod aes2;

@@ -16,6 +16,8 @@ use super::{
     aes::{self, Counter},
     gcm, shift, Aad, Block, Direction, Nonce, Tag, BLOCK_LEN,
 };
+use log::{debug, error, info, log_enabled, Level};
+
 use crate::{aead, cpu, endian::*, error, polyfill};
 
 /// AES-128 in GCM mode with 128-bit tags and 96 bit nonces.
@@ -118,7 +120,7 @@ fn aead(
 
     let total_in_out_len = in_out.len() - in_prefix_len;
 
-    let in_out = integrated_aes_gcm(
+    let in_out: &mut [u8] = integrated_aes_gcm(
         aes_key,
         &mut gcm_ctx,
         in_out,

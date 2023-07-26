@@ -2,6 +2,10 @@
 #![allow(non_snake_case)]
 #![allow(non_upper_case_globals)]
 
+use core::fmt::DebugList;
+
+use log::{debug, error, info, log_enabled, Level};
+
 extern "C" {
     fn memcpy(
         _: *mut core::ffi::c_void,
@@ -691,10 +695,7 @@ unsafe extern "C" fn aes_nohw_encrypt_batch(
     aes_nohw_shift_rows(batch);
     aes_nohw_add_round_key(batch, &*((*key).keys).as_ptr().offset(num_rounds as isize));
 }
-unsafe extern "C" fn aes_nohw_expand_round_keys(
-    out: *mut AES_NOHW_SCHEDULE,
-    key: *const AES_KEY,
-) {
+unsafe extern "C" fn aes_nohw_expand_round_keys(out: *mut AES_NOHW_SCHEDULE, key: *const AES_KEY) {
     let mut i: core::ffi::c_uint = 0 as core::ffi::c_int as core::ffi::c_uint;
     while i <= (*key).rounds {
         let mut j: size_t = 0 as core::ffi::c_int as size_t;
@@ -951,12 +952,9 @@ pub unsafe extern "C" fn GFp_aes_nohw_encrypt(
     aes_nohw_encrypt_batch(&mut sched, (*key).rounds, &mut batch);
     aes_nohw_from_batch(out, 1 as core::ffi::c_int as size_t, &mut batch);
 }
+
 #[inline]
-unsafe extern "C" fn aes_nohw_xor_block(
-    out: *mut uint8_t,
-    a: *const uint8_t,
-    b: *const uint8_t,
-) {
+unsafe extern "C" fn aes_nohw_xor_block(out: *mut uint8_t, a: *const uint8_t, b: *const uint8_t) {
     let mut i: size_t = 0 as core::ffi::c_int as size_t;
     while i < 16 as core::ffi::c_int as core::ffi::c_uint {
         let mut x: aes_word_t = 0;

@@ -61,7 +61,7 @@ fn testy_test() {
     // };
 
     let mut s_in_out = plaintext.clone();
-    let nonce = aead::Nonce::try_assume_unique_for_key(&nonce_bytes).unwrap();
+    let nonce: aead::Nonce = aead::Nonce::try_assume_unique_for_key(&nonce_bytes).unwrap();
     let s_result = seal_with_key(
         algorithm,
         &key_bytes[..],
